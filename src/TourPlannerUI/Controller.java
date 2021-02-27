@@ -1,4 +1,4 @@
-package ui;
+package TourPlannerUI;
 
 public class Controller {
 }

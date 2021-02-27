@@ -1,4 +1,4 @@
-package ui;
+package TourPlannerUI;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
