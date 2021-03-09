@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="675.0" prefWidth="1200.0" style="-fx-background-color: #333;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="TourPlannerUI.Controller">
+   <children>
+      <AnchorPane fx:id="landing_view" prefHeight="675.0" prefWidth="1200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Text fill="WHITE" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tour Planner" textAlignment="CENTER" wrappingWidth="1211.0128936767578" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-11.012893676757812">
+               <font>
+                  <Font name="SF Pro Text Regular" size="30.0" />
+               </font>
+            </Text>
+            <Button layoutX="992.0" layoutY="598.0" mnemonicParsing="false" onAction="#openDetailTourView" style="-fx-background-color: #BEDB39#BEDB39; -fx-background-radius: 50;" text="+" textFill="#333333" AnchorPane.bottomAnchor="50.0" AnchorPane.rightAnchor="82.0">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Button>
+            <TextField layoutX="430.0" layoutY="100.0" prefHeight="27.0" prefWidth="325.0" AnchorPane.leftAnchor="430.0" />
+            <ScrollPane hbarPolicy="NEVER" pannable="true" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #333;" stylesheets="@src/css/style.css" vbarPolicy="NEVER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="140.0" AnchorPane.rightAnchor="140.0" AnchorPane.topAnchor="150.0">
+               <content>
+                  <FlowPane alignment="TOP_CENTER" columnHalignment="CENTER" hgap="10.0" prefHeight="566.0" prefWidth="921.0" vgap="10.0">
+                     <children>
+                        <AnchorPane prefHeight="202.0" prefWidth="199.0" style="-fx-border-color: #355C7D#355C7D #355C7D#355C7D; -fx-border-style: solid; -fx-border-radius: 3px; -fx-background-color: #355C7D#355C7D;">
+                           <children>
+                              <ImageView fitHeight="201.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@src/images/tours/tour-2.png" />
+                                 </image>
+                              </ImageView>
+                              <Text fill="WHITE" layoutY="190.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Route 1" textAlignment="CENTER" wrappingWidth="199.6661376953125" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.3338623046875" AnchorPane.topAnchor="177.0">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane layoutX="364.0" layoutY="10.0" prefHeight="202.0" prefWidth="199.0" style="-fx-border-color: #355C7D#355C7D #355C7D#355C7D; -fx-border-style: solid; -fx-border-radius: 3px; -fx-background-color: #355C7D#355C7D;">
+                           <children>
+                              <ImageView fitHeight="201.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@src/images/tours/tour-2.png" />
+                                 </image>
+                              </ImageView>
+                              <Text fill="WHITE" layoutY="190.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Route 1" textAlignment="CENTER" wrappingWidth="199.6661376953125" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.3338623046875" AnchorPane.topAnchor="177.0">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane layoutX="470.0" layoutY="10.0" prefHeight="202.0" prefWidth="199.0" style="-fx-border-color: #355C7D#355C7D #355C7D#355C7D; -fx-border-style: solid; -fx-border-radius: 3px; -fx-background-color: #355C7D#355C7D;">
+                           <children>
+                              <ImageView fitHeight="201.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@src/images/tours/tour-2.png" />
+                                 </image>
+                              </ImageView>
+                              <Text fill="WHITE" layoutY="190.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Route 1" textAlignment="CENTER" wrappingWidth="199.6661376953125" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.3338623046875" AnchorPane.topAnchor="177.0">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane layoutX="576.0" layoutY="10.0" prefHeight="202.0" prefWidth="199.0" style="-fx-border-color: #355C7D#355C7D #355C7D#355C7D; -fx-border-style: solid; -fx-border-radius: 3px; -fx-background-color: #355C7D#355C7D;">
+                           <children>
+                              <ImageView fitHeight="201.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@src/images/tours/tour-2.png" />
+                                 </image>
+                              </ImageView>
+                              <Text fill="WHITE" layoutY="190.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Route 1" textAlignment="CENTER" wrappingWidth="199.6661376953125" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.3338623046875" AnchorPane.topAnchor="177.0">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane layoutX="682.0" layoutY="10.0" prefHeight="202.0" prefWidth="199.0" style="-fx-border-color: #355C7D#355C7D #355C7D#355C7D; -fx-border-style: solid; -fx-border-radius: 3px; -fx-background-color: #355C7D#355C7D;">
+                           <children>
+                              <ImageView fitHeight="201.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@src/images/tours/tour-2.png" />
+                                 </image>
+                              </ImageView>
+                              <Text fill="WHITE" layoutY="190.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Route 1" textAlignment="CENTER" wrappingWidth="199.6661376953125" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.3338623046875" AnchorPane.topAnchor="177.0">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane layoutX="364.0" layoutY="222.0" prefHeight="202.0" prefWidth="199.0" style="-fx-border-color: #355C7D#355C7D #355C7D#355C7D; -fx-border-style: solid; -fx-border-radius: 3px; -fx-background-color: #355C7D#355C7D;">
+                           <children>
+                              <ImageView fitHeight="201.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@src/images/tours/tour-2.png" />
+                                 </image>
+                              </ImageView>
+                              <Text fill="WHITE" layoutY="190.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Route 1" textAlignment="CENTER" wrappingWidth="199.6661376953125" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.3338623046875" AnchorPane.topAnchor="177.0">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane layoutX="470.0" layoutY="222.0" prefHeight="202.0" prefWidth="199.0" style="-fx-border-color: #355C7D#355C7D #355C7D#355C7D; -fx-border-style: solid; -fx-border-radius: 3px; -fx-background-color: #355C7D#355C7D;">
+                           <children>
+                              <ImageView fitHeight="201.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@src/images/tours/tour-2.png" />
+                                 </image>
+                              </ImageView>
+                              <Text fill="WHITE" layoutY="190.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Route 1" textAlignment="CENTER" wrappingWidth="199.6661376953125" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.3338623046875" AnchorPane.topAnchor="177.0">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane layoutX="576.0" layoutY="222.0" prefHeight="202.0" prefWidth="199.0" style="-fx-border-color: #355C7D#355C7D #355C7D#355C7D; -fx-border-style: solid; -fx-border-radius: 3px; -fx-background-color: #355C7D#355C7D;">
+                           <children>
+                              <ImageView fitHeight="201.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@src/images/tours/tour-2.png" />
+                                 </image>
+                              </ImageView>
+                              <Text fill="WHITE" layoutY="190.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Route 1" textAlignment="CENTER" wrappingWidth="199.6661376953125" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.3338623046875" AnchorPane.topAnchor="177.0">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane layoutX="682.0" layoutY="222.0" prefHeight="202.0" prefWidth="199.0" style="-fx-border-color: #355C7D#355C7D #355C7D#355C7D; -fx-border-style: solid; -fx-border-radius: 3px; -fx-background-color: #355C7D#355C7D;">
+                           <children>
+                              <ImageView fitHeight="201.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@src/images/tours/tour-2.png" />
+                                 </image>
+                              </ImageView>
+                              <Text fill="WHITE" layoutY="190.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Route 1" textAlignment="CENTER" wrappingWidth="199.6661376953125" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.3338623046875" AnchorPane.topAnchor="177.0">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane layoutX="364.0" layoutY="434.0" prefHeight="202.0" prefWidth="199.0" style="-fx-border-color: #355C7D#355C7D #355C7D#355C7D; -fx-border-style: solid; -fx-border-radius: 3px; -fx-background-color: #355C7D#355C7D;">
+                           <children>
+                              <ImageView fitHeight="201.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@src/images/tours/tour-2.png" />
+                                 </image>
+                              </ImageView>
+                              <Text fill="WHITE" layoutY="190.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Route 1" textAlignment="CENTER" wrappingWidth="199.6661376953125" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.3338623046875" AnchorPane.topAnchor="177.0">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane layoutX="470.0" layoutY="434.0" prefHeight="202.0" prefWidth="199.0" style="-fx-border-color: #355C7D#355C7D #355C7D#355C7D; -fx-border-style: solid; -fx-border-radius: 3px; -fx-background-color: #355C7D#355C7D;">
+                           <children>
+                              <ImageView fitHeight="201.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@src/images/tours/tour-2.png" />
+                                 </image>
+                              </ImageView>
+                              <Text fill="WHITE" layoutY="190.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Route 1" textAlignment="CENTER" wrappingWidth="199.6661376953125" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.3338623046875" AnchorPane.topAnchor="177.0">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </AnchorPane>
+                     </children>
+                     <padding>
+                        <Insets bottom="100.0" />
+                     </padding>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </FlowPane>
+               </content></ScrollPane>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="detailTour_view" layoutX="295.0" prefHeight="675.0" prefWidth="460.0" style="-fx-background-color: #333333;" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="295.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Button layoutX="552.0" layoutY="7.0" mnemonicParsing="false" onAction="#closeDetailTourView" style="-fx-background-color: #CC2929; -fx-background-radius: 50;" text="x" textFill="WHITE" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
+               <font>
+                  <Font size="12.0" />
+               </font>
+            </Button>
+            <Text fill="WHITE" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Route 1" textAlignment="CENTER" wrappingWidth="611.7449493408203" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <font>
+                  <Font name="SF Pro Text Regular" size="30.0" />
+               </font>
+            </Text>
+            <TableView layoutX="69.0" layoutY="331.0" prefHeight="264.0" prefWidth="500.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
+              <columns>
+                <TableColumn prefWidth="75.0" text="Tour" />
+                <TableColumn prefWidth="75.0" text="Dauer" />
+                  <TableColumn prefWidth="75.0" text="Geschwindigkeit" />
+                  <TableColumn prefWidth="75.0" text="Puls" />
+                  <TableColumn prefWidth="75.0" text="Länge" />
+                  <TableColumn prefWidth="75.0" text="Bewertung" />
+              </columns>
+            </TableView>
+            <Text fill="WHITE" layoutX="42.0" layoutY="134.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet." textAlignment="CENTER" wrappingWidth="249.2053985595703">
+               <font>
+                  <Font name="SF Pro Text Regular" size="14.0" />
+               </font>
+            </Text>
+         </children></AnchorPane>
+   </children>
+</AnchorPane>
