@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox prefHeight="600.0" prefWidth="900.0" stylesheets="@src/css/style.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="TourPlannerUI.Controller">
+   <children>
+      <MenuBar style="-fx-border-color: #333;" styleClass="bg-color" VBox.vgrow="NEVER">
+         <menus>
+            <Menu mnemonicParsing="false" text="File">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#create_Tour" text="New" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Edit">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Undo" />
+                  <MenuItem mnemonicParsing="false" text="Redo" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" text="Cut" />
+                  <MenuItem mnemonicParsing="false" text="Copy" />
+                  <MenuItem mnemonicParsing="false" text="Paste" />
+                  <MenuItem mnemonicParsing="false" text="Delete" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" text="Select All" />
+                  <MenuItem mnemonicParsing="false" text="Unselect All" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Options">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Undo" />
+                  <MenuItem mnemonicParsing="false" text="Redo" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" text="Cut" />
+                  <MenuItem mnemonicParsing="false" text="Copy" />
+                  <MenuItem mnemonicParsing="false" text="Paste" />
+                  <MenuItem mnemonicParsing="false" text="Delete" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" text="Select All" />
+                  <MenuItem mnemonicParsing="false" text="Unselect All" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Help">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="About" />
+               </items>
+            </Menu>
+         </menus>
+      </MenuBar>
+      <SplitPane dividerPositions="0.2650334075723831" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+         <items>
+            <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" pannable="true" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #7EBF8E#7E#7EBF8E;" vbarPolicy="NEVER">
+               <content>
+                  <VBox prefHeight="149.0" prefWidth="238.0" styleClass="bg-color">
+                     <children>
+                        <AnchorPane prefHeight="30.0" prefWidth="238.0" VBox.vgrow="NEVER">
+                           <children>
+                              <Label alignment="CENTER" layoutX="13.0" minWidth="60.0" prefWidth="-1.0" style="&#10;" text="Tours" textAlignment="CENTER" textFill="#333333" wrapText="false">
+                                 <font>
+                                    <Font size="18.0" fx:id="x1" />
+                                 </font>
+                              </Label>
+                           </children>
+                           <VBox.margin>
+                              <Insets top="15.0" />
+                           </VBox.margin>
+                        </AnchorPane>
+                        <AnchorPane prefHeight="0.0" prefWidth="198.0">
+                           <children>
+                              <TextField fx:id="searchField" onAction="#searchAction" onInputMethodTextChanged="#searchAction" prefHeight="27.0" prefWidth="288.0" style="-fx-background-color: #fff; -fx-border-color: #ccc;" styleClass="tour-btn" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="37.0" AnchorPane.topAnchor="0.0" />
+                              <Button layoutX="135.0" mnemonicParsing="false" onAction="#clearAction" style="-fx-background-color: #ffffff; -fx-border-color: #ccc; -fx-border-radius: 0; -fx-background-radius: 0; -fx-text-fill: #333;" styleClass="plus-btn" text="x" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="37.0" AnchorPane.topAnchor="0.0" />
+                              <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#searchAction" prefHeight="29.0" prefWidth="18.0" style="-fx-background-color: #ffffff00; -fx-border-color: #ccc; -fx-border-radius: 0; -fx-background-radius: 5px; -fx-text-fill: #fff;" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <graphic>
+                                    <ImageView fitHeight="16.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@src/images/search_icon.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                                 <styleClass>
+                                    <String fx:value="search-btn" />
+                                    <String fx:value="plus-btn" />
+                                 </styleClass>
+                              </Button>
+                           </children>
+                           <VBox.margin>
+                              <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+                           </VBox.margin>
+                        </AnchorPane>
+                        <AnchorPane prefHeight="30.0" prefWidth="238.0">
+                           <children>
+                              <Button layoutX="190.0" layoutY="2.0" mnemonicParsing="false" onAction="#create_Tour" style="-fx-background-color: #ffffff; -fx-border-color: #ccc; -fx-border-radius: 0; -fx-background-radius: 0; -fx-text-fill: #333;" styleClass="plus-btn" text="+" textFill="WHITE" AnchorPane.bottomAnchor="-1.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="0.0" />
+                              <Button layoutX="163.0" layoutY="1.0" mnemonicParsing="false" onAction="#delete_Tour" prefWidth="28.0" style="-fx-background-color: #ffffff; -fx-border-color: #ccc; -fx-border-radius: 0; -fx-background-radius: 0; -fx-text-fill: #333;" styleClass="plus-btn" text="-" textFill="WHITE" AnchorPane.bottomAnchor="-1.0" AnchorPane.rightAnchor="47.0" AnchorPane.topAnchor="0.0" />
+                           </children>
+                        </AnchorPane>
+                        <ListView fx:id="listTourItems" prefHeight="433.0" prefWidth="198.0">
+                           <VBox.margin>
+                              <Insets bottom="20.0" left="20.0" right="20.0" />
+                           </VBox.margin>
+                        </ListView>
+                     </children>
+                  </VBox>
+               </content>
+            </ScrollPane>
+            <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
+               <items>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <AnchorPane id="Content" minHeight="-1.0" minWidth="-1.0" prefHeight="48.0" prefWidth="659.0" styleClass="bg-color" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <Label fx:id="tour_detail_name" alignment="CENTER" layoutX="14.0" layoutY="14.0" style="&#10;" text="Title: " textAlignment="CENTER" textFill="#333333" wrapText="false">
+                                 <font>
+                                    <Font size="18.0" fx:id="x11" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </AnchorPane>
+                        <TabPane prefHeight="235.0" prefWidth="659.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="45.0">
+                           <tabs>
+                              <Tab text="Route">
+                                 <content>
+                                    <ScrollPane fitToWidth="true" pannable="true" prefHeight="180.0" prefWidth="659.0" style="-fx-background-color: #fff;">
+                                       <content>
+                                          <VBox prefHeight="202.0" prefWidth="659.0" style="-fx-background-color: #fff;">
+                                             <children>
+                                                <ImageView fx:id="" fitHeight="200.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@src/images/tours/tour-1.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </children></VBox>
+                                       </content>
+                                    </ScrollPane>
+                                 </content>
+                              </Tab>
+                              <Tab text="Description">
+                                 <content>
+                                    <ScrollPane fitToWidth="true" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #ffffff;">
+                                       <content>
+                                          <Label fx:id="tour_detail_description" text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet." wrapText="true">
+                                             <padding>
+                                                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                             </padding>
+                                          </Label>
+                                       </content>
+                                    </ScrollPane>
+                                 </content>
+                              </Tab>
+                           </tabs>
+                        </TabPane>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <AnchorPane id="Content" minHeight="-1.0" minWidth="-1.0" prefHeight="20.0" prefWidth="659.0" styleClass="bg-color" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <Label alignment="CENTER" font="$x1" layoutX="9.0" layoutY="18.0" style="&#10;" text="Logs" textAlignment="CENTER" textFill="#333333" wrapText="false" AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="9.0" AnchorPane.topAnchor="18.0" />
+                              <Button layoutX="631.0" layoutY="3.0" mnemonicParsing="false" onAction="#create_Log" style="-fx-background-color: #ffffff; -fx-border-color: #ccc; -fx-border-radius: 0; -fx-background-radius: 0; -fx-text-fill: #333;" styleClass="plus-btn" text="+" textFill="WHITE" AnchorPane.bottomAnchor="-1.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="17.0" />
+                              <Button layoutX="604.0" layoutY="3.0" mnemonicParsing="false" onAction="#delete_Log" prefWidth="28.0" style="-fx-background-color: #ffffff; -fx-border-color: #ccc; -fx-border-radius: 0; -fx-background-radius: 0; -fx-text-fill: #333;" styleClass="plus-btn" text="-" textFill="WHITE" AnchorPane.bottomAnchor="-1.0" AnchorPane.rightAnchor="27.0" AnchorPane.topAnchor="17.0" />
+                           </children>
+                        </AnchorPane>
+                        <TableView fx:id="tour_log_table" editable="true" prefHeight="235.0" prefWidth="659.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="45.0">
+                           <columns>
+                              <TableColumn fx:id="nameColumn" prefWidth="115.78807067871094" text="Name" />
+                              <TableColumn fx:id="dateColumn" prefWidth="34.211944580078125" text="Date" />
+                              <TableColumn fx:id="timeColumn" prefWidth="75.0" text="Time" />
+                              <TableColumn fx:id="distanceColumn" prefWidth="108.23471069335938" text="Distance" />
+                              <TableColumn fx:id="ratingColumn" prefWidth="81.2652587890625" text="Rating" />
+                           </columns>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
+               </items>
+            </SplitPane>
+         </items>
+      </SplitPane>
+   </children>
+</VBox>

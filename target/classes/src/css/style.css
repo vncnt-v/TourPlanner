@@ -1,0 +1,33 @@
+.menu-bar .label {
+    -fx-text-fill: #333;
+}
+.menu-item >.label {
+    -fx-text-fill: #333;
+}
+.bg-color {
+    -fx-background-color: #fff;
+}
+.border-color {
+    -fx-border-color: #fff;
+}
+.tour-btn:hover {
+    -fx-border-color: #333!important;
+}
+.split-pane > .split-pane-divider {
+    -fx-padding: 0 1px 0 0; /* 0 3 0 3 */
+}
+.split-pane:vertical > .split-pane-divider, .split-pane:horizontal > .split-pane-divider {
+    -fx-background-color: #555;
+ }
+.plus-btn:hover {
+    -fx-border-color: #333!important;
+}
+.search-btn {
+    -fx-padding: 0 0.35em 0 0.35em;
+}
+.tab-pane > .tab-header-area > .tab-header-background {
+    -fx-background-color: #fff;
+}
+.table-view .column-header {
+    -fx-background-color: #00000000, #fff, #fff;
+}
