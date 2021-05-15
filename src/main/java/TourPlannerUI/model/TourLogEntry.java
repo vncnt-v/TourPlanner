@@ -3,25 +3,29 @@ package TourPlannerUI.model;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-public class TourDetailEntry {
+public class TourLogEntry {
 
     private final StringProperty name;
+    private final StringProperty date;
     private final StringProperty time;
     private final StringProperty distance;
-    private final StringProperty date;
+    private final StringProperty rating;
 
-    public TourDetailEntry(String name, String time, String distance, String date){
+
+    public TourLogEntry(String name, String date, String time, String distance, String rating){
         this.name = new SimpleStringProperty(name);
+        this.date = new SimpleStringProperty(date);
         this.time = new SimpleStringProperty(time);
         this.distance = new SimpleStringProperty(distance);
-        this.date = new SimpleStringProperty(date);
+        this.rating = new SimpleStringProperty(rating);
     }
 
-    public TourDetailEntry(StringProperty name, StringProperty time, StringProperty distance, StringProperty date) {
+    public TourLogEntry(StringProperty name, StringProperty date, StringProperty time, StringProperty distance, StringProperty rating) {
         this.name = name;
+        this.date = date;
         this.time = time;
         this.distance = distance;
-        this.date = date;
+        this.rating = rating;
     }
 
     // Name
@@ -35,6 +39,19 @@ public class TourDetailEntry {
 
     public StringProperty nameProperty() {
         return name;
+    }
+
+    // Date
+    public String getDate() {
+        return date.get();
+    }
+
+    public void setDate(String date){
+        this.date.set(date);
+    }
+
+    public StringProperty dateProperty() {
+        return date;
     }
 
     // Time
@@ -63,17 +80,17 @@ public class TourDetailEntry {
         return distance;
     }
 
-    // Name
-    public String getDate() {
-        return date.get();
+    // Rating
+    public String getRating() {
+        return rating.get();
     }
 
-    public void setDate(String date){
-        this.date.set(date);
+    public void setRating(String rating){
+        this.rating.set(rating);
     }
 
-    public StringProperty dateProperty() {
-        return date;
+    public StringProperty ratingProperty() {
+        return rating;
     }
 
 }
