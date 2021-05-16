@@ -9,7 +9,6 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
@@ -28,40 +27,22 @@
          <menus>
             <Menu mnemonicParsing="false" text="File">
                <items>
-                  <MenuItem mnemonicParsing="false" onAction="#create_Tour" text="New" />
+                  <MenuItem mnemonicParsing="false" onAction="#createItemAction" text="New Tour" />
+                  <MenuItem fx:id="createLogMenuBtn" mnemonicParsing="false" onAction="#createLogAction" text="New Log" />
+                  <MenuItem mnemonicParsing="false" onAction="#importTourAction" text="Import Tour" />
+                  <MenuItem fx:id="exportTourBtn" mnemonicParsing="false" onAction="#exportTourAction" text="Export Tour" />
                </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Edit">
                <items>
-                  <MenuItem mnemonicParsing="false" text="Undo" />
-                  <MenuItem mnemonicParsing="false" text="Redo" />
-                  <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" text="Cut" />
-                  <MenuItem mnemonicParsing="false" text="Copy" />
-                  <MenuItem mnemonicParsing="false" text="Paste" />
-                  <MenuItem mnemonicParsing="false" text="Delete" />
-                  <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" text="Select All" />
-                  <MenuItem mnemonicParsing="false" text="Unselect All" />
+                  <MenuItem fx:id="deleteItemMenuBtn" mnemonicParsing="false" onAction="#deleteItemAction" text="Delete Tour" />
+                  <MenuItem fx:id="deleteLogMenuBtn" mnemonicParsing="false" onAction="#deleteLogAction" text="Delete Log" />
                </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Options">
                <items>
-                  <MenuItem mnemonicParsing="false" text="Undo" />
-                  <MenuItem mnemonicParsing="false" text="Redo" />
-                  <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" text="Cut" />
-                  <MenuItem mnemonicParsing="false" text="Copy" />
-                  <MenuItem mnemonicParsing="false" text="Paste" />
-                  <MenuItem mnemonicParsing="false" text="Delete" />
-                  <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" text="Select All" />
-                  <MenuItem mnemonicParsing="false" text="Unselect All" />
-               </items>
-            </Menu>
-            <Menu mnemonicParsing="false" text="Help">
-               <items>
-                  <MenuItem mnemonicParsing="false" text="About" />
+                  <MenuItem fx:id="createPdfMenuBtn" mnemonicParsing="false" onAction="#CreateReportForItem" text="Create Report" />
+                  <MenuItem fx:id="createSummarizePdfMenuBtn" mnemonicParsing="false" onAction="#CreateSummarizeReportForItem" text="Create summarize Report" />
                </items>
             </Menu>
          </menus>
@@ -108,8 +89,8 @@
                         </AnchorPane>
                         <AnchorPane prefHeight="30.0" prefWidth="238.0">
                            <children>
-                              <Button layoutX="190.0" layoutY="2.0" mnemonicParsing="false" onAction="#create_Tour" style="-fx-background-color: #ffffff; -fx-border-color: #ccc; -fx-border-radius: 0; -fx-background-radius: 0; -fx-text-fill: #333;" styleClass="plus-btn" text="+" textFill="WHITE" AnchorPane.bottomAnchor="-1.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="0.0" />
-                              <Button layoutX="163.0" layoutY="1.0" mnemonicParsing="false" onAction="#delete_Tour" prefWidth="28.0" style="-fx-background-color: #ffffff; -fx-border-color: #ccc; -fx-border-radius: 0; -fx-background-radius: 0; -fx-text-fill: #333;" styleClass="plus-btn" text="-" textFill="WHITE" AnchorPane.bottomAnchor="-1.0" AnchorPane.rightAnchor="47.0" AnchorPane.topAnchor="0.0" />
+                              <Button layoutX="190.0" layoutY="2.0" mnemonicParsing="false" onAction="#createItemAction" style="-fx-background-color: #ffffff; -fx-border-color: #ccc; -fx-border-radius: 0; -fx-background-radius: 0; -fx-text-fill: #333;" styleClass="plus-btn" text="+" textFill="WHITE" AnchorPane.bottomAnchor="-1.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="0.0" />
+                              <Button fx:id="deleteItemBtn" layoutX="163.0" layoutY="1.0" mnemonicParsing="false" onAction="#deleteItemAction" prefWidth="28.0" style="-fx-background-color: #ffffff; -fx-border-color: #ccc; -fx-border-radius: 0; -fx-background-radius: 0; -fx-text-fill: #333;" styleClass="plus-btn" text="-" textFill="WHITE" AnchorPane.bottomAnchor="-1.0" AnchorPane.rightAnchor="47.0" AnchorPane.topAnchor="0.0" />
                            </children>
                         </AnchorPane>
                         <ListView fx:id="listTourItems" prefHeight="433.0" prefWidth="198.0">
@@ -127,7 +108,7 @@
                      <children>
                         <AnchorPane id="Content" minHeight="-1.0" minWidth="-1.0" prefHeight="48.0" prefWidth="659.0" styleClass="bg-color" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <Label fx:id="tour_detail_name" alignment="CENTER" layoutX="14.0" layoutY="14.0" style="&#10;" text="Title: " textAlignment="CENTER" textFill="#333333" wrapText="false">
+                              <Label fx:id="tourNameLabel" alignment="CENTER" layoutX="14.0" layoutY="14.0" style="&#10;" text="Title" textAlignment="CENTER" textFill="#333333" wrapText="false">
                                  <font>
                                     <Font size="18.0" fx:id="x11" />
                                  </font>
@@ -156,7 +137,7 @@
                                  <content>
                                     <ScrollPane fitToWidth="true" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #ffffff;">
                                        <content>
-                                          <Label fx:id="tour_detail_description" text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet." wrapText="true">
+                                          <Label fx:id="tourDescriptionLabel" text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet." wrapText="true">
                                              <padding>
                                                 <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                                              </padding>
@@ -174,11 +155,11 @@
                         <AnchorPane id="Content" minHeight="-1.0" minWidth="-1.0" prefHeight="20.0" prefWidth="659.0" styleClass="bg-color" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <Label alignment="CENTER" font="$x1" layoutX="9.0" layoutY="18.0" style="&#10;" text="Logs" textAlignment="CENTER" textFill="#333333" wrapText="false" AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="9.0" AnchorPane.topAnchor="18.0" />
-                              <Button layoutX="631.0" layoutY="3.0" mnemonicParsing="false" onAction="#create_Log" style="-fx-background-color: #ffffff; -fx-border-color: #ccc; -fx-border-radius: 0; -fx-background-radius: 0; -fx-text-fill: #333;" styleClass="plus-btn" text="+" textFill="WHITE" AnchorPane.bottomAnchor="-1.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="17.0" />
-                              <Button layoutX="604.0" layoutY="3.0" mnemonicParsing="false" onAction="#delete_Log" prefWidth="28.0" style="-fx-background-color: #ffffff; -fx-border-color: #ccc; -fx-border-radius: 0; -fx-background-radius: 0; -fx-text-fill: #333;" styleClass="plus-btn" text="-" textFill="WHITE" AnchorPane.bottomAnchor="-1.0" AnchorPane.rightAnchor="27.0" AnchorPane.topAnchor="17.0" />
+                              <Button fx:id="createLogBtn" layoutX="631.0" layoutY="3.0" mnemonicParsing="false" onAction="#createLogAction" style="-fx-background-color: #ffffff; -fx-border-color: #ccc; -fx-border-radius: 0; -fx-background-radius: 0; -fx-text-fill: #333;" styleClass="plus-btn" text="+" textFill="WHITE" AnchorPane.bottomAnchor="-1.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="17.0" />
+                              <Button fx:id="deleteLogBtn" layoutX="604.0" layoutY="3.0" mnemonicParsing="false" onAction="#deleteLogAction" prefWidth="28.0" style="-fx-background-color: #ffffff; -fx-border-color: #ccc; -fx-border-radius: 0; -fx-background-radius: 0; -fx-text-fill: #333;" styleClass="plus-btn" text="-" textFill="WHITE" AnchorPane.bottomAnchor="-1.0" AnchorPane.rightAnchor="27.0" AnchorPane.topAnchor="17.0" />
                            </children>
                         </AnchorPane>
-                        <TableView fx:id="tour_log_table" editable="true" prefHeight="235.0" prefWidth="659.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="45.0">
+                        <TableView fx:id="listTourLogs" editable="true" prefHeight="235.0" prefWidth="659.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="45.0">
                            <columns>
                               <TableColumn fx:id="nameColumn" prefWidth="115.78807067871094" text="Name" />
                               <TableColumn fx:id="dateColumn" prefWidth="34.211944580078125" text="Date" />

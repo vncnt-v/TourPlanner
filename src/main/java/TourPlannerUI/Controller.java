@@ -2,112 +2,156 @@ package TourPlannerUI;
 
 import TourPlannerUI.businesslayer.AppManager;
 import TourPlannerUI.businesslayer.AppManagerFactory;
+import TourPlannerUI.businesslayer.NameGenerator;
+import TourPlannerUI.businesslayer.TourNameGenerator;
+import TourPlannerUI.dataaccesslayer.common.DALFactory;
 import TourPlannerUI.model.TourItem;
+import TourPlannerUI.model.TourLog;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import lombok.SneakyThrows;
 
 import java.net.URL;
+import java.sql.SQLException;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
 
     private AppManager manager;
     public TextField searchField;
-    public ListView<TourItem> listTourItems;
-    private ObservableList<TourItem> tourItems;
 
+    /** Tour **/
+    private ObservableList<TourItem> tourItems;
+    public ListView<TourItem> listTourItems;
+    public Button deleteItemBtn;
+    public MenuItem deleteItemMenuBtn;
+    public Label tourNameLabel;
+    public Label tourDescriptionLabel;
     private TourItem currentTourItem;
 
-    /**     View Model   **/
-    //public TourPlannerModel viewModel = new TourPlannerModel();
+    /** Logs **/
+    private ObservableList<TourLog> tourLogs;
+    public TableView<TourLog> listTourLogs;
+    public Button createLogBtn;
+    public MenuItem createLogMenuBtn;
+    public Button deleteLogBtn;
+    public MenuItem deleteLogMenuBtn;
+    private TourLog currentTourLog;
 
-    /**       Tours      **/
-    //public TextField tours_search_bar;
-    //public VBox tours_container;
+    /** PDF **/
+    public MenuItem createPdfMenuBtn;
+    public MenuItem createSummarizePdfMenuBtn;
 
-    /**   Tour Details   **/
-    //public Label tour_detail_name;
-    //public Label tour_detail_description;
-    //public Image tour_detail_image;
+    /** Export Menu Btn **/
+    public MenuItem exportTourBtn;
 
-    /**     Tour Logs    **/
-    //public TableView tour_log_table;
-    //public TableColumn nameColumn;
-    //public TableColumn dateColumn;
-    //public TableColumn timeColumn;
-    //public TableColumn distanceColumn;
-    //public TableColumn ratingColumn;
-
-    /**    Controller
-    //public Controller()
-    {
-        System.out.println("Controller created");
-    } **/
-
-    /**     Tour Btn     **/
-    public void create_Tour(ActionEvent actionEvent){
-        System.out.println("Controller - Create Tour");
-        //viewModel .createTour();
+    /** Tour Methods **/
+    public void createItemAction(ActionEvent actionEvent) throws SQLException {
+        TourItem tourItem = manager.CreateTourItem(TourNameGenerator.GenerateName(),NameGenerator.GenerateName(18),(new Random().nextInt(4900)/100f));
+        tourItems.add(tourItem);
     }
-    public void delete_Tour(ActionEvent actionEvent){
-        System.out.println("Controller - Delete Tour");
-        //viewModel .deleteTour();
+    public void deleteItemAction(ActionEvent actionEvent) throws SQLException {
+        manager.DeleteTourItem(currentTourItem.getId());
+        tourItems.clear();
+        tourLogs.clear();
+        List<TourItem> items = manager.Search(searchField.textProperty().getValue(),false);
+        tourItems.addAll(items);
+        tourNameLabel.textProperty().setValue("Tour");
+        tourDescriptionLabel.textProperty().setValue("(select Tour)");
     }
 
-    public void searchAction(ActionEvent actionEvent){
+    /** Log Methods **/
+    public void createLogAction(ActionEvent actionEvent) throws SQLException {
+        TourLog tourLog = manager.CreateTourLog(
+                LocalDateTime.now(),
+                NameGenerator.GenerateName(15),
+                (new Random().nextInt(20000)/100f),
+                Duration.ZERO,
+                new Random().nextInt(11),
+                new Random().nextInt(11),
+                new Random().nextInt(500)/10f,
+                new Random().nextInt(10000)/10f,
+                new Random().nextInt(10),
+                "Cloudy",
+                currentTourItem
+        );
+        tourLogs.add(tourLog);
+    }
+    public void deleteLogAction(ActionEvent actionEvent) throws SQLException {
+        manager.DeleteTourLog(currentTourLog.getId());
+        tourLogs.clear();
+        tourLogs.addAll(manager.GetLogsForItem(currentTourItem));
+    }
+
+    /** Import/Export Methods **/
+    public void importTourAction(ActionEvent actionEvent) throws SQLException {
+        manager.ImportTour(currentTourItem);
+        tourLogs.clear();
+        tourLogs.addAll(manager.GetLogsForItem(currentTourItem));
+    }
+    public void exportTourAction(ActionEvent actionEvent) throws SQLException {
+        manager.ExportTour(currentTourItem);
+    }
+
+    /** Search Methods **/
+    public void searchAction(ActionEvent actionEvent) throws SQLException {
         tourItems.clear();
         List<TourItem> items = manager.Search(searchField.textProperty().getValue(),false);
         tourItems.addAll(items);
     }
-    public void clearAction(ActionEvent actionEvent){
+    public void clearAction(ActionEvent actionEvent) throws SQLException {
         tourItems.clear();
         searchField.textProperty().setValue("");
         List<TourItem> items = manager.GetItems();
         tourItems.addAll(items);
     }
-    public void selectTour(){
-        System.out.println("Controller - Select Tour");
-        //viewModel .selectTour();
+
+    /** Create Pdf **/
+    public void CreateReportForItem(ActionEvent actionEvent) throws SQLException {
+        manager.CreateReportForItem(currentTourItem);
+    }
+    public void CreateSummarizeReportForItem(ActionEvent actionEvent) throws SQLException {
+        manager.CreateSummarizeReportForItem(currentTourItem);
     }
 
-    /**     Log Btn     **/
-    public void create_Log(ActionEvent actionEvent){
-        System.out.println("Controller - Create Log");
-        //viewModel .createLog();
-    }
-    public void delete_Log(ActionEvent actionEvent){
-        System.out.println("Controller - Delete Log");
-        //viewModel .deleteLog();
-    }
-
-    /**    Bindings     **/
+    /** Init & Select Item **/
+    @SneakyThrows
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         manager = AppManagerFactory.GetManager();
         SetupListView();
         FormatCells();
         SetCurrentItem();
-        // Tours
-        //tours_search_bar.textProperty().bindBidirectional(viewModel.tours_search_bar_Property());
-        //tours_container.visibleProperty().bindBidirectional(viewModel.tour_container_Property());
-        // Tour
-        //tour_detail_name.textProperty().bindBidirectional(viewModel.tour_detail_name_Property());
-        //tour_detail_description.textProperty().bindBidirectional(viewModel.tour_detail_description_Property());
-        //tour_detail_image.imageProperty().bindBidirectional(viewModel.tour_detail_image_Property());
-        // Log
-        //nameColumn.setCellValueFactory(new PropertyValueFactory<>("Name"));
-        //dateColumn.setCellValueFactory(new PropertyValueFactory<>("Date"));
-        //timeColumn.setCellValueFactory(new PropertyValueFactory<>("Time"));
-        //distanceColumn.setCellValueFactory(new PropertyValueFactory<>("Distance"));
-        //ratingColumn.setCellValueFactory(new PropertyValueFactory<>("Rating"));
-        //tour_log_table.setItems(viewModel.tour_log_table_Property());
+
+        SetupTableView();
+        FormatTable();
+        SetCurrentLog();
+
+        createLogBtn.disableProperty().bind(listTourItems.getSelectionModel().selectedItemProperty().isNull());
+        deleteItemBtn.disableProperty().bind(listTourItems.getSelectionModel().selectedItemProperty().isNull());
+        deleteItemMenuBtn.disableProperty().bind(listTourItems.getSelectionModel().selectedItemProperty().isNull());
+        deleteLogBtn.disableProperty().bind(listTourLogs.getSelectionModel().selectedItemProperty().isNull());
+        deleteLogMenuBtn.disableProperty().bind(listTourLogs.getSelectionModel().selectedItemProperty().isNull());
+        createLogMenuBtn.disableProperty().bind(listTourItems.getSelectionModel().selectedItemProperty().isNull());
+        createPdfMenuBtn.disableProperty().bind(listTourItems.getSelectionModel().selectedItemProperty().isNull());
+        createSummarizePdfMenuBtn.disableProperty().bind(listTourItems.getSelectionModel().selectedItemProperty().isNull());
+        exportTourBtn.disableProperty().bind(listTourItems.getSelectionModel().selectedItemProperty().isNull());
+
+        tourNameLabel.textProperty().setValue("Tour");
+        tourDescriptionLabel.textProperty().setValue("(select Tour)");
+
     }
 
-    private void SetupListView(){
+    private void SetupListView() throws SQLException {
         tourItems = FXCollections.observableArrayList();
         tourItems.addAll(manager.GetItems());
         listTourItems.setItems(tourItems);
@@ -128,10 +172,59 @@ public class Controller implements Initializable {
         }));
     }
 
-    private void SetCurrentItem(){
+    private void SetCurrentItem() {
         listTourItems.getSelectionModel().selectedItemProperty().addListener(((observableValue, oldValue, newValue) -> {
             if ((newValue != null) && (oldValue != newValue)) {
                 currentTourItem = newValue;
+                currentTourLog = null;
+                try {
+                    tourLogs.clear();
+                    tourLogs.addAll(manager.GetLogsForItem(currentTourItem));
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                tourNameLabel.textProperty().setValue(currentTourItem.getName());
+                tourDescriptionLabel.textProperty().setValue("Distance: " + currentTourItem.getDistance() + " km\nDescription: " + currentTourItem.getDescription());
+            }
+        }));
+    }
+
+    private void SetupTableView() throws SQLException {
+        tourLogs = FXCollections.observableArrayList();
+        listTourLogs.setItems(tourLogs);
+    }
+
+    private void FormatTable() {
+        TableColumn tableColDateTime = new TableColumn("Date Time");
+        TableColumn tableColReport = new TableColumn("Report");
+        TableColumn tableColDistance = new TableColumn("Distance");
+        TableColumn tableColTotalTime = new TableColumn("Total Time");
+        TableColumn tableColRating = new TableColumn("Rating");
+        TableColumn tableColExhausting = new TableColumn("Exhausting");
+        TableColumn tableColAverageSpeed = new TableColumn("Average Speed");
+        TableColumn tableColCalories = new TableColumn("Calories");
+        TableColumn tableColBreaks = new TableColumn("Breaks");
+        TableColumn tableColWeather = new TableColumn("Weather");
+
+        listTourLogs.getColumns().clear();
+        listTourLogs.getColumns().addAll(tableColDateTime,tableColReport,tableColDistance,tableColTotalTime,tableColRating,tableColExhausting,tableColAverageSpeed,tableColCalories,tableColBreaks,tableColWeather);
+
+        tableColDateTime.setCellValueFactory( new PropertyValueFactory<TourLog,String>("DateTime"));
+        tableColReport.setCellValueFactory(new PropertyValueFactory<TourLog,String>("Report"));
+        tableColDistance.setCellValueFactory(new PropertyValueFactory<TourLog,String>("Distance"));
+        tableColTotalTime.setCellValueFactory(new PropertyValueFactory<TourLog,String>("TotalTime"));
+        tableColRating.setCellValueFactory(new PropertyValueFactory<TourLog,String>("Rating"));
+        tableColExhausting.setCellValueFactory(new PropertyValueFactory<TourLog,String>("Exhausting"));
+        tableColAverageSpeed.setCellValueFactory(new PropertyValueFactory<TourLog,String>("AverageSpeed"));
+        tableColCalories.setCellValueFactory(new PropertyValueFactory<TourLog,String>("Calories"));
+        tableColBreaks.setCellValueFactory(new PropertyValueFactory<TourLog,String>("Breaks"));
+        tableColWeather.setCellValueFactory(new PropertyValueFactory<TourLog,String>("Weather"));
+    }
+
+    private void SetCurrentLog(){
+        listTourLogs.getSelectionModel().selectedItemProperty().addListener(((observableValue, oldValue, newValue) -> {
+            if ((newValue != null) && (oldValue != newValue)) {
+                currentTourLog = newValue;
             }
         }));
     }
