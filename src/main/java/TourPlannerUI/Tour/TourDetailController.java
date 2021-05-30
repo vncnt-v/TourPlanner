@@ -3,10 +3,7 @@ package TourPlannerUI.Tour;
 import TourPlannerUI.model.TourItem;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 public class TourDetailController {
 
@@ -19,19 +16,42 @@ public class TourDetailController {
     @FXML
     public TextArea descriptionArea;
 
-    public void setTour(TourItem tourItem){
+    public void setTour(TourItem tourItem, Dialog dialog){
         nameField.textProperty().bindBidirectional(tourItem.getNameProperty());
         startField.textProperty().bindBidirectional(tourItem.getStartProperty());
         endField.textProperty().bindBidirectional(tourItem.getEndProperty());
         descriptionArea.textProperty().bindBidirectional(tourItem.getDescriptionProperty());
-/*
-        Button okButton = (Button)dialogPane.lookuButton(ButtonType.OK)
-            okButton.addEventFilter(
-                    ActionEvent.ACTION, event -> {
-                        if (!validateFormData()){
+        Button okButton = (Button)dialog.getDialogPane().lookupButton(ButtonType.OK);
+        okButton.addEventFilter(
+            ActionEvent.ACTION, event -> {
+                if (!validateFormData()){
+                    event.consume();
+                }
+        });
+    }
 
-                        }
-        });*/
+    public boolean validateFormData() {
+        if(nameField.getText().isEmpty()){
+            new Alert(Alert.AlertType.ERROR,"Missing Data, please enter the name").show();
+            nameField.requestFocus();
+            return false;
+        }
+        if(startField.getText().isEmpty()){
+            new Alert(Alert.AlertType.ERROR,"Missing Data, please enter the start").show();
+            startField.requestFocus();
+            return false;
+        }
+        if(endField.getText().isEmpty()){
+            new Alert(Alert.AlertType.ERROR,"Missing Data, please enter the end").show();
+            endField.requestFocus();
+            return false;
+        }
+        if(descriptionArea.getText().isEmpty()){
+            new Alert(Alert.AlertType.ERROR,"Missing Data, please enter the description").show();
+            descriptionArea.requestFocus();
+            return false;
+        }
+        return true;
     }
 }
 

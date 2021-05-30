@@ -3,6 +3,7 @@ package TourPlannerUI.Log;
 import TourPlannerUI.model.TourLog;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.util.converter.NumberStringConverter;
@@ -55,19 +56,19 @@ public class LogDetailController {
     @FXML
     public ChoiceBox weatherField;
     static ObservableList<String> weatherChoices = FXCollections.observableArrayList(
-            "Sun",
-            "Clouds",
-            "Snow",
-            "Wind",
-            "Rain",
-            "Fog"
+            "Sunny",
+            "Cloudy",
+            "Snowy",
+            "Windy",
+            "Rainy",
+            "Foggy"
     );
     @FXML
     public TextArea reportArea;
 
     private TourLog tourLog;
 
-    public void setLog(TourLog tourLog){
+    public void setLog(TourLog tourLog, Dialog dialog){
         this.tourLog = tourLog;
         dateField.valueProperty().bindBidirectional(tourLog.getDateProperty());
         startTimeField.textProperty().bindBidirectional(tourLog.getStartTimeProperty());
@@ -85,16 +86,82 @@ public class LogDetailController {
         weatherField.setItems(weatherChoices);
         weatherField.valueProperty().bindBidirectional(tourLog.getWeatherProperty());
         reportArea.textProperty().bindBidirectional(tourLog.getReportProperty());
+        Button okButton = (Button)dialog.getDialogPane().lookupButton(ButtonType.OK);
+        okButton.addEventFilter(
+            ActionEvent.ACTION, event -> {
+                if (!validateFormData()){
+                    event.consume();
+                }
+        });
+    }
 
-/*
-        Button okButton = (Button)dialogPane.lookuButton(ButtonType.OK)
-            okButton.addEventFilter(
-                    ActionEvent.ACTION, event -> {
-                        if (!validateFormData()){
-
-                        }
-                    }
-            );*/
+    public boolean validateFormData() {
+        if(dateField.getValue() == null){
+            new Alert(Alert.AlertType.ERROR,"Missing Data, please enter the date").show();
+            dateField.requestFocus();
+            return false;
+        }
+        if(startTimeField.getText().isEmpty()){
+            new Alert(Alert.AlertType.ERROR,"Missing Data, please enter the start time").show();
+            startTimeField.requestFocus();
+            return false;
+        }
+        if(!startTimeField.getText().matches("^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$")){
+            new Alert(Alert.AlertType.ERROR,"Start time incorrect. ^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$").show();
+            startTimeField.requestFocus();
+            return false;
+        }
+        if(distanceField.getText().isEmpty()){
+            new Alert(Alert.AlertType.ERROR,"Missing Data, please enter the distance").show();
+            distanceField.requestFocus();
+            return false;
+        }
+        if(!distanceField.getText().matches("[+-]?([0-9]*[,])?[0-9]+")){
+            new Alert(Alert.AlertType.ERROR,"Distance incorrect. [+-]?([0-9]*[,])?[0-9]+").show();
+            distanceField.requestFocus();
+            return false;
+        }
+        if(totalTimeField.getText().isEmpty()){
+            new Alert(Alert.AlertType.ERROR,"Missing Data, please enter the total time").show();
+            totalTimeField.requestFocus();
+            return false;
+        }
+        if(!totalTimeField.getText().matches("[0-9]+:[0-5][0-9]")){
+            new Alert(Alert.AlertType.ERROR,"Total time incorrect. [0-9]+:[0-5][0-9]").show();
+            totalTimeField.requestFocus();
+            return false;
+        }
+        if(averageSpeedField.getText().isEmpty()){
+            new Alert(Alert.AlertType.ERROR,"Missing Data, please enter the average speed").show();
+            averageSpeedField.requestFocus();
+            return false;
+        }
+        if(!averageSpeedField.getText().matches("[+-]?([0-9]*[,])?[0-9]+")){
+            new Alert(Alert.AlertType.ERROR,"Average speed incorrect. [+-]?([0-9]*[,])?[0-9]+").show();
+            averageSpeedField.requestFocus();
+            return false;
+        }
+        if(caloriesField.getText().isEmpty()){
+            new Alert(Alert.AlertType.ERROR,"Missing Data, please enter the calories").show();
+            caloriesField.requestFocus();
+            return false;
+        }
+        if(!caloriesField.getText().matches("[+-]?([0-9]*[,])?[0-9]+")){
+            new Alert(Alert.AlertType.ERROR,"Calories incorrect. [+-]?([0-9]*[,])?[0-9]+").show();
+            caloriesField.requestFocus();
+            return false;
+        }
+        if(weatherField.getValue().equals("-")){
+            new Alert(Alert.AlertType.ERROR,"Missing Data, please select the weather").show();
+            weatherField.requestFocus();
+            return false;
+        }
+        if(reportArea.getText().isEmpty()){
+            new Alert(Alert.AlertType.ERROR,"Missing Data, please enter the report").show();
+            reportArea.requestFocus();
+            return false;
+        }
+        return true;
     }
 }
 

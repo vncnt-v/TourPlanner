@@ -67,12 +67,10 @@ public class Controller implements Initializable {
             DialogPane tourDetailDialogPane = fxmlLoader.load();
             TourDetailController tourDetailController = fxmlLoader.getController();
             TourItem tourItem = new TourItem();
-            tourDetailController.setTour(tourItem);
-
             Dialog<ButtonType> dialog = new Dialog<>();
             dialog.setDialogPane(tourDetailDialogPane);
             dialog.setTitle("Create new Tour");
-
+            tourDetailController.setTour(tourItem,dialog);
             Optional<ButtonType> clickedButton = dialog.showAndWait();
             if (clickedButton.get() == ButtonType.OK){
                 TourItem newTourItem = manager.CreateTourItem(tourItem);
@@ -104,10 +102,10 @@ public class Controller implements Initializable {
             fxmlLoader.setLocation(getClass().getResource("/TourDetail.fxml"));
             DialogPane tourDetailDialogPane = fxmlLoader.load();
             TourDetailController tourDetailController = fxmlLoader.getController();
-            tourDetailController.setTour(currentTourItem);
-
             Dialog<ButtonType> dialog = new Dialog<>();
+
             dialog.setDialogPane(tourDetailDialogPane);
+            tourDetailController.setTour(currentTourItem,dialog);
             dialog.setTitle("Create new Tour");
 
             Optional<ButtonType> clickedButton = dialog.showAndWait();
@@ -142,12 +140,11 @@ public class Controller implements Initializable {
             DialogPane logDetailDialogPane = fxmlLoader.load();
             LogDetailController logDetailController = fxmlLoader.getController();
             TourLog tourLog = new TourLog(currentTourItem);
-            logDetailController.setLog(tourLog);
 
             Dialog<ButtonType> dialog = new Dialog<>();
             dialog.setDialogPane(logDetailDialogPane);
             dialog.setTitle("Create new Log");
-
+            logDetailController.setLog(tourLog,dialog);
             Optional<ButtonType> clickedButton = dialog.showAndWait();
             if (clickedButton.get() == ButtonType.OK){
                 TourLog newTourLogItem = manager.CreateTourLog(tourLog);
@@ -169,12 +166,10 @@ public class Controller implements Initializable {
             fxmlLoader.setLocation(getClass().getResource("/LogDetail.fxml"));
             DialogPane logDetailDialogPane = fxmlLoader.load();
             LogDetailController logDetailController = fxmlLoader.getController();
-            logDetailController.setLog(currentTourLog);
-
             Dialog<ButtonType> dialog = new Dialog<>();
             dialog.setDialogPane(logDetailDialogPane);
             dialog.setTitle("Create new Log");
-
+            logDetailController.setLog(currentTourLog,dialog);
             Optional<ButtonType> clickedButton = dialog.showAndWait();
             if (clickedButton.get() == ButtonType.OK){
                 manager.UpdateTourLog(currentTourLog);
