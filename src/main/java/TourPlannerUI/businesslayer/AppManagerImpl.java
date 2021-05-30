@@ -76,14 +76,14 @@ public class AppManagerImpl implements AppManager {
 
     /** PDF **/
     @Override
-    public boolean CreateReportForItem(TourItem item) throws SQLException {
+    public boolean CreateReportForItem(TourItem item, String path) throws SQLException {
         ITourLogDAO tourLogDAO = DALFactory.CreateTourLogDAO();
-        return PdfGenerator.GenerateReport(item,tourLogDAO.GetLogsForItem(item));
+        return PdfGenerator.GenerateReport(item,tourLogDAO.GetLogsForItem(item),path);
     }
     @Override
-    public boolean CreateSummarizeReportForItem(TourItem item) throws SQLException {
+    public boolean CreateSummarizeReportForItem(TourItem item, String path) throws SQLException {
         ITourLogDAO tourLogDAO = DALFactory.CreateTourLogDAO();
-        return PdfGenerator.GenerateSummarizeReport(item,tourLogDAO.GetLogsForItem(item));
+        return PdfGenerator.GenerateSummarizeReport(item,tourLogDAO.GetLogsForItem(item),path);
     }
 
     /** Import/Export **/

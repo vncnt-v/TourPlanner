@@ -22,8 +22,8 @@ public interface AppManager {
     List<TourLog> GetLogsForItem(TourItem item) throws SQLException;
 
     /** PDF **/
-    boolean CreateReportForItem(TourItem item) throws SQLException;
-    boolean CreateSummarizeReportForItem(TourItem item) throws SQLException;
+    boolean CreateReportForItem(TourItem item, String path) throws SQLException;
+    boolean CreateSummarizeReportForItem(TourItem item, String path) throws SQLException;
 
     /** Import/Export **/
     boolean ImportTour(TourItem item) throws SQLException;

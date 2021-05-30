@@ -14,7 +14,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import lombok.Setter;
 import lombok.SneakyThrows;
+
+import java.io.File;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.List;
@@ -24,6 +29,8 @@ import java.util.ResourceBundle;
 public class Controller implements Initializable {
 
     // create custom viewmodel
+    @Setter
+    public Stage stage;
     public ViewModel viewModel = new ViewModel();
 
     private AppManager manager;
@@ -186,6 +193,7 @@ public class Controller implements Initializable {
         manager.ImportTour(currentTourItem);
         tourLogs.clear();
         tourLogs.addAll(manager.GetLogsForItem(currentTourItem));
+
     }
     public void exportTourAction(ActionEvent actionEvent) throws SQLException {
         manager.ExportTour(currentTourItem);
@@ -206,10 +214,24 @@ public class Controller implements Initializable {
 
     /** Create Pdf **/
     public void CreateReportForItem(ActionEvent actionEvent) throws SQLException {
-        manager.CreateReportForItem(currentTourItem);
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialFileName("Report_" + currentTourItem.getName().replaceAll("-","_").replace(" ",""));
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("PDF files (*.pdf)", "*.pdf");
+        fileChooser.getExtensionFilters().add(extFilter);
+        File file = fileChooser.showSaveDialog(stage);
+        if (file != null) {
+            manager.CreateReportForItem(currentTourItem,file.getPath());
+        }
     }
     public void CreateSummarizeReportForItem(ActionEvent actionEvent) throws SQLException {
-        manager.CreateSummarizeReportForItem(currentTourItem);
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialFileName("Report_Summarize_" + currentTourItem.getName().replaceAll("-","_").replaceAll(" ",""));
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("PDF files (*.pdf)", "*.pdf");
+        fileChooser.getExtensionFilters().add(extFilter);
+        File file = fileChooser.showSaveDialog(stage);
+        if (file != null) {
+            manager.CreateSummarizeReportForItem(currentTourItem,file.getPath());
+        }
     }
 
     /** Init & Select Item **/

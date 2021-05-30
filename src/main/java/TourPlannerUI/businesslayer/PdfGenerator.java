@@ -11,28 +11,27 @@ import java.io.FileOutputStream;
 import java.util.List;
 
 public class PdfGenerator {
-    public static boolean GenerateReport(TourItem item, List<TourLog> logs) {
-        String tourInfo = "";
+    public static boolean GenerateReport(TourItem item, List<TourLog> logs, String path) {
+        String tourInfo = getTourInfo(item);
         String logContent = "";
-        tourInfo += "Name: " + item.getName() + "\n";
-        tourInfo += "Description: " + item.getDescription() + "\n";
-        tourInfo += "Distance: " + item.getDistance() + "\n\n";
+
         for (int i = 0; i < logs.size(); i++){
-            logContent += "Log " + (i+1) + ":\n";
-            logContent += "Date Time: " + logs.get(i).getDate() + ":\n";
-            logContent += "Report: " + logs.get(i).getReport() + ":\n";
-            logContent += "Distance: " + logs.get(i).getDistance() + ":\n";
-            logContent += "Total Time: " + logs.get(i).getTotalTime() + ":\n";
-            logContent += "Rating: " + logs.get(i).getRating() + ":\n";
-            logContent += "Exhausting: " + logs.get(i).getExhausting() + ":\n";
-            logContent += "Average Speed: " + logs.get(i).getAverageSpeed() + ":\n";
-            logContent += "Calories: " + logs.get(i).getCalories() + ":\n";
-            logContent += "Breaks: " + logs.get(i).getBreaks() + ":\n";
-            logContent += "Weather: " + logs.get(i).getWeather() + ":\n";
+            logContent += "\nLog " + (i+1) + ":\n";
+            logContent += "Date: " + logs.get(i).getDate() + "\n";
+            logContent += "Start Time: " + logs.get(i).getStartTime() + "\n";
+            logContent += "Report: " + logs.get(i).getReport() + "\n";
+            logContent += "Distance: " + logs.get(i).getDistance() + "\n";
+            logContent += "Total Time: " + logs.get(i).getTotalTime() + "\n";
+            logContent += "Rating: " + logs.get(i).getRating() + "\n";
+            logContent += "Exhausting: " + logs.get(i).getExhausting() + "\n";
+            logContent += "Average Speed: " + logs.get(i).getAverageSpeed() + "\n";
+            logContent += "Calories: " + logs.get(i).getCalories() + "\n";
+            logContent += "Stops: " + logs.get(i).getBreaks() + "\n";
+            logContent += "Weather: " + logs.get(i).getWeather() + "\n";
         }
         try {
             Document document = new Document();
-            PdfWriter.getInstance(document, new FileOutputStream("Report_" + item.getName() + ".pdf"));
+            PdfWriter.getInstance(document, new FileOutputStream(path));
             document.open();
             document.add(new Paragraph("Tour Info:"));
             document.add(new Paragraph(tourInfo));
@@ -46,47 +45,67 @@ public class PdfGenerator {
         return false;
     }
 
-    public static boolean GenerateSummarizeReport(TourItem item, List<TourLog> logs) {
-        String tourInfo = "";
+    public static boolean GenerateSummarizeReport(TourItem item, List<TourLog> logs, String path) {
+        String tourInfo = getTourInfo(item);
         float distance = 0;
-        //float totalTime = 0;
+        int totalHours = 0;
+        int totalMinutes = 0;
         int rating = 0;
         int exhausting = 0;
         float averageSpeed = 0;
         float calories = 0;
-        int breaks = 0;
 
-        tourInfo += "Name: " + item.getName() + "\n";
-        tourInfo += "Description: " + item.getDescription() + "\n";
-        tourInfo += "Distance: " + item.getDistance() + "\n\n";
         for (int i = 0; i < logs.size(); i++){
             distance += logs.get(i).getDistance();
-            //totalTime += logs.get(i).getTotalTime();
+            String string = logs.get(i).getTotalTime();
+            String[] parts = string.split(":");
+            if (parts.length == 2){
+                totalHours += Integer.parseInt(parts[0]);
+                totalMinutes += Integer.parseInt(parts[1]);
+            }
             rating += logs.get(i).getRating();
             exhausting += logs.get(i).getExhausting();
             averageSpeed += logs.get(i).getAverageSpeed();
             calories += logs.get(i).getCalories();
-            //breaks += logs.get(i).getBreaks();
+        }
+        if(logs.size() > 0){
+            int tmp = totalMinutes+(totalHours*60);
+            tmp /= logs.size();
+            totalHours = tmp/60;
+            totalMinutes = totalMinutes%60;
         }
         try {
             Document document = new Document();
-            PdfWriter.getInstance(document, new FileOutputStream("Report_summarize_" + item.getName() + ".pdf"));
+            PdfWriter.getInstance(document, new FileOutputStream(path));
             document.open();
             document.add(new Paragraph("Tour Info:"));
             document.add(new Paragraph(tourInfo));
-            document.add(new Paragraph("Logs:"));
-            document.add(new Paragraph("Average Distance: " + distance/logs.size()));
-            //document.add(new Paragraph("Average Total Time: " + totalTime/logs.size()));
-            document.add(new Paragraph("Average Rating: " + rating/logs.size()));
-            document.add(new Paragraph("Average Exhausting: " + exhausting/logs.size()));
-            document.add(new Paragraph("Average Speed: " + averageSpeed/logs.size()));
-            document.add(new Paragraph("Average Calories: " + calories/logs.size()));
-            document.add(new Paragraph("Average Breaks: " + breaks/logs.size()));
+            if(logs.size() > 0) {
+                document.add(new Paragraph("(" + logs.size() + ") Logs:"));
+                document.add(new Paragraph("Average Distance: " + distance / logs.size()));
+                document.add(new Paragraph("Average Total Time: " + totalHours + ":" + totalMinutes));
+                document.add(new Paragraph("Average Rating: " + rating / logs.size()));
+                document.add(new Paragraph("Average Exhausting: " + exhausting / logs.size()));
+                document.add(new Paragraph("Average Speed: " + averageSpeed / logs.size()));
+                document.add(new Paragraph("Average Calories: " + calories / logs.size()));
+            } else {
+                document.add(new Paragraph("No Logs!"));
+            }
             document.close();
             return true;
         } catch (Exception e) {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public static String getTourInfo(TourItem item) {
+        String tourInfo;
+        tourInfo = "Name: " + item.getName() + "\n";
+        tourInfo += "Start: " + item.getStart() + "\n";
+        tourInfo += "End: " + item.getEnd() + "\n";
+        tourInfo += "Distance: " + item.getDistance() + "\n";
+        tourInfo += "Description: " + item.getDescription() + "\n\n";
+        return  tourInfo;
     }
 }
