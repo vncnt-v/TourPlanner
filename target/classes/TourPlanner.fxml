@@ -9,6 +9,7 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
@@ -27,20 +28,27 @@
          <menus>
             <Menu mnemonicParsing="false" text="File">
                <items>
-                  <MenuItem mnemonicParsing="false" onAction="#createItemAction" text="New Tour" />
+                  <MenuItem mnemonicParsing="false" onAction="#newTourAction" text="New Tour" />
                   <MenuItem fx:id="createLogMenuBtn" mnemonicParsing="false" onAction="#createLogAction" text="New Log" />
-                  <MenuItem mnemonicParsing="false" onAction="#importTourAction" text="Import Tour" />
-                  <MenuItem fx:id="exportTourBtn" mnemonicParsing="false" onAction="#exportTourAction" text="Export Tour" />
                </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Edit">
                <items>
+                  <MenuItem fx:id="editItemMenuBtn" mnemonicParsing="false" onAction="#editTourAction" text="Edit Tour" />
+                  <MenuItem fx:id="editLogMenuBtn" mnemonicParsing="false" onAction="#editLogAction" text="Edit Log" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem fx:id="duplicateItemMenuBtn" mnemonicParsing="false" onAction="#duplicateTourAction" text="Duplicate Tour" />
+                  <MenuItem fx:id="duplicateLogMenuBtn" mnemonicParsing="false" onAction="#duplicateLogAction" text="Duplicate Log" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
                   <MenuItem fx:id="deleteItemMenuBtn" mnemonicParsing="false" onAction="#deleteItemAction" text="Delete Tour" />
                   <MenuItem fx:id="deleteLogMenuBtn" mnemonicParsing="false" onAction="#deleteLogAction" text="Delete Log" />
                </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Options">
                <items>
+                  <MenuItem mnemonicParsing="false" onAction="#importTourAction" text="Import Tour" />
+                  <MenuItem fx:id="exportTourBtn" mnemonicParsing="false" onAction="#exportTourAction" text="Export Tour" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
                   <MenuItem fx:id="createPdfMenuBtn" mnemonicParsing="false" onAction="#CreateReportForItem" text="Create Report" />
                   <MenuItem fx:id="createSummarizePdfMenuBtn" mnemonicParsing="false" onAction="#CreateSummarizeReportForItem" text="Create summarize Report" />
                </items>
@@ -89,8 +97,9 @@
                         </AnchorPane>
                         <AnchorPane prefHeight="30.0" prefWidth="238.0">
                            <children>
-                              <Button layoutX="190.0" layoutY="2.0" mnemonicParsing="false" onAction="#createItemAction" style="-fx-background-color: #ffffff; -fx-border-color: #ccc; -fx-border-radius: 0; -fx-background-radius: 0; -fx-text-fill: #333;" styleClass="plus-btn" text="+" textFill="WHITE" AnchorPane.bottomAnchor="-1.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="0.0" />
+                              <Button layoutX="190.0" layoutY="2.0" mnemonicParsing="false" onAction="#newTourAction" style="-fx-background-color: #ffffff; -fx-border-color: #ccc; -fx-border-radius: 0; -fx-background-radius: 0; -fx-text-fill: #333;" styleClass="plus-btn" text="+" textFill="WHITE" AnchorPane.bottomAnchor="-1.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="0.0" />
                               <Button fx:id="deleteItemBtn" layoutX="163.0" layoutY="1.0" mnemonicParsing="false" onAction="#deleteItemAction" prefWidth="28.0" style="-fx-background-color: #ffffff; -fx-border-color: #ccc; -fx-border-radius: 0; -fx-background-radius: 0; -fx-text-fill: #333;" styleClass="plus-btn" text="-" textFill="WHITE" AnchorPane.bottomAnchor="-1.0" AnchorPane.rightAnchor="47.0" AnchorPane.topAnchor="0.0" />
+                              <Button fx:id="editItemBtn" layoutX="20.0" layoutY="-1.0" mnemonicParsing="false" onAction="#editTourAction" prefHeight="29.0" prefWidth="32.0" style="-fx-background-color: #ffffff; -fx-border-color: #ccc; -fx-border-radius: 0; -fx-background-radius: 0; -fx-text-fill: #333;" styleClass="plus-btn" text="✎" textFill="WHITE" AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="0.0" />
                            </children>
                         </AnchorPane>
                         <ListView fx:id="listTourItems" prefHeight="433.0" prefWidth="198.0">
@@ -157,6 +166,7 @@
                               <Label alignment="CENTER" font="$x1" layoutX="9.0" layoutY="18.0" style="&#10;" text="Logs" textAlignment="CENTER" textFill="#333333" wrapText="false" AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="9.0" AnchorPane.topAnchor="18.0" />
                               <Button fx:id="createLogBtn" layoutX="631.0" layoutY="3.0" mnemonicParsing="false" onAction="#createLogAction" style="-fx-background-color: #ffffff; -fx-border-color: #ccc; -fx-border-radius: 0; -fx-background-radius: 0; -fx-text-fill: #333;" styleClass="plus-btn" text="+" textFill="WHITE" AnchorPane.bottomAnchor="-1.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="17.0" />
                               <Button fx:id="deleteLogBtn" layoutX="604.0" layoutY="3.0" mnemonicParsing="false" onAction="#deleteLogAction" prefWidth="28.0" style="-fx-background-color: #ffffff; -fx-border-color: #ccc; -fx-border-radius: 0; -fx-background-radius: 0; -fx-text-fill: #333;" styleClass="plus-btn" text="-" textFill="WHITE" AnchorPane.bottomAnchor="-1.0" AnchorPane.rightAnchor="27.0" AnchorPane.topAnchor="17.0" />
+                              <Button fx:id="editLogBtn" layoutX="614.0" layoutY="27.0" mnemonicParsing="false" onAction="#editLogAction" prefHeight="29.0" prefWidth="32.0" style="-fx-background-color: #ffffff; -fx-border-color: #ccc; -fx-border-radius: 0; -fx-background-radius: 0; -fx-text-fill: #333;" styleClass="plus-btn" text="✎" textFill="WHITE" AnchorPane.bottomAnchor="-1.0" AnchorPane.rightAnchor="60.0" />
                            </children>
                         </AnchorPane>
                         <TableView fx:id="listTourLogs" editable="true" prefHeight="235.0" prefWidth="659.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="45.0">

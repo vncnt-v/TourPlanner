@@ -10,7 +10,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 import java.io.FileOutputStream;
 import java.util.List;
 
-public class ReportGenerator {
+public class PdfGenerator {
     public static boolean GenerateReport(TourItem item, List<TourLog> logs) {
         String tourInfo = "";
         String logContent = "";
@@ -19,7 +19,7 @@ public class ReportGenerator {
         tourInfo += "Distance: " + item.getDistance() + "\n\n";
         for (int i = 0; i < logs.size(); i++){
             logContent += "Log " + (i+1) + ":\n";
-            logContent += "Date Time: " + logs.get(i).getDateTime() + ":\n";
+            logContent += "Date Time: " + logs.get(i).getDate() + ":\n";
             logContent += "Report: " + logs.get(i).getReport() + ":\n";
             logContent += "Distance: " + logs.get(i).getDistance() + ":\n";
             logContent += "Total Time: " + logs.get(i).getTotalTime() + ":\n";
@@ -66,7 +66,7 @@ public class ReportGenerator {
             exhausting += logs.get(i).getExhausting();
             averageSpeed += logs.get(i).getAverageSpeed();
             calories += logs.get(i).getCalories();
-            breaks += logs.get(i).getBreaks();
+            //breaks += logs.get(i).getBreaks();
         }
         try {
             Document document = new Document();
