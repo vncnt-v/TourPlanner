@@ -111,9 +111,9 @@
                   </VBox>
                </content>
             </ScrollPane>
-            <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
+            <SplitPane dividerPositions="0.6105726872246696" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
                <items>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                  <AnchorPane prefHeight="200.0" prefWidth="659.0">
                      <children>
                         <AnchorPane id="Content" minHeight="-1.0" minWidth="-1.0" prefHeight="48.0" prefWidth="659.0" styleClass="bg-color" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
@@ -128,16 +128,12 @@
                            <tabs>
                               <Tab text="Route">
                                  <content>
-                                    <ScrollPane fitToWidth="true" pannable="true" prefHeight="180.0" prefWidth="659.0" style="-fx-background-color: #fff;">
+                                    <ScrollPane fitToWidth="true" pannable="true" prefHeight="180.0" prefWidth="659.0" style="-fx-background-color: #fff;" vbarPolicy="NEVER">
                                        <content>
-                                          <VBox prefHeight="202.0" prefWidth="659.0" style="-fx-background-color: #fff;">
-                                             <children>
-                                                <ImageView fx:id="" fitHeight="200.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
-                                                   <image>
-                                                      <Image url="@src/images/tours/tour-1.png" />
-                                                   </image>
-                                                </ImageView>
-                                             </children></VBox>
+                                          <ImageView fx:id="tourImageView" fitHeight="263.0" fitWidth="642.0" pickOnBounds="true" preserveRatio="true">
+                                             <viewport>
+
+                                             </viewport></ImageView>
                                        </content>
                                     </ScrollPane>
                                  </content>
@@ -159,9 +155,9 @@
                         </TabPane>
                      </children>
                   </AnchorPane>
-                  <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0">
+                  <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="167.0" prefWidth="659.0">
                      <children>
-                        <AnchorPane id="Content" minHeight="-1.0" minWidth="-1.0" prefHeight="20.0" prefWidth="659.0" styleClass="bg-color" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane id="Content" layoutY="45.0" minHeight="-1.0" minWidth="-1.0" prefHeight="0.0" prefWidth="659.0" styleClass="bg-color" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <Label alignment="CENTER" font="$x1" layoutX="9.0" layoutY="18.0" style="&#10;" text="Logs" textAlignment="CENTER" textFill="#333333" wrapText="false" AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="9.0" AnchorPane.topAnchor="18.0" />
                               <Button fx:id="createLogBtn" layoutX="631.0" layoutY="3.0" mnemonicParsing="false" onAction="#createLogAction" style="-fx-background-color: #ffffff; -fx-border-color: #ccc; -fx-border-radius: 0; -fx-background-radius: 0; -fx-text-fill: #333;" styleClass="plus-btn" text="+" textFill="WHITE" AnchorPane.bottomAnchor="-1.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="17.0" />

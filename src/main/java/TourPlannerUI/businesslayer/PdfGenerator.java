@@ -70,9 +70,10 @@ public class PdfGenerator {
         }
         if(logs.size() > 0){
             int tmp = totalMinutes+(totalHours*60);
+            System.out.println(tmp);
             tmp /= logs.size();
             totalHours = tmp/60;
-            totalMinutes = totalMinutes%60;
+            totalMinutes = tmp%60;
         }
         try {
             Document document = new Document();
@@ -82,12 +83,12 @@ public class PdfGenerator {
             document.add(new Paragraph(tourInfo));
             if(logs.size() > 0) {
                 document.add(new Paragraph("(" + logs.size() + ") Logs:"));
-                document.add(new Paragraph("Average Distance: " + distance / logs.size()));
+                document.add(new Paragraph("Average Distance: " + distance / (float)logs.size()));
                 document.add(new Paragraph("Average Total Time: " + totalHours + ":" + totalMinutes));
-                document.add(new Paragraph("Average Rating: " + rating / logs.size()));
-                document.add(new Paragraph("Average Exhausting: " + exhausting / logs.size()));
-                document.add(new Paragraph("Average Speed: " + averageSpeed / logs.size()));
-                document.add(new Paragraph("Average Calories: " + calories / logs.size()));
+                document.add(new Paragraph("Average Rating: " + rating / (float)logs.size()));
+                document.add(new Paragraph("Average Exhausting: " + exhausting / (float)logs.size()));
+                document.add(new Paragraph("Average Speed: " + averageSpeed / (float)logs.size()));
+                document.add(new Paragraph("Average Calories: " + calories / (float)logs.size()));
             } else {
                 document.add(new Paragraph("No Logs!"));
             }

@@ -45,4 +45,7 @@ public class TourItem {
     public float getDistance(){
         return distanceProperty.get();
     }
+    public void setDistance(float distance){
+         distanceProperty = new SimpleFloatProperty(distance);
+    }
 }

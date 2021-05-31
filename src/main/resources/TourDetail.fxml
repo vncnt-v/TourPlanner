@@ -9,7 +9,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <DialogPane prefHeight="475.0" prefWidth="320.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="TourPlannerUI.Tour.TourDetailController">
    <graphic>
       <VBox prefHeight="400.0" prefWidth="271.0">
@@ -63,7 +62,7 @@
                         <Insets bottom="5.0" />
                      </VBox.margin>
                   </Label>
-                  <TextArea fx:id="descriptionArea" prefHeight="200.0" prefWidth="200.0" />
+                  <TextArea fx:id="descriptionArea" prefHeight="200.0" prefWidth="200.0" wrapText="true" />
                </children>
                <opaqueInsets>
                   <Insets />

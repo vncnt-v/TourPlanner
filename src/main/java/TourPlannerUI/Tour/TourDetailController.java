@@ -1,5 +1,6 @@
 package TourPlannerUI.Tour;
 
+import TourPlannerUI.businesslayer.AppManagerFactory;
 import TourPlannerUI.model.TourItem;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -49,6 +50,11 @@ public class TourDetailController {
         if(descriptionArea.getText().isEmpty()){
             new Alert(Alert.AlertType.ERROR,"Missing Data, please enter the description").show();
             descriptionArea.requestFocus();
+            return false;
+        }
+        if(!AppManagerFactory.GetManager().hasValidRoute(startField.getText(),endField.getText())){
+            new Alert(Alert.AlertType.ERROR,"No valid route, check start and end!").show();
+            startField.requestFocus();
             return false;
         }
         return true;

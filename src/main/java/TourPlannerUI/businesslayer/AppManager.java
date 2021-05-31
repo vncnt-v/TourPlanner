@@ -2,6 +2,7 @@ package TourPlannerUI.businesslayer;
 
 import TourPlannerUI.model.TourItem;
 import TourPlannerUI.model.TourLog;
+import javafx.scene.image.Image;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -28,6 +29,12 @@ public interface AppManager {
     /** Import/Export **/
     boolean ImportTour(TourItem item) throws SQLException;
     boolean ExportTour(TourItem item) throws SQLException;
+
+    /** MapQuest **/
+    String requestRoute(String start, String end);
+    float requestRouteDistance(String start, String end);
+    boolean hasValidRoute(String start, String end);
+    Image requestRouteImage(String start, String end);
 
     /** Logging **/
     void SetLogging();

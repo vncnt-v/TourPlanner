@@ -1,20 +1,17 @@
 package TourPlannerUI.dataaccesslayer.postgresSqlServer;
 
+import TourPlannerUI.businesslayer.ConfigurationManager;
 import TourPlannerUI.dataaccesslayer.common.DALFactory;
 import TourPlannerUI.dataaccesslayer.common.IDatabase;
 import TourPlannerUI.dataaccesslayer.dao.ITourItemDAO;
 import TourPlannerUI.model.TourItem;
 import TourPlannerUI.model.TourLog;
-import javafx.beans.property.SimpleObjectProperty;
 
-import javax.swing.text.DateFormatter;
+import java.io.FileNotFoundException;
 import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.Duration;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,9 +23,11 @@ public class Database implements IDatabase {
         this.connectionString = connectionString;
     }
 
-    private Connection CreateConnection() throws SQLException {
+    private Connection CreateConnection() throws SQLException, FileNotFoundException {
+        String usernameString = ConfigurationManager.GetConfigProperty("PostgresSqlUsername");
+        String pwdString = ConfigurationManager.GetConfigProperty("PostgresSqlPwd");
         try {
-            return DriverManager.getConnection(connectionString, "postgres", "123");
+            return DriverManager.getConnection(connectionString, usernameString, pwdString);
         } catch (SQLException e){
             e.printStackTrace();
         }
@@ -51,7 +50,7 @@ public class Database implements IDatabase {
                     }
                 }
             }
-        } catch (SQLException e){
+        } catch (SQLException | FileNotFoundException e){
             e.printStackTrace();
         }
         throw new SQLException("Creating data failed, no ID obtained. " + sqlQuery);
@@ -74,7 +73,7 @@ public class Database implements IDatabase {
                     }
                 }
             }
-        } catch (SQLException e){
+        } catch (SQLException | FileNotFoundException e){
             e.printStackTrace();
         }
         throw new SQLException("Creating data failed, no ID obtained. " + sqlQuery);
@@ -97,7 +96,7 @@ public class Database implements IDatabase {
                     }
                 }
             }
-        } catch (SQLException e){
+        } catch (SQLException | FileNotFoundException e){
             e.printStackTrace();
         }
         throw new SQLException("Delete data failed, no ID obtained. " + sqlQuery);
@@ -115,7 +114,7 @@ public class Database implements IDatabase {
             if(tourType.getTypeName().equals(TourLog.class.getName())) {
                 return (List<T>) QueryDataLogDataFromResultSet(result);
             }
-        } catch (SQLException | ParseException e){
+        } catch (SQLException | ParseException | FileNotFoundException e){
             e.printStackTrace();
         }
         throw new SQLException("Reading data failed. " + sqlQuery);
@@ -136,7 +135,7 @@ public class Database implements IDatabase {
             if(tourType.getTypeName().equals(TourLog.class.getName())) {
                 return (List<T>) QueryDataLogDataFromResultSet(result);
             }
-        } catch (SQLException | ParseException e){
+        } catch (SQLException | ParseException | FileNotFoundException e){
             e.printStackTrace();
         }
         throw new SQLException("Creating data failed, no ID obtained. " + sqlQuery);

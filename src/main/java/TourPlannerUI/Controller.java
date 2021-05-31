@@ -4,16 +4,19 @@ import TourPlannerUI.Log.LogDetailController;
 import TourPlannerUI.Tour.TourDetailController;
 import TourPlannerUI.businesslayer.AppManager;
 import TourPlannerUI.businesslayer.AppManagerFactory;
+import TourPlannerUI.dataaccesslayer.common.DALFactory;
 import TourPlannerUI.model.TourItem;
 import TourPlannerUI.model.TourLog;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import lombok.Setter;
@@ -38,6 +41,8 @@ public class Controller implements Initializable {
 
     /** Tour **/
     private ObservableList<TourItem> tourItems;
+    @FXML
+    private ImageView tourImageView;
     public ListView<TourItem> listTourItems;
     public Button editItemBtn;
     public MenuItem editItemMenuBtn;
@@ -80,6 +85,7 @@ public class Controller implements Initializable {
             tourDetailController.setTour(tourItem,dialog);
             Optional<ButtonType> clickedButton = dialog.showAndWait();
             if (clickedButton.get() == ButtonType.OK){
+                tourItem.setDistance(manager.requestRouteDistance(tourItem.getStart(),tourItem.getEnd()));
                 TourItem newTourItem = manager.CreateTourItem(tourItem);
                 tourItems.add(newTourItem);
             }
@@ -122,6 +128,7 @@ public class Controller implements Initializable {
                 tourLogs.clear();
                 List<TourItem> items = manager.Search(searchField.textProperty().getValue(),false);
                 tourItems.addAll(items);
+                tourImageView.setImage(null);
                 tourNameLabel.textProperty().setValue("Tour");
                 tourDescriptionLabel.textProperty().setValue("select Tour");
             }
@@ -135,6 +142,7 @@ public class Controller implements Initializable {
         tourLogs.clear();
         List<TourItem> items = manager.Search(searchField.textProperty().getValue(),false);
         tourItems.addAll(items);
+        tourImageView.setImage(null);
         tourNameLabel.textProperty().setValue("Tour");
         tourDescriptionLabel.textProperty().setValue("select Tour");
     }
@@ -306,6 +314,7 @@ public class Controller implements Initializable {
                 }
                 viewModel.setTourName(currentTourItem.getName());
                 tourDescriptionLabel.textProperty().setValue("Start: " + currentTourItem.getStart() + "\n"+"End: " + currentTourItem.getEnd() + "\n"+"Distance: " + currentTourItem.getDistance() + " km\nDescription: " + currentTourItem.getDescription());
+                tourImageView.setImage(manager.requestRouteImage(currentTourItem.getStart(),currentTourItem.getEnd()));
             }
         }));
     }

@@ -7,10 +7,14 @@ import TourPlannerUI.dataaccesslayer.dao.ITourItemDAO;
 import TourPlannerUI.dataaccesslayer.dao.ITourLogDAO;
 import TourPlannerUI.model.TourItem;
 import TourPlannerUI.model.TourLog;
+import javafx.scene.image.Image;
+import org.json.*;
 
 import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static java.lang.Float.parseFloat;
 
 public class AppManagerImpl implements AppManager {
 
@@ -96,6 +100,33 @@ public class AppManagerImpl implements AppManager {
     public boolean ExportTour(TourItem item) throws SQLException {
         // ToDo
         return true;
+    }
+
+    /** MapQuest **/
+    @Override
+    public String requestRoute(String start, String end) {
+        return MapQuestManager.requestRoute(start,end);
+    }
+    @Override
+    public float requestRouteDistance(String start, String end) {
+        String jsonString = MapQuestManager.requestRoute(start,end);
+        JSONObject obj = new JSONObject(jsonString);
+        return obj.getJSONObject("route").getFloat("distance");
+    }
+    @Override
+    public boolean hasValidRoute(String start, String end) {
+        String jsonString = MapQuestManager.requestRoute(start,end);
+        JSONObject obj = new JSONObject(jsonString);
+        return obj.getJSONObject("route").has("distance");
+    }
+    @Override
+    public Image requestRouteImage(String start, String end) {
+        String jsonString = MapQuestManager.requestRoute(start,end);
+        JSONObject obj = new JSONObject(jsonString);
+        if(obj.getJSONObject("route").has("sessionId") && obj.getJSONObject("route").has("boundingBox")) {
+            return MapQuestManager.requestRouteImage(obj.getJSONObject("route").getString("sessionId"),obj.getJSONObject("route").getJSONObject("boundingBox"));
+        }
+        return null;
     }
 
     /** Logging **/

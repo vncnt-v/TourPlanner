@@ -15,7 +15,7 @@ public class Main extends Application {
         Controller controller = (Controller) loader.getController();
         controller.setStage(primaryStage);
         primaryStage.setTitle("Tour Planner");
-        primaryStage.setScene(new Scene(root, 800, 550));
+        primaryStage.setScene(new Scene(root, 1000, 600));
         primaryStage.setMinWidth(700);
         primaryStage.setMinHeight(400);
         primaryStage.show();

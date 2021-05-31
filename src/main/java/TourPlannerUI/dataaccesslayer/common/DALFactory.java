@@ -8,7 +8,6 @@ import TourPlannerUI.dataaccesslayer.postgresSqlServer.TourItemPostgresDAO;
 import TourPlannerUI.dataaccesslayer.postgresSqlServer.TourLogPostgresDAO;
 
 import java.io.FileNotFoundException;
-import java.lang.module.Configuration;
 
 public class DALFactory {
 
