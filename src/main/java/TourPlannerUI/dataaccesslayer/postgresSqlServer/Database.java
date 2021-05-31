@@ -8,6 +8,7 @@ import TourPlannerUI.model.TourItem;
 import TourPlannerUI.model.TourLog;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -116,12 +117,14 @@ public class Database implements IDatabase {
             }
         } catch (SQLException | ParseException | FileNotFoundException e){
             e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         throw new SQLException("Reading data failed. " + sqlQuery);
     }
 
     @Override
-    public <T> List<T> TourReader(String sqlQuery, ArrayList<Object> parameters, Class<T> tourType) throws SQLException {
+    public <T> List<T> TourReader(String sqlQuery, ArrayList<Object> parameters, Class<T> tourType) throws SQLException, IOException {
         try(Connection conn = CreateConnection();
             PreparedStatement pre = conn.prepareStatement(sqlQuery, Statement.RETURN_GENERATED_KEYS)) {
 
@@ -157,7 +160,7 @@ public class Database implements IDatabase {
         return tourItemList;
     }
 
-    private List<TourLog> QueryDataLogDataFromResultSet(ResultSet result) throws SQLException, ParseException {
+    private List<TourLog> QueryDataLogDataFromResultSet(ResultSet result) throws SQLException, ParseException, IOException {
         List<TourLog> tourLogList = new ArrayList<>();
         ITourItemDAO tourItemDAO = DALFactory.CreateTourItemDAO();
         while (result.next()) {
