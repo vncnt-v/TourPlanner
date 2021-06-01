@@ -11,24 +11,12 @@ public class ViewModel {
     private StringProperty endField = new SimpleStringProperty("");
     @Getter
     private StringProperty descriptionArea = new SimpleStringProperty("");
-
-    //private ObservableList<TourItem> tourItems;
-    //private ListView<TourItem> listTourItems;
-    //@Getter
-    //private disableProperty deleteItemBtn;
-    //@Getter
-    //private disableProperty deleteItemMenuBtn;
     @Getter
     private StringProperty tourNameLabel = new SimpleStringProperty("");
     @Getter
     private StringProperty tourDescriptionLabel = new SimpleStringProperty("");
-    //private TourItem currentTourItem;
 
     private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
-
-    public ViewModel() {
-
-    }
 
     public void setTourName(String string){
         tourNameLabel.set(string);

@@ -1,5 +1,6 @@
 package TourPlannerUI.Log;
 
+import TourPlannerUI.ViewModel;
 import TourPlannerUI.model.TourLog;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,6 +10,8 @@ import javafx.scene.control.*;
 import javafx.util.converter.NumberStringConverter;
 
 public class LogDetailController {
+
+    public LogDetailModel viewModel = new LogDetailModel();
 
     @FXML
     public DatePicker dateField;
@@ -20,70 +23,38 @@ public class LogDetailController {
     public TextField totalTimeField;
     @FXML
     public ChoiceBox ratingField;
-    static ObservableList<Integer> ratingChoices = FXCollections.observableArrayList(
-            0,
-            1,
-            2,
-            3,
-            4,
-            5
-    );
     @FXML
     public ChoiceBox exhaustingField;
-    static ObservableList<Integer> exhaustingChoices = FXCollections.observableArrayList(
-            0,
-            1,
-            2,
-            3,
-            4,
-            5
-    );
     @FXML
     public TextField averageSpeedField;
     @FXML
     public TextField caloriesField;
     @FXML
     public ChoiceBox breaksField;
-    static ObservableList<String> breaksChoices = FXCollections.observableArrayList(
-            "0",
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "5+"
-    );
     @FXML
     public ChoiceBox weatherField;
-    static ObservableList<String> weatherChoices = FXCollections.observableArrayList(
-            "Sunny",
-            "Cloudy",
-            "Snowy",
-            "Windy",
-            "Rainy",
-            "Foggy"
-    );
     @FXML
     public TextArea reportArea;
 
     private TourLog tourLog;
 
     public void setLog(TourLog tourLog, Dialog dialog){
+
         this.tourLog = tourLog;
         dateField.valueProperty().bindBidirectional(tourLog.getDateProperty());
         startTimeField.textProperty().bindBidirectional(tourLog.getStartTimeProperty());
         totalTimeField.textProperty().bindBidirectional(tourLog.getTotalTimeProperty());
         distanceField.textProperty().bindBidirectional(tourLog.getDistanceProperty(),new NumberStringConverter());
 
-        ratingField.setItems(ratingChoices);
+        ratingField.setItems(viewModel.getRatingChoices());
         ratingField.valueProperty().bindBidirectional(tourLog.getRatingProperty());
-        exhaustingField.setItems(exhaustingChoices);
+        exhaustingField.setItems(viewModel.getExhaustingChoices());
         exhaustingField.valueProperty().bindBidirectional(tourLog.getExhaustingProperty());
         averageSpeedField.textProperty().bindBidirectional(tourLog.getAverageSpeedProperty(),new NumberStringConverter());
         caloriesField.textProperty().bindBidirectional(tourLog.getCaloriesProperty(),new NumberStringConverter());
-        breaksField.setItems(breaksChoices);
+        breaksField.setItems(viewModel.getBreaksChoices());
         breaksField.valueProperty().bindBidirectional(tourLog.getBreaksProperty());
-        weatherField.setItems(weatherChoices);
+        weatherField.setItems(viewModel.getWeatherChoices());
         weatherField.valueProperty().bindBidirectional(tourLog.getWeatherProperty());
         reportArea.textProperty().bindBidirectional(tourLog.getReportProperty());
         Button okButton = (Button)dialog.getDialogPane().lookupButton(ButtonType.OK);
