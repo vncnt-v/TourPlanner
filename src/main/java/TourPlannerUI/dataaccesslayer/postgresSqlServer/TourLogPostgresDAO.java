@@ -8,6 +8,7 @@ import TourPlannerUI.model.TourItem;
 import TourPlannerUI.model.TourLog;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.time.Duration;
 import java.time.LocalDate;
@@ -31,7 +32,7 @@ public class TourLogPostgresDAO implements ITourLogDAO {
     }
 
     @Override
-    public TourLog FindById(Integer logId) throws SQLException {
+    public TourLog FindById(Integer logId) throws SQLException, IOException {
         ArrayList<Object> parameters = new ArrayList<>();
         parameters.add(logId);
         List<TourLog> tourItems = database.TourReader(SQL_FIND_BY_ID, parameters, TourLog.class);
@@ -40,19 +41,19 @@ public class TourLogPostgresDAO implements ITourLogDAO {
     }
 
     @Override
-    public TourLog AddNewItemLog(LocalDate date, String report, float distance, String startTime, String totalTime, int rating, int exhausting, float averageSpeed, float calories, String breaks, String weather, TourItem logItem) throws SQLException {
+    public TourLog AddNewItemLog(TourLog tourLog, TourItem logItem) throws SQLException, IOException {
         ArrayList<Object> parameters = new ArrayList<>();
-        parameters.add(date.toString());
-        parameters.add(startTime);
-        parameters.add(report);
-        parameters.add(distance);
-        parameters.add(totalTime);
-        parameters.add(rating);
-        parameters.add(exhausting);
-        parameters.add(averageSpeed);
-        parameters.add(calories);
-        parameters.add(breaks);
-        parameters.add(weather);
+        parameters.add(tourLog.getDate().toString());
+        parameters.add(tourLog.getStartTime());
+        parameters.add(tourLog.getReport());
+        parameters.add(tourLog.getDistance());
+        parameters.add(tourLog.getTotalTime());
+        parameters.add(tourLog.getRating());
+        parameters.add(tourLog.getExhausting());
+        parameters.add(tourLog.getAverageSpeed());
+        parameters.add(tourLog.getCalories());
+        parameters.add(tourLog.getBreaks());
+        parameters.add(tourLog.getWeather());
         parameters.add(logItem.getId());
 
         int resultID = database.InsertNew(SQL_INSERT_NEW_ITEM_LOG, parameters);
@@ -85,7 +86,7 @@ public class TourLogPostgresDAO implements ITourLogDAO {
     }
 
     @Override
-    public List<TourLog> GetLogsForItem(TourItem item) throws SQLException {
+    public List<TourLog> GetLogsForItem(TourItem item) throws SQLException, IOException {
         ArrayList<Object> parameters = new ArrayList<>();
         parameters.add(item.getId());
 

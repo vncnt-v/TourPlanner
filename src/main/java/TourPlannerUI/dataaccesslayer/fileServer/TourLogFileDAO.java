@@ -9,6 +9,7 @@ import TourPlannerUI.model.TourLog;
 import TourPlannerUI.model.TourTypes;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -24,7 +25,7 @@ public class TourLogFileDAO implements ITourLogDAO {
 
     private IFileAccess fileAccess;
 
-    public TourLogFileDAO() {
+    public TourLogFileDAO() throws FileNotFoundException {
         this.fileAccess = DALFactory.GetFileAccess();
     }
 
@@ -34,9 +35,11 @@ public class TourLogFileDAO implements ITourLogDAO {
         return QueryFromFileSystem(foundFiles).stream().findFirst().get();
     }
 
+    // LocalDate date, String report, float distance, String startTime, String totalTime, int rating, int exhausting, float averageSpeed, float calories, String breaks, String weather,
     @Override
-    public TourLog AddNewItemLog(LocalDate date, String report, float distance, String startTime, String totalTime, int rating, int exhausting, float averageSpeed, float calories, String breaks, String weather, TourItem logItem) {
-
+    public TourLog AddNewItemLog(TourLog tourLog, TourItem tourItem) throws IOException, ParseException, SQLException {
+        int id = fileAccess.CreateTourLogFile(tourLog, tourItem);
+        return FindById(id);
     }
 
     @Override
@@ -45,8 +48,9 @@ public class TourLogFileDAO implements ITourLogDAO {
     }
 
     @Override
-    public List<TourLog> GetLogsForItem(TourItem tourItem) {
-        return null;
+    public List<TourLog> GetLogsForItem(TourItem tourItem) throws IOException, ParseException, SQLException {
+        List<File> foundFiles = fileAccess.SearchFiles(tourItem.toString(), TourTypes.TourLog);
+        return QueryFromFileSystem(foundFiles);
     }
 
     @Override

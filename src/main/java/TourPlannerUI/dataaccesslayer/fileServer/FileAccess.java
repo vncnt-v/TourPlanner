@@ -21,7 +21,7 @@ public class FileAccess implements IFileAccess {
 
     private List<File> GetFileInfo(String startFolder, TourTypes searchType) {
         File dir = new File(startFolder);
-        return Arrays.asList(dir.listFiles(new FileExtensionFilter(".txt")));
+        return Arrays.asList(dir.listFiles(new FileExtensionFilter(searchType.toString() + ".txt")));
     }
 
     @Override
@@ -65,8 +65,6 @@ public class FileAccess implements IFileAccess {
             writer.write(String.valueOf(tourLog.getDistance()));
             writer.newLine();
             writer.write(tourLog.getTotalTime());
-            writer.newLine();
-            writer.write(tourLog.getStartTime());
             writer.newLine();
             writer.write(tourLog.getStartTime());
             writer.newLine();
@@ -141,7 +139,7 @@ public class FileAccess implements IFileAccess {
 
         @Override
         public boolean accept(File dir, String name) {
-            return name.toLowerCase().endsWith(fileExtension);
+            return name.endsWith(fileExtension);
         }
     }
 }

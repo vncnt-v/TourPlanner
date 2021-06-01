@@ -6,6 +6,7 @@ import TourPlannerUI.dataaccesslayer.dao.ITourItemDAO;
 import TourPlannerUI.model.TourItem;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +26,7 @@ public class TourItemPostgresDAO implements ITourItemDAO {
     }
 
     @Override
-    public TourItem FindById(Integer itemId) throws SQLException {
+    public TourItem FindById(Integer itemId) throws SQLException, IOException {
         ArrayList<Object> parameters = new ArrayList<>();
         parameters.add(itemId);
         List<TourItem> tourItems = database.TourReader(SQL_FIND_BY_ID, parameters, TourItem.class);
@@ -34,7 +35,7 @@ public class TourItemPostgresDAO implements ITourItemDAO {
     }
 
     @Override
-    public TourItem AddNewItem(String name, String start, String end, String description, float distance) throws SQLException {
+    public TourItem AddNewItem(String name, String start, String end, String description, float distance) throws SQLException, IOException {
         ArrayList<Object> parameters = new ArrayList<>();
         parameters.add(name);
         parameters.add(start);

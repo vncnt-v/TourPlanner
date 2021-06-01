@@ -23,8 +23,10 @@ import lombok.Setter;
 import lombok.SneakyThrows;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -94,7 +96,7 @@ public class Controller implements Initializable {
         }
     }
 
-    public void duplicateTourAction(ActionEvent actionEvent) throws SQLException {
+    public void duplicateTourAction(ActionEvent actionEvent) throws SQLException, IOException, ParseException {
         TourItem newTourItem = manager.CreateTourItem(currentTourItem);
         for(int i = 0; i < tourLogs.size(); i++){
             TourLog newTourLog = tourLogs.get(i);
@@ -104,7 +106,7 @@ public class Controller implements Initializable {
         tourItems.add(newTourItem);
     }
 
-    public void duplicateLogAction(ActionEvent actionEvent) throws SQLException {
+    public void duplicateLogAction(ActionEvent actionEvent) throws SQLException, IOException, ParseException {
         TourLog newTourLog = manager.CreateTourLog(currentTourLog);
         tourLogs.add(newTourLog);
     }
@@ -136,7 +138,7 @@ public class Controller implements Initializable {
             e.printStackTrace();
         }
     }
-    public void deleteItemAction(ActionEvent actionEvent) throws SQLException {
+    public void deleteItemAction(ActionEvent actionEvent) throws SQLException, IOException {
         manager.DeleteTourItem(currentTourItem.getId());
         tourItems.clear();
         tourLogs.clear();
@@ -169,7 +171,7 @@ public class Controller implements Initializable {
             e.printStackTrace();
         }
     }
-    public void deleteLogAction(ActionEvent actionEvent) throws SQLException {
+    public void deleteLogAction(ActionEvent actionEvent) throws SQLException, IOException, ParseException {
         manager.DeleteTourLog(currentTourLog.getId());
         tourLogs.clear();
         tourLogs.addAll(manager.GetLogsForItem(currentTourItem));
@@ -197,23 +199,36 @@ public class Controller implements Initializable {
     }
 
     /** Import/Export Methods **/
-    public void importTourAction(ActionEvent actionEvent) throws SQLException {
-        manager.ImportTour(currentTourItem);
-        tourLogs.clear();
-        tourLogs.addAll(manager.GetLogsForItem(currentTourItem));
-
+    public void importTourAction(ActionEvent actionEvent) throws SQLException, IOException, ParseException {
+        FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
+        fileChooser.getExtensionFilters().add(extFilter);
+        File file = fileChooser.showOpenDialog(stage);
+        if (file != null) {
+            manager.ImportTour(file.getPath());
+            tourItems.clear();
+            List<TourItem> items = manager.Search(searchField.textProperty().getValue(),false);
+            tourItems.addAll(items);
+        }
     }
-    public void exportTourAction(ActionEvent actionEvent) throws SQLException {
-        manager.ExportTour(currentTourItem);
+    public void exportTourAction(ActionEvent actionEvent) throws SQLException, IOException, ParseException {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialFileName("Tour_" + currentTourItem.getName().replaceAll("-","_").replace(" ",""));
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
+        fileChooser.getExtensionFilters().add(extFilter);
+        File file = fileChooser.showSaveDialog(stage);
+        if (file != null) {
+            manager.ExportTour(currentTourItem, manager.GetLogsForItem(currentTourItem), file.getPath());
+        }
     }
 
     /** Search Methods **/
-    public void searchAction(ActionEvent actionEvent) throws SQLException {
+    public void searchAction(ActionEvent actionEvent) throws SQLException, IOException {
         tourItems.clear();
         List<TourItem> items = manager.Search(searchField.textProperty().getValue(),false);
         tourItems.addAll(items);
     }
-    public void clearAction(ActionEvent actionEvent) throws SQLException {
+    public void clearAction(ActionEvent actionEvent) throws SQLException, IOException {
         tourItems.clear();
         searchField.textProperty().setValue("");
         List<TourItem> items = manager.GetItems();
@@ -221,7 +236,7 @@ public class Controller implements Initializable {
     }
 
     /** Create Pdf **/
-    public void CreateReportForItem(ActionEvent actionEvent) throws SQLException {
+    public void CreateReportForItem(ActionEvent actionEvent) throws SQLException, IOException, ParseException {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setInitialFileName("Report_" + currentTourItem.getName().replaceAll("-","_").replace(" ",""));
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("PDF files (*.pdf)", "*.pdf");
@@ -231,7 +246,7 @@ public class Controller implements Initializable {
             manager.CreateReportForItem(currentTourItem,file.getPath());
         }
     }
-    public void CreateSummarizeReportForItem(ActionEvent actionEvent) throws SQLException {
+    public void CreateSummarizeReportForItem(ActionEvent actionEvent) throws SQLException, IOException, ParseException {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setInitialFileName("Report_Summarize_" + currentTourItem.getName().replaceAll("-","_").replaceAll(" ",""));
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("PDF files (*.pdf)", "*.pdf");
@@ -280,7 +295,7 @@ public class Controller implements Initializable {
         //manager.SetLogging();
     }
 
-    private void SetupListView() throws SQLException {
+    private void SetupListView() throws SQLException, IOException {
         tourItems = FXCollections.observableArrayList();
         tourItems.addAll(manager.GetItems());
         listTourItems.setItems(tourItems);
@@ -309,7 +324,7 @@ public class Controller implements Initializable {
                 try {
                     tourLogs.clear();
                     tourLogs.addAll(manager.GetLogsForItem(currentTourItem));
-                } catch (SQLException e) {
+                } catch (SQLException | IOException | ParseException e) {
                     e.printStackTrace();
                 }
                 viewModel.setTourName(currentTourItem.getName());

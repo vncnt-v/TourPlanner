@@ -11,8 +11,8 @@ import java.util.List;
 
 public interface ITourLogDAO {
     TourLog FindById(Integer logId) throws SQLException, IOException, ParseException;
-    TourLog AddNewItemLog(LocalDate date, String report, float distance, String startTime, String totalTime, int rating, int exhausting, float averageSpeed, float calories, String breaks, String weather, TourItem logItem) throws SQLException;
+    TourLog AddNewItemLog(TourLog tourLog, TourItem logItem) throws SQLException, IOException, ParseException;
     boolean UpdateLog(TourLog tourLog) throws SQLException;
-    List<TourLog> GetLogsForItem(TourItem tourItem) throws SQLException;
+    List<TourLog> GetLogsForItem(TourItem tourItem) throws SQLException, IOException, ParseException;
     boolean DeleteLog(Integer id) throws SQLException;
 }
