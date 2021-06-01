@@ -6,7 +6,9 @@ import TourPlannerUI.dataaccesslayer.dao.ITourItemDAO;
 import TourPlannerUI.model.TourItem;
 import TourPlannerUI.model.TourTypes;
 
+import javax.management.Query;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -18,7 +20,7 @@ public class TourItemFileDAO implements ITourItemDAO {
 
     private IFileAccess fileAccess;
 
-    public TourItemFileDAO() {
+    public TourItemFileDAO() throws FileNotFoundException {
         this.fileAccess = DALFactory.GetFileAccess();
     }
 
@@ -29,8 +31,9 @@ public class TourItemFileDAO implements ITourItemDAO {
     }
 
     @Override
-    public TourItem AddNewItem(String name, String start, String end, String description, float distance) throws SQLException {
-        return null;
+    public TourItem AddNewItem(String name, String start, String end, String description, float distance) throws SQLException, IOException {
+        int id = fileAccess.CreateTourItemFile(name, start, end, description, distance);
+        return FindById(id);
     }
 
     @Override
@@ -39,8 +42,9 @@ public class TourItemFileDAO implements ITourItemDAO {
     }
 
     @Override
-    public List<TourItem> GetItems() throws SQLException {
-        return null;
+    public List<TourItem> GetItems() throws SQLException, IOException {
+        List<File> foundFiles = fileAccess.GetAllFiles(TourTypes.TourItem);
+        return QueryFromFileSystem(foundFiles);
     }
 
     @Override
