@@ -10,7 +10,14 @@ import TourPlannerUI.model.TourLog;
 import javafx.scene.image.Image;
 import org.json.*;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,12 +27,12 @@ public class AppManagerImpl implements AppManager {
 
     /** Tour **/
     @Override
-    public List<TourItem> GetItems() throws SQLException {
+    public List<TourItem> GetItems() throws SQLException, IOException {
         ITourItemDAO tourItemDAO = DALFactory.CreateTourItemDAO();
         return tourItemDAO.GetItems();
     }
     @Override
-    public List<TourItem> Search(String itemName, boolean caseSensitive) throws SQLException {
+    public List<TourItem> Search(String itemName, boolean caseSensitive) throws SQLException, IOException {
         List<TourItem> items = GetItems();
 
         if(caseSensitive){
@@ -41,7 +48,7 @@ public class AppManagerImpl implements AppManager {
                 .collect(Collectors.toList());
     }
     @Override
-    public TourItem CreateTourItem(TourItem tourItem) throws SQLException {
+    public TourItem CreateTourItem(TourItem tourItem) throws SQLException, IOException {
         ITourItemDAO tourItemDAO = DALFactory.CreateTourItemDAO();
         return tourItemDAO.AddNewItem(tourItem.getName(),tourItem.getStart(),tourItem.getEnd(),tourItem.getDescription(),tourItem.getDistance());
     }
@@ -58,14 +65,14 @@ public class AppManagerImpl implements AppManager {
 
     /** Logs **/
     @Override
-    public List<TourLog> GetLogsForItem(TourItem item) throws SQLException {
+    public List<TourLog> GetLogsForItem(TourItem item) throws SQLException, IOException, ParseException {
         ITourLogDAO tourLogDAO = DALFactory.CreateTourLogDAO();
         return tourLogDAO.GetLogsForItem(item);
     }
     @Override
-    public TourLog CreateTourLog(TourLog tourLog) throws SQLException {
+    public TourLog CreateTourLog(TourLog tourLog) throws SQLException, IOException, ParseException {
         ITourLogDAO tourLogDAO = DALFactory.CreateTourLogDAO();
-        return tourLogDAO.AddNewItemLog(tourLog.getDate(),tourLog.getReport(),tourLog.getDistance(),tourLog.getStartTime(),tourLog.getTotalTime(),tourLog.getRating(),tourLog.getExhausting(),tourLog.getAverageSpeed(),tourLog.getCalories(),tourLog.getBreaks(),tourLog.getWeather(),tourLog.getLogTourItem());
+        return tourLogDAO.AddNewItemLog(tourLog, tourLog.getLogTourItem());
     }
     @Override
     public boolean UpdateTourLog(TourLog tourLog) throws SQLException {
@@ -80,26 +87,52 @@ public class AppManagerImpl implements AppManager {
 
     /** PDF **/
     @Override
-    public boolean CreateReportForItem(TourItem item, String path) throws SQLException {
+    public boolean CreateReportForItem(TourItem item, String path) throws SQLException, IOException, ParseException {
         ITourLogDAO tourLogDAO = DALFactory.CreateTourLogDAO();
         return PdfGenerator.GenerateReport(item,tourLogDAO.GetLogsForItem(item),path);
     }
     @Override
-    public boolean CreateSummarizeReportForItem(TourItem item, String path) throws SQLException {
+    public boolean CreateSummarizeReportForItem(TourItem item, String path) throws SQLException, IOException, ParseException {
         ITourLogDAO tourLogDAO = DALFactory.CreateTourLogDAO();
         return PdfGenerator.GenerateSummarizeReport(item,tourLogDAO.GetLogsForItem(item),path);
     }
 
     /** Import/Export **/
     @Override
-    public boolean ImportTour(TourItem item) throws SQLException {
-        // ToDo
-        return true;
+    public void ImportTour(String filePath) throws SQLException, IOException, ParseException {
+        File file = ImportExportManager.ImportTour(filePath);
+        List<String> fileLines = Files.readAllLines(Path.of(file.getAbsolutePath()));
+        TourItem newTour = new TourItem(
+                -1,
+            fileLines.get(0) + " (Imported)",
+            fileLines.get(1),
+            fileLines.get(2),
+            fileLines.get(3),
+            Float.parseFloat(fileLines.get(4))
+        );
+        TourItem importedTour = CreateTourItem(newTour);
+        for (int i = 5; i+10 < fileLines.size(); i+=11){
+            TourLog newLog = new TourLog(
+                -1,
+                new SimpleDateFormat("yyyy-MM-dd").parse(fileLines.get(i)).toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
+                fileLines.get(i+1),
+                Float.parseFloat(fileLines.get(i+2)),
+                fileLines.get(i+4),
+                fileLines.get(i+3),
+                Integer.parseInt(fileLines.get(i+5)),
+                Integer.parseInt(fileLines.get(i+6)),
+                Float.parseFloat(fileLines.get(i+7)),
+                Float.parseFloat(fileLines.get(i+8)),
+                fileLines.get(i+9),
+                fileLines.get(i+10),
+                importedTour
+            );
+            CreateTourLog(newLog);
+        }
     }
     @Override
-    public boolean ExportTour(TourItem item) throws SQLException {
-        // ToDo
-        return true;
+    public void ExportTour(TourItem item, List<TourLog> tourLogs, String path) throws SQLException, IOException {
+        ImportExportManager.ExportTour(item,tourLogs,path);
     }
 
     /** MapQuest **/
