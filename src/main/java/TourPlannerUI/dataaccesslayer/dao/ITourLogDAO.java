@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface ITourLogDAO {
     TourLog FindById(Integer logId) throws SQLException, IOException, ParseException;
-    TourLog AddNewItemLog(TourLog tourLog, TourItem logItem) throws SQLException, IOException, ParseException;
+    TourLog AddNewItemLog(TourLog tourLog) throws SQLException, IOException, ParseException;
     boolean UpdateLog(TourLog tourLog) throws SQLException;
     List<TourLog> GetLogsForItem(TourItem tourItem) throws SQLException, IOException, ParseException;
     boolean DeleteLog(Integer id) throws SQLException;

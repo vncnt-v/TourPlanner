@@ -22,6 +22,12 @@ public class TourLog {
     @Getter @Setter public TourItem LogTourItem;
 
     public TourLog(TourItem tourItem) {
+        date = LocalDate.now();
+        report = "";
+        startTime = "";
+        totalTime = "";
+        breaks = "";
+        weather = "";
         this.LogTourItem = tourItem;
     }
 

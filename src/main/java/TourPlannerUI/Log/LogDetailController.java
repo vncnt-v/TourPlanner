@@ -51,6 +51,8 @@ public class LogDetailController {
         breaksField.setItems(viewModel.getBreaksChoices());
         weatherField.setItems(viewModel.getWeatherChoices());
 
+        viewModel.showTourLog(tourLog);
+
         Button okButton = (Button)dialog.getDialogPane().lookupButton(ButtonType.OK);
         okButton.addEventFilter(
             ActionEvent.ACTION, event -> {

@@ -23,7 +23,7 @@ public class TourDetailController {
         startField.textProperty().bindBidirectional(viewModel.getStart());
         endField.textProperty().bindBidirectional(viewModel.getEnd());
         descriptionArea.textProperty().bindBidirectional(viewModel.getDescription());
-
+        viewModel.showTourItem(tourItem);
         Button okButton = (Button)dialog.getDialogPane().lookupButton(ButtonType.OK);
         okButton.addEventFilter(
             ActionEvent.ACTION, event -> {

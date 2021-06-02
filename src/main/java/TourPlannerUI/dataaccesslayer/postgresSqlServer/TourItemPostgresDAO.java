@@ -49,6 +49,7 @@ public class TourItemPostgresDAO implements ITourItemDAO {
     @Override
     public boolean UpdateItem(TourItem tourItem) throws SQLException {
         ArrayList<Object> parameters = createTourItemParam(tourItem);
+        parameters.add(tourItem.getId());
 
         int check = database.UpdateEntry(SQL_UPDATE_ITEM, parameters);
         return check > 0;

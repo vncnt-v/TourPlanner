@@ -7,6 +7,7 @@ import TourPlannerUI.model.TourLog;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
@@ -72,9 +73,15 @@ public class FileAccess implements IFileAccess {
     @Override
     public boolean saveImage(BufferedImage img, int id) {
         try {
+            File directory = new File(defaultStorage);
+            if (! directory.exists()){
+                if (!directory.mkdir()){
+                    return false;
+                }
+            }
             ImageIO.write(img, "jpg", new File(defaultStorage + id + ".jpg"));
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Exception occured :" + e.getMessage());
             return false;
         }
         return true;
@@ -95,6 +102,12 @@ public class FileAccess implements IFileAccess {
 
     @Override
     public boolean deleteImage(int id) {
+        try {
+            File file = new File(defaultStorage + id + ".jpg");
+            return Files.deleteIfExists(file.toPath());
+        } catch (IOException e) {
+            System.out.println("Exception occured :" + e.getMessage());
+        }
         return false;
     }
 }

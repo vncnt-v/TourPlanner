@@ -58,7 +58,7 @@ public class MapQuestManager {
         String jsonString = requestRoute(start,end);
         assert jsonString != null;
         JSONObject obj = new JSONObject(jsonString);
-        if(obj.getJSONObject("route").has("sessionId") && obj.getJSONObject("route").has("boundingBox")) {
+        if(!obj.getJSONObject("route").has("sessionId") && !obj.getJSONObject("route").has("boundingBox")) {
             return null;
         }
         String session = obj.getJSONObject("route").getString("sessionId");

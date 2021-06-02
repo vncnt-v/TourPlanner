@@ -38,6 +38,12 @@ public class TourDetailModel {
         return true;
     }
 
+    public void showTourItem(TourItem tourItem) {
+        name.setValue(tourItem.getName());
+        start.setValue(tourItem.getStart());
+        end.setValue(tourItem.getEnd());
+        description.setValue(tourItem.getDescription());
+    }
     public void setTourItem(TourItem tourItem) {
         tourItem.setName(name.get());
         tourItem.setStart(start.get());

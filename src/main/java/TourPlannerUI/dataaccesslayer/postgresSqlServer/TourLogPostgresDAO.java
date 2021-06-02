@@ -40,8 +40,9 @@ public class TourLogPostgresDAO implements ITourLogDAO {
     }
 
     @Override
-    public TourLog AddNewItemLog(TourLog tourLog, TourItem logItem) throws SQLException, IOException {
+    public TourLog AddNewItemLog(TourLog tourLog) throws SQLException, IOException {
         ArrayList<Object> parameters = createTourLogParam(tourLog);
+        parameters.add(tourLog.getLogTourItem().getId());
 
         int resultID = database.InsertNew(SQL_INSERT_NEW_ITEM_LOG, parameters);
         return FindById(resultID);
@@ -50,6 +51,7 @@ public class TourLogPostgresDAO implements ITourLogDAO {
     @Override
     public boolean UpdateLog(TourLog tourLog) throws SQLException {
         ArrayList<Object> parameters = createTourLogParam(tourLog);
+        parameters.add(tourLog.getId());
 
         int check = database.UpdateEntry(SQL_UPDATE_LOG, parameters);
         return check > 0;
@@ -84,7 +86,6 @@ public class TourLogPostgresDAO implements ITourLogDAO {
         parameters.add(tourLog.getCalories());
         parameters.add(tourLog.getBreaks());
         parameters.add(tourLog.getWeather());
-        parameters.add(tourLog.getId());
 
         return parameters;
     }

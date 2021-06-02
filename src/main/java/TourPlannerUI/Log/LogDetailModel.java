@@ -45,8 +45,8 @@ public class LogDetailModel {
             new Alert(Alert.AlertType.ERROR,"Missing Data, please enter the distance").show();
             return false;
         }
-        if(!distanceField.toString().matches("[+-]?([0-9]*[,])?[0-9]+")) {
-            new Alert(Alert.AlertType.ERROR,"Distance incorrect. [+-]?([0-9]*[,])?[0-9]+").show();
+        if(!String.valueOf(distanceField.get()).replaceAll("\\.",",").replaceAll(" ","").matches("([0-9]*[,])?[0-9]+")) {
+            new Alert(Alert.AlertType.ERROR,"Distance incorrect. ([0-9]*[,])?[0-9]+").show();
             return false;
         }
         if(totalTimeField.get().isEmpty()) {
@@ -61,23 +61,41 @@ public class LogDetailModel {
             new Alert(Alert.AlertType.ERROR,"Missing Data, please enter the average speed").show();
             return false;
         }
-        if(!averageSpeedField.toString().matches("[+-]?([0-9]*[,])?[0-9]+")) {
-            new Alert(Alert.AlertType.ERROR,"Average speed incorrect. [+-]?([0-9]*[,])?[0-9]+").show();
+        if(!String.valueOf(averageSpeedField.get()).replaceAll("\\.",",").replaceAll(" ","").matches("([0-9]*[,])?[0-9]+")) {
+            new Alert(Alert.AlertType.ERROR,"Average speed incorrect. ([0-9]*[,])?[0-9]+").show();
             return false;
         }
-        if(caloriesField.get() != 0) {
+        if(caloriesField.get() == 0) {
             new Alert(Alert.AlertType.ERROR,"Missing Data, please enter the calories").show();
             return false;
         }
-        if(!caloriesField.toString().matches("[+-]?([0-9]*[,])?[0-9]+")) {
-            new Alert(Alert.AlertType.ERROR,"Calories incorrect. [+-]?([0-9]*[,])?[0-9]+").show();
+        if(!String.valueOf(caloriesField.get()).replaceAll("\\.",",").replaceAll(" ","").matches("([0-9]*[,])?[0-9]+")) {
+            new Alert(Alert.AlertType.ERROR,"Calories incorrect. ([0-9]*[,])?[0-9]+").show();
             return false;
         }
-        if(weatherField.getValue().equals("-")) {
+        if(breaksField.getValue().equals("")) {
+            new Alert(Alert.AlertType.ERROR,"Missing Data, please select the break count").show();
+            return false;
+        }
+        if(weatherField.getValue().equals("")) {
             new Alert(Alert.AlertType.ERROR,"Missing Data, please select the weather").show();
             return false;
         }
         return true;
+    }
+
+    public void showTourLog(TourLog tourLog) {
+        dateField.setValue(tourLog.getDate());
+        reportArea.setValue(tourLog.getReport());
+        distanceField.setValue(tourLog.getDistance());
+        startTimeField.setValue(tourLog.getStartTime());
+        totalTimeField.setValue(tourLog.getTotalTime());
+        ratingField.setValue(String.valueOf(tourLog.getRating()));
+        exhaustingField.setValue(String.valueOf(tourLog.getExhausting()));
+        averageSpeedField.setValue(tourLog.getAverageSpeed());
+        caloriesField.setValue(tourLog.getCalories());
+        breaksField.setValue(tourLog.getBreaks());
+        weatherField.setValue(tourLog.getWeather());
     }
 
     public void setTourLog(TourLog tourLog) {

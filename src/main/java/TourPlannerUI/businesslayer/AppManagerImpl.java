@@ -12,6 +12,7 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 import org.json.*;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -88,7 +89,7 @@ public class AppManagerImpl implements AppManager {
     public TourLog CreateTourLog(TourLog tourLog) throws SQLException, IOException, ParseException {
         ITourLogDAO tourLogDAO = DALFactory.CreateTourLogDAO();
         assert tourLogDAO != null;
-        return tourLogDAO.AddNewItemLog(tourLog, tourLog.getLogTourItem());
+        return tourLogDAO.AddNewItemLog(tourLog);
     }
     @Override
     public boolean UpdateTourLog(TourLog tourLog) throws SQLException {
@@ -184,7 +185,11 @@ public class AppManagerImpl implements AppManager {
     @Override
     public Image requestRouteImage(int id) throws FileNotFoundException {
         IFileAccess fileAccess = DALFactory.GetFileAccess();
-        return SwingFXUtils.toFXImage(fileAccess.loadImage(id), null);
+        BufferedImage img = fileAccess.loadImage(id);
+        if (img != null){
+            return SwingFXUtils.toFXImage(img, null);
+        }
+        return null;
     }
 
     /** Logging **/
