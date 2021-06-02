@@ -23,6 +23,7 @@ import lombok.Setter;
 import lombok.SneakyThrows;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -84,10 +85,9 @@ public class Controller implements Initializable {
             Dialog<ButtonType> dialog = new Dialog<>();
             dialog.setDialogPane(tourDetailDialogPane);
             dialog.setTitle("Create new Tour");
-            tourDetailController.setTour(tourItem,dialog);
+            tourDetailController.Init(tourItem,dialog);
             Optional<ButtonType> clickedButton = dialog.showAndWait();
             if (clickedButton.get() == ButtonType.OK){
-                tourItem.setDistance(manager.requestRouteDistance(tourItem.getStart(),tourItem.getEnd()));
                 TourItem newTourItem = manager.CreateTourItem(tourItem);
                 tourItems.add(newTourItem);
             }
@@ -120,7 +120,7 @@ public class Controller implements Initializable {
             Dialog<ButtonType> dialog = new Dialog<>();
 
             dialog.setDialogPane(tourDetailDialogPane);
-            tourDetailController.setTour(currentTourItem,dialog);
+            tourDetailController.Init(currentTourItem,dialog);
             dialog.setTitle("Create new Tour");
 
             Optional<ButtonType> clickedButton = dialog.showAndWait();
@@ -161,7 +161,7 @@ public class Controller implements Initializable {
             Dialog<ButtonType> dialog = new Dialog<>();
             dialog.setDialogPane(logDetailDialogPane);
             dialog.setTitle("Create new Log");
-            logDetailController.setLog(tourLog,dialog);
+            logDetailController.Init(tourLog,dialog);
             Optional<ButtonType> clickedButton = dialog.showAndWait();
             if (clickedButton.get() == ButtonType.OK){
                 TourLog newTourLogItem = manager.CreateTourLog(tourLog);
@@ -186,7 +186,7 @@ public class Controller implements Initializable {
             Dialog<ButtonType> dialog = new Dialog<>();
             dialog.setDialogPane(logDetailDialogPane);
             dialog.setTitle("Create new Log");
-            logDetailController.setLog(currentTourLog,dialog);
+            logDetailController.Init(currentTourLog,dialog);
             Optional<ButtonType> clickedButton = dialog.showAndWait();
             if (clickedButton.get() == ButtonType.OK){
                 manager.UpdateTourLog(currentTourLog);
@@ -271,7 +271,6 @@ public class Controller implements Initializable {
         SetCurrentLog();
 
         Bindings.bindBidirectional(tourNameLabel.textProperty(), viewModel.getTourNameLabel());
-        Bindings.bindBidirectional(tourNameLabel.textProperty(), viewModel.getTourNameLabel());
 
         createLogBtn.disableProperty().bind(listTourItems.getSelectionModel().selectedItemProperty().isNull());
         editItemBtn.disableProperty().bind(listTourItems.getSelectionModel().selectedItemProperty().isNull());
@@ -292,7 +291,6 @@ public class Controller implements Initializable {
 
         tourNameLabel.textProperty().setValue("Tour");
         tourDescriptionLabel.textProperty().setValue("(select Tour)");
-        //manager.SetLogging();
     }
 
     private void SetupListView() throws SQLException, IOException {
@@ -329,7 +327,11 @@ public class Controller implements Initializable {
                 }
                 viewModel.setTourName(currentTourItem.getName());
                 tourDescriptionLabel.textProperty().setValue("Start: " + currentTourItem.getStart() + "\n"+"End: " + currentTourItem.getEnd() + "\n"+"Distance: " + currentTourItem.getDistance() + " km\nDescription: " + currentTourItem.getDescription());
-                tourImageView.setImage(manager.requestRouteImage(currentTourItem.getStart(),currentTourItem.getEnd()));
+                try {
+                    tourImageView.setImage(manager.requestRouteImage(currentTourItem.getId()));
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
             }
         }));
     }

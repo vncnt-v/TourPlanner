@@ -11,8 +11,8 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/TourPlanner.fxml"));
-        Parent root = (Parent)loader.load();
-        Controller controller = (Controller) loader.getController();
+        Parent root = loader.load();
+        Controller controller = loader.getController();
         controller.setStage(primaryStage);
         primaryStage.setTitle("Tour Planner");
         primaryStage.setScene(new Scene(root, 1000, 600));
