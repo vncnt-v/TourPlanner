@@ -18,7 +18,7 @@ import java.util.List;
 
 public class Database implements IDatabase {
 
-    private String connectionString;
+    private final String connectionString;
 
     public Database(String connectionString){
         this.connectionString = connectionString;
@@ -36,52 +36,20 @@ public class Database implements IDatabase {
     }
     @Override
     public int InsertNew(String sqlQuery, ArrayList<Object> parameters) throws SQLException {
-        try(Connection conn = CreateConnection();
-            PreparedStatement pre = conn.prepareStatement(sqlQuery, Statement.RETURN_GENERATED_KEYS)) {
-
-            for (int i = 0; i < parameters.size(); i++) {
-                pre.setString(i+1,parameters.get(i).toString());
-            }
-            int affectedRows = pre.executeUpdate();
-
-            if (affectedRows > 0){
-                try (ResultSet generatedKeys = pre.getGeneratedKeys()){
-                    if (generatedKeys.next()){
-                        return generatedKeys.getInt(1);
-                    }
-                }
-            }
-        } catch (SQLException | FileNotFoundException e){
-            e.printStackTrace();
-        }
-        throw new SQLException("Creating data failed, no ID obtained. " + sqlQuery);
+        return executeStatement(sqlQuery,parameters);
     }
 
     @Override
     public int UpdateEntry(String sqlQuery, ArrayList<Object> parameters) throws SQLException {
-        try(Connection conn = CreateConnection();
-            PreparedStatement pre = conn.prepareStatement(sqlQuery, Statement.RETURN_GENERATED_KEYS)) {
-
-            for (int i = 0; i < parameters.size(); i++) {
-                pre.setString(i+1,parameters.get(i).toString());
-            }
-            int affectedRows = pre.executeUpdate();
-
-            if (affectedRows > 0){
-                try (ResultSet generatedKeys = pre.getGeneratedKeys()){
-                    if (generatedKeys.next()){
-                        return generatedKeys.getInt(1);
-                    }
-                }
-            }
-        } catch (SQLException | FileNotFoundException e){
-            e.printStackTrace();
-        }
-        throw new SQLException("Creating data failed, no ID obtained. " + sqlQuery);
+        return executeStatement(sqlQuery,parameters);
     }
 
     @Override
-    public int DeleteEntry(String sqlQuery, ArrayList<Object> parameters) throws SQLException {
+    public void DeleteEntry(String sqlQuery, ArrayList<Object> parameters) throws SQLException {
+        executeStatement(sqlQuery, parameters);
+    }
+
+    public int executeStatement(String sqlQuery, ArrayList<Object> parameters) throws SQLException {
         try(Connection conn = CreateConnection();
             PreparedStatement pre = conn.prepareStatement(sqlQuery, Statement.RETURN_GENERATED_KEYS)) {
 
@@ -100,7 +68,7 @@ public class Database implements IDatabase {
         } catch (SQLException | FileNotFoundException e){
             e.printStackTrace();
         }
-        throw new SQLException("Delete data failed, no ID obtained. " + sqlQuery);
+        throw new SQLException("SQL Error " + sqlQuery);
     }
 
     @Override
@@ -115,9 +83,7 @@ public class Database implements IDatabase {
             if(tourType.getTypeName().equals(TourLog.class.getName())) {
                 return (List<T>) QueryDataLogDataFromResultSet(result);
             }
-        } catch (SQLException | ParseException | FileNotFoundException e){
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (SQLException | ParseException | IOException e){
             e.printStackTrace();
         }
         throw new SQLException("Reading data failed. " + sqlQuery);
@@ -164,7 +130,8 @@ public class Database implements IDatabase {
         List<TourLog> tourLogList = new ArrayList<>();
         ITourItemDAO tourItemDAO = DALFactory.CreateTourItemDAO();
         while (result.next()) {
-                tourLogList.add(new TourLog(
+            assert tourItemDAO != null;
+            tourLogList.add(new TourLog(
                     result.getInt("Id"),
                     new SimpleDateFormat("yyyy-MM-dd").parse(result.getString("Date")).toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
                     result.getString("Report"),

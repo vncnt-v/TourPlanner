@@ -19,7 +19,7 @@ public class TourItemPostgresDAO implements ITourItemDAO {
     private final String SQL_UPDATE_ITEM = "UPDATE \"TourItem\" SET \"Name\" = ?,\"Start\" = ?,\"End\" = ?,\"Description\" = ?,\"Distance\" = CAST(? AS FLOAT) WHERE \"Id\"=CAST(? AS INTEGER);";
     private final String SQL_DELETE_ITEM = "DELETE FROM \"TourItem\" WHERE \"Id\"=CAST(? AS INTEGER);";
 
-    private IDatabase database;
+    private final IDatabase database;
 
     public TourItemPostgresDAO() throws FileNotFoundException {
         database = DALFactory.GetDatabase();
@@ -31,17 +31,16 @@ public class TourItemPostgresDAO implements ITourItemDAO {
         parameters.add(itemId);
         List<TourItem> tourItems = database.TourReader(SQL_FIND_BY_ID, parameters, TourItem.class);
 
-        return tourItems.stream().findFirst().get();
+        if (tourItems.stream().findFirst().isPresent()){
+            return tourItems.stream().findFirst().get();
+        } else {
+            return null;
+        }
     }
 
     @Override
-    public TourItem AddNewItem(String name, String start, String end, String description, float distance) throws SQLException, IOException {
-        ArrayList<Object> parameters = new ArrayList<>();
-        parameters.add(name);
-        parameters.add(start);
-        parameters.add(end);
-        parameters.add(description);
-        parameters.add(distance);
+    public TourItem AddNewItem(TourItem tourItem) throws SQLException, IOException {
+        ArrayList<Object> parameters = createTourItemParam(tourItem);
 
         int resultID = database.InsertNew(SQL_INSERT_NEW_ITEM, parameters);
         return FindById(resultID);
@@ -49,20 +48,10 @@ public class TourItemPostgresDAO implements ITourItemDAO {
 
     @Override
     public boolean UpdateItem(TourItem tourItem) throws SQLException {
-        ArrayList<Object> parameters = new ArrayList<>();
-
-        parameters.add(tourItem.getName());
-        parameters.add(tourItem.getStart());
-        parameters.add(tourItem.getEnd());
-        parameters.add(tourItem.getDescription());
-        parameters.add(tourItem.getDistance());
-        parameters.add(tourItem.getId());
+        ArrayList<Object> parameters = createTourItemParam(tourItem);
 
         int check = database.UpdateEntry(SQL_UPDATE_ITEM, parameters);
-        if(check > 0){
-            return true;
-        }
-        return false;
+        return check > 0;
     }
 
     @Override
@@ -76,5 +65,16 @@ public class TourItemPostgresDAO implements ITourItemDAO {
         parameters.add(itemId);
         database.DeleteEntry(SQL_DELETE_ITEM, parameters);
         return true;
+    }
+
+    private ArrayList<Object> createTourItemParam(TourItem tourItem) {
+        ArrayList<Object> parameters = new ArrayList<>();
+        parameters.add(tourItem.getName());
+        parameters.add(tourItem.getStart());
+        parameters.add(tourItem.getEnd());
+        parameters.add(tourItem.getDescription());
+        parameters.add(tourItem.getDistance());
+
+        return parameters;
     }
 }

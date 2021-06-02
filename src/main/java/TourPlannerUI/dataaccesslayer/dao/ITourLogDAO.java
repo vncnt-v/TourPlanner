@@ -6,7 +6,6 @@ import TourPlannerUI.model.TourLog;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.time.LocalDate;
 import java.util.List;
 
 public interface ITourLogDAO {
