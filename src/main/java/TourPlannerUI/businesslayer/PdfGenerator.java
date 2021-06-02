@@ -13,21 +13,21 @@ import java.util.List;
 public class PdfGenerator {
     public static boolean GenerateReport(TourItem item, List<TourLog> logs, String path) {
         String tourInfo = getTourInfo(item);
-        String logContent = "";
+        StringBuilder logContent = new StringBuilder();
 
         for (int i = 0; i < logs.size(); i++){
-            logContent += "\nLog " + (i+1) + ":\n";
-            logContent += "Date: " + logs.get(i).getDate() + "\n";
-            logContent += "Start Time: " + logs.get(i).getStartTime() + "\n";
-            logContent += "Report: " + logs.get(i).getReport() + "\n";
-            logContent += "Distance: " + logs.get(i).getDistance() + "\n";
-            logContent += "Total Time: " + logs.get(i).getTotalTime() + "\n";
-            logContent += "Rating: " + logs.get(i).getRating() + "\n";
-            logContent += "Exhausting: " + logs.get(i).getExhausting() + "\n";
-            logContent += "Average Speed: " + logs.get(i).getAverageSpeed() + "\n";
-            logContent += "Calories: " + logs.get(i).getCalories() + "\n";
-            logContent += "Stops: " + logs.get(i).getBreaks() + "\n";
-            logContent += "Weather: " + logs.get(i).getWeather() + "\n";
+            logContent.append("\nLog ").append(i + 1).append(":\n");
+            logContent.append("Date: ").append(logs.get(i).getDate()).append("\n");
+            logContent.append("Start Time: ").append(logs.get(i).getStartTime()).append("\n");
+            logContent.append("Report: ").append(logs.get(i).getReport()).append("\n");
+            logContent.append("Distance: ").append(logs.get(i).getDistance()).append("\n");
+            logContent.append("Total Time: ").append(logs.get(i).getTotalTime()).append("\n");
+            logContent.append("Rating: ").append(logs.get(i).getRating()).append("\n");
+            logContent.append("Exhausting: ").append(logs.get(i).getExhausting()).append("\n");
+            logContent.append("Average Speed: ").append(logs.get(i).getAverageSpeed()).append("\n");
+            logContent.append("Calories: ").append(logs.get(i).getCalories()).append("\n");
+            logContent.append("Stops: ").append(logs.get(i).getBreaks()).append("\n");
+            logContent.append("Weather: ").append(logs.get(i).getWeather()).append("\n");
         }
         try {
             Document document = new Document();
@@ -36,7 +36,7 @@ public class PdfGenerator {
             document.add(new Paragraph("Tour Info:"));
             document.add(new Paragraph(tourInfo));
             document.add(new Paragraph("Logs:"));
-            document.add(new Paragraph(logContent));
+            document.add(new Paragraph(logContent.toString()));
             document.close();
             return true;
         } catch (Exception e) {
@@ -55,18 +55,18 @@ public class PdfGenerator {
         float averageSpeed = 0;
         float calories = 0;
 
-        for (int i = 0; i < logs.size(); i++){
-            distance += logs.get(i).getDistance();
-            String string = logs.get(i).getTotalTime();
+        for (TourLog log : logs) {
+            distance += log.getDistance();
+            String string = log.getTotalTime();
             String[] parts = string.split(":");
-            if (parts.length == 2){
+            if (parts.length == 2) {
                 totalHours += Integer.parseInt(parts[0]);
                 totalMinutes += Integer.parseInt(parts[1]);
             }
-            rating += logs.get(i).getRating();
-            exhausting += logs.get(i).getExhausting();
-            averageSpeed += logs.get(i).getAverageSpeed();
-            calories += logs.get(i).getCalories();
+            rating += log.getRating();
+            exhausting += log.getExhausting();
+            averageSpeed += log.getAverageSpeed();
+            calories += log.getCalories();
         }
         if(logs.size() > 0){
             int tmp = totalMinutes+(totalHours*60);

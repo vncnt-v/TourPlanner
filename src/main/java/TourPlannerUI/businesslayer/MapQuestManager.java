@@ -1,13 +1,11 @@
 package TourPlannerUI.businesslayer;
 
-import javafx.embed.swing.SwingFXUtils;
-import javafx.scene.image.Image;
 import org.json.JSONObject;
 
 import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 public class MapQuestManager {
@@ -56,8 +54,15 @@ public class MapQuestManager {
         }
     }
 
-    public static Image requestRouteImage(String session, JSONObject boundingBox) {
-        //HttpURLConnection connection = null;
+    public static BufferedImage requestRouteImage(String start, String end) {
+        String jsonString = requestRoute(start,end);
+        assert jsonString != null;
+        JSONObject obj = new JSONObject(jsonString);
+        if(obj.getJSONObject("route").has("sessionId") && obj.getJSONObject("route").has("boundingBox")) {
+            return null;
+        }
+        String session = obj.getJSONObject("route").getString("sessionId");
+        JSONObject boundingBox = obj.getJSONObject("route").getJSONObject("boundingBox");
         try {
             String params;
             params = "&size=700,300";
@@ -69,96 +74,15 @@ public class MapQuestManager {
             params += "&boundingBox="+box;
 
             URL url = new URL("http://www.mapquestapi.com/staticmap/v5/map?key=Yadh13E9Z3FiN2w6As9tobdlRwPuCEj3" + params);
-            InputStream is = null;
+            InputStream is;
             try {
                 is = url.openStream();
             }
             catch (Exception e){
                 return null;
             }
+            return ImageIO.read(is);
 
-            Image image = SwingFXUtils.toFXImage(ImageIO.read(is), null);
-            return image;
-
-            /*
-            OutputStream os = new FileOutputStream("test.jpg");
-            byte[] b = new byte[2048];
-            int length;
-
-            while ((length = is.read(b)) != -1) {
-                os.write(b, 0, length);
-            }
-            is.close();
-            os.close();
-            //connection.disconnect();
-
-            return "He";
-            /*
-            FileInputStream inputstream = new FileInputStream("C:\Users\szabo\OneDrive\Desktop\Fachhochschule\4. Semester\SWE\tourplanner_szabo\"+from+"-"+to+".jpg");
-                    Image image = new Image(inputstream);
-            ImageView imageView = new ImageView(image);
-
-            GridPane secondaryLayout = new GridPane();
-            secondaryLayout.add(imageView,0,0);
-
-
-            Scene secondScene = new Scene(secondaryLayout, 640, 480);
-
-            // New window (Stage)
-            Stage newWindow = new Stage();
-            newWindow.setTitle("Show Map");
-            newWindow.setScene(secondScene);
-
-            newWindow.show();
-
-/*
-            //Create connection
-
-            URL url = new URL("http://www.mapquestapi.com/staticmap/v5/map?key=Yadh13E9Z3FiN2w6As9tobdlRwPuCEj3" + params);
-            connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
-            connection.setRequestProperty("Content-Type",
-                    "image/jpeg");
-
-            connection.setRequestProperty("Content-Length",
-                    Integer.toString(0));
-            connection.setRequestProperty("Content-Language", "en-US");
-
-            connection.setUseCaches(false);
-            connection.setDoOutput(true);
-
-            //Send request
-            DataOutputStream wr = new DataOutputStream(
-                    connection.getOutputStream());
-            wr.writeBytes("");
-            wr.close();
-
-            //Get Response
-            InputStream is = connection.getInputStream();
-            BufferedReader rd = new BufferedReader(new InputStreamReader(is));
-            StringBuilder response = new StringBuilder(); // or StringBuffer if Java version 5+
-            String line;
-            while ((line = rd.readLine()) != null) {
-                response.append(line);
-                response.append('\r');
-            }
-            rd.close();
-            return response.toString();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        } finally {
-            if (connection != null) {
-                connection.disconnect();
-            }
-        }
-    }*/
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-            return null;
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return null;
         } catch (IOException e) {
             e.printStackTrace();
             return null;
