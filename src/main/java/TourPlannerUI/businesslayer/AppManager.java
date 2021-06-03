@@ -30,8 +30,8 @@ public interface AppManager {
     boolean CreateSummarizeReportForItem(TourItem item, String path) throws SQLException, IOException, ParseException;
 
     /** Import/Export **/
-    boolean ImportTour(String path) throws SQLException, IOException, ParseException;
-    boolean ExportTour(TourItem item, List<TourLog> tourLogs, String path) throws SQLException, IOException;
+    TourItem ImportTour(String path) throws SQLException, IOException, ParseException;
+    boolean ExportTour(TourItem item, String path) throws SQLException, IOException, ParseException;
 
     /** MapQuest **/
     boolean hasValidRoute(String start, String end);

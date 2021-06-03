@@ -1,10 +1,15 @@
 package TourPlannerUI.Log;
 
+import TourPlannerUI.model.TourItem;
 import TourPlannerUI.model.TourLog;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.util.converter.NumberStringConverter;
+
+import java.io.IOException;
+import java.sql.SQLException;
+import java.text.ParseException;
 
 public class LogDetailController {
 
@@ -33,7 +38,7 @@ public class LogDetailController {
     @FXML
     public TextArea reportArea;
 
-    public void Init(TourLog tourLog, Dialog<ButtonType> dialog){
+    public void Init(TourItem tourItem,TourLog tourLog, Dialog<ButtonType> dialog){
         dateField.valueProperty().bindBidirectional(viewModel.getDateField());
         startTimeField.textProperty().bindBidirectional(viewModel.getStartTimeField());
         totalTimeField.textProperty().bindBidirectional(viewModel.getTotalTimeField());
@@ -51,17 +56,23 @@ public class LogDetailController {
         breaksField.setItems(viewModel.getBreaksChoices());
         weatherField.setItems(viewModel.getWeatherChoices());
 
-        viewModel.showTourLog(tourLog);
+        viewModel.Init(tourItem, tourLog);
 
-        Button okButton = (Button)dialog.getDialogPane().lookupButton(ButtonType.OK);
-        okButton.addEventFilter(
-            ActionEvent.ACTION, event -> {
-                if (viewModel.validateData()){
-                    viewModel.setTourLog(tourLog);
-                } else {
+        final Button btOk = (Button) dialog.getDialogPane().lookupButton(ButtonType.OK);
+        btOk.addEventFilter(
+            ActionEvent.ACTION,
+            event -> {
+                if (!viewModel.validateData()){
                     event.consume();
                 }
-        });
+            }
+        );
+    }
+    public boolean updateTourLog () throws SQLException {
+        return viewModel.updateTourLog();
+    }
+    public TourLog createTourLog () throws IOException, SQLException, ParseException {
+        return viewModel.createTourLog();
     }
 }
 

@@ -5,6 +5,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
+import java.io.IOException;
+import java.sql.SQLException;
+
 public class TourDetailController {
 
     public TourDetailModel viewModel = new TourDetailModel();
@@ -23,16 +26,22 @@ public class TourDetailController {
         startField.textProperty().bindBidirectional(viewModel.getStart());
         endField.textProperty().bindBidirectional(viewModel.getEnd());
         descriptionArea.textProperty().bindBidirectional(viewModel.getDescription());
-        viewModel.showTourItem(tourItem);
-        Button okButton = (Button)dialog.getDialogPane().lookupButton(ButtonType.OK);
-        okButton.addEventFilter(
-            ActionEvent.ACTION, event -> {
-                if (viewModel.validateData()){
-                    viewModel.setTourItem(tourItem);
-                } else {
+        viewModel.Init(tourItem);
+        final Button btOk = (Button) dialog.getDialogPane().lookupButton(ButtonType.OK);
+        btOk.addEventFilter(
+            ActionEvent.ACTION,
+            event -> {
+                if (!viewModel.validateData()){
                     event.consume();
                 }
-        });
+            }
+        );
+    }
+    public boolean updateTourItem () throws IOException, SQLException {
+        return viewModel.updateTourItem();
+    }
+    public TourItem createTourItem () throws IOException, SQLException {
+        return viewModel.createTourItem();
     }
 }
 

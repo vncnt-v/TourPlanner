@@ -14,7 +14,7 @@ public class MapQuestManager {
         HttpURLConnection connection = null;
         try {
             //Create connection
-            URL url = new URL("http://www.mapquestapi.com/directions/v2/route?key=Yadh13E9Z3FiN2w6As9tobdlRwPuCEj3&from=" + start.replaceAll(" ","") + "&to=" + end.replaceAll(" ",""));
+            URL url = new URL("http://www.mapquestapi.com/directions/v2/route?key=Yadh13E9Z3FiN2w6As9tobdlRwPuCEj3&from=" + escapeCharacters(start) + "&to=" + escapeCharacters(end));
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
             connection.setRequestProperty("Content-Type",
@@ -87,5 +87,21 @@ public class MapQuestManager {
             e.printStackTrace();
             return null;
         }
+    }
+
+    private static String escapeCharacters(String string) {
+        System.out.println(string);
+        string = string.replaceAll(" ","");
+        string = string.replaceAll("ä","ae");
+        string = string.replaceAll("ü","ue");
+        string = string.replaceAll("ö","oe");
+        string = string.replaceAll("Ä","Ae");
+        string = string.replaceAll("Ü","Ue");
+        string = string.replaceAll("Ö","Oe");
+        string = string.replaceAll("\\.","");
+        string = string.replaceAll(",","");
+        string = string.replaceAll("/","");
+        System.out.println(string);
+        return string;
     }
 }

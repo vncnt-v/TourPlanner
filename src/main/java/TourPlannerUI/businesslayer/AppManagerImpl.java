@@ -120,11 +120,11 @@ public class AppManagerImpl implements AppManager {
 
     /** Import/Export **/
     @Override
-    public boolean ImportTour(String filePath) throws SQLException, IOException {
+    public TourItem ImportTour(String filePath) throws SQLException, IOException {
         IFileAccess fileAccess = DALFactory.GetFileAccess();
         File file =  fileAccess.loadFile(filePath);
         if (!file.exists()){
-            return false;
+            return null;
         }
         List<String> fileLines = Files.readAllLines(Path.of(file.getAbsolutePath()));
         TourItem newTour = new TourItem(
@@ -157,15 +157,15 @@ public class AppManagerImpl implements AppManager {
                 CreateTourLog(newLog);
             } catch (ParseException e) {
                 e.printStackTrace();
-                return false;
+                return null;
             }
         }
-        return true;
+        return importedTour;
     }
     @Override
-    public boolean ExportTour(TourItem item, List<TourLog> tourLogs, String path) throws IOException {
+    public boolean ExportTour(TourItem item, String path) throws IOException, SQLException, ParseException {
         IFileAccess fileAccess = DALFactory.GetFileAccess();
-        return fileAccess.exportTour(item,tourLogs,path);
+        return fileAccess.exportTour(item,GetLogsForItem(item),path);
     }
 
     /** MapQuest **/

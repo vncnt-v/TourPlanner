@@ -1,5 +1,8 @@
 package TourPlannerUI.Log;
 
+import TourPlannerUI.businesslayer.AppManager;
+import TourPlannerUI.businesslayer.AppManagerFactory;
+import TourPlannerUI.model.TourItem;
 import TourPlannerUI.model.TourLog;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
@@ -8,9 +11,17 @@ import javafx.scene.control.Alert;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.IOException;
+import java.sql.SQLException;
+import java.text.ParseException;
 import java.time.LocalDate;
 
 public class LogDetailModel {
+
+    private AppManager manager;
+    private TourLog tourLog;
+    private TourItem tourItem;
+
     @Getter @Setter public ObjectProperty<LocalDate> dateField = new SimpleObjectProperty<>(LocalDate.now());
     @Getter @Setter public StringProperty reportArea = new SimpleStringProperty("");
     @Getter @Setter public FloatProperty distanceField = new SimpleFloatProperty(0);
@@ -73,32 +84,33 @@ public class LogDetailModel {
             new Alert(Alert.AlertType.ERROR,"Calories incorrect. ([0-9]*[,])?[0-9]+").show();
             return false;
         }
-        if(breaksField.getValue().equals("")) {
-            new Alert(Alert.AlertType.ERROR,"Missing Data, please select the break count").show();
-            return false;
-        }
-        if(weatherField.getValue().equals("")) {
-            new Alert(Alert.AlertType.ERROR,"Missing Data, please select the weather").show();
-            return false;
-        }
         return true;
     }
 
-    public void showTourLog(TourLog tourLog) {
-        dateField.setValue(tourLog.getDate());
-        reportArea.setValue(tourLog.getReport());
-        distanceField.setValue(tourLog.getDistance());
-        startTimeField.setValue(tourLog.getStartTime());
-        totalTimeField.setValue(tourLog.getTotalTime());
-        ratingField.setValue(String.valueOf(tourLog.getRating()));
-        exhaustingField.setValue(String.valueOf(tourLog.getExhausting()));
-        averageSpeedField.setValue(tourLog.getAverageSpeed());
-        caloriesField.setValue(tourLog.getCalories());
-        breaksField.setValue(tourLog.getBreaks());
-        weatherField.setValue(tourLog.getWeather());
+    public void Init(TourItem tourItem, TourLog tourLog) {
+        manager = AppManagerFactory.GetManager();
+        this.tourItem = tourItem;
+        if (tourLog != null) {
+            this.tourLog = tourLog;
+            dateField.setValue(tourLog.getDate());
+            reportArea.setValue(tourLog.getReport());
+            distanceField.setValue(tourLog.getDistance());
+            startTimeField.setValue(tourLog.getStartTime());
+            totalTimeField.setValue(tourLog.getTotalTime());
+            ratingField.setValue(String.valueOf(tourLog.getRating()));
+            exhaustingField.setValue(String.valueOf(tourLog.getExhausting()));
+            averageSpeedField.setValue(tourLog.getAverageSpeed());
+            caloriesField.setValue(tourLog.getCalories());
+            breaksField.setValue(tourLog.getBreaks());
+            weatherField.setValue(tourLog.getWeather());
+        }
     }
 
-    public void setTourLog(TourLog tourLog) {
+    public TourLog createTourLog() throws IOException, SQLException, ParseException {
+        return manager.CreateTourLog(new TourLog(dateField.get(), reportArea.get(), distanceField.get(), startTimeField.get(), totalTimeField.get(), Integer.parseInt(ratingField.get()), Integer.parseInt(exhaustingField.get()), averageSpeedField.get(), caloriesField.get(), breaksField.get(), weatherField.get(), tourItem));
+    }
+
+    public boolean updateTourLog() throws SQLException {
         tourLog.setDate(dateField.get());
         tourLog.setReport(reportArea.get());
         tourLog.setDistance(distanceField.get());
@@ -110,5 +122,7 @@ public class LogDetailModel {
         tourLog.setCalories(caloriesField.get());
         tourLog.setBreaks(breaksField.get());
         tourLog.setWeather(weatherField.get());
+
+        return manager.UpdateTourLog(tourLog);
     }
 }

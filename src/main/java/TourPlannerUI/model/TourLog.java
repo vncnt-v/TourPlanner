@@ -21,13 +21,18 @@ public class TourLog {
     @Getter @Setter public String weather;
     @Getter @Setter public TourItem LogTourItem;
 
-    public TourLog(TourItem tourItem) {
-        date = LocalDate.now();
-        report = "";
-        startTime = "";
-        totalTime = "";
-        breaks = "";
-        weather = "";
+    public TourLog(LocalDate date, String report, float distance, String startTime, String totalTime, int rating, int exhausting, float averageSpeed, float calories, String breaks, String weather, TourItem tourItem){
+        this.date = date;
+        this.report = report;
+        this.distance = distance;
+        this.totalTime = totalTime;
+        this.startTime = startTime;
+        this.rating = rating;
+        this.exhausting = exhausting;
+        this.averageSpeed = averageSpeed;
+        this.calories = calories;
+        this.breaks = breaks;
+        this.weather = weather;
         this.LogTourItem = tourItem;
     }
 

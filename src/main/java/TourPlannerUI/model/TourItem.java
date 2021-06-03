@@ -12,11 +12,11 @@ public class TourItem {
     @Getter @Setter public String description;
     @Getter @Setter public float distance;
 
-    public TourItem() {
-        name = "";
-        start = "";
-        end = "";
-        description = "";
+    public TourItem(String name,String start,String end, String description) {
+        this.name = name;
+        this.start = start;
+        this.end = end;
+        this.description = description;
     }
 
     public TourItem(Integer id, String name,String start,String end, String description, float distance) {
