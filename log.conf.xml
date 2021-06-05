@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration strict="true">
+
+    <Appenders>
+        <Appender type="Console" name="STDOUT">
+            <!-- https://logging.apache.org/log4j/2.x/manual/layouts.html#Patterns -->
+            <Layout type="PatternLayout" pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </Appender>
+    </Appenders>
+
+    <Loggers>
+        <Root level="error" >
+            <AppenderRef ref="STDOUT"/>
+        </Root>
+
+        <Logger name="Sample2" level="debug" >
+        </Logger>
+    </Loggers>
+
+</Configuration>

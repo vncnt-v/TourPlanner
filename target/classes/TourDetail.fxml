@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ButtonType?>
+<?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<DialogPane prefHeight="475.0" prefWidth="320.0" xmlns="http://javafx.com/javafx/15.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="TourPlannerUI.Tour.TourDetailController">
+   <graphic>
+      <VBox prefHeight="400.0" prefWidth="271.0">
+         <VBox prefHeight="400.0" prefWidth="137.0">
+            <opaqueInsets>
+               <Insets/>
+            </opaqueInsets>
+            <VBox.margin>
+               <Insets/>
+            </VBox.margin>
+            <Label layoutX="10.0" layoutY="10.0" text="Name">
+               <font>
+                  <Font name="System Bold" size="14.0"/>
+               </font>
+               <VBox.margin>
+                  <Insets bottom="5.0"/>
+               </VBox.margin>
+            </Label>
+            <TextField fx:id="nameField" layoutX="10.0" layoutY="33.0">
+               <VBox.margin>
+                  <Insets bottom="10.0"/>
+               </VBox.margin>
+            </TextField>
+            <Label text="Start">
+               <font>
+                  <Font name="System Bold" size="14.0"/>
+               </font>
+               <VBox.margin>
+                  <Insets bottom="5.0"/>
+               </VBox.margin>
+            </Label>
+            <TextField fx:id="startField">
+               <VBox.margin>
+                  <Insets bottom="10.0"/>
+               </VBox.margin>
+            </TextField>
+            <Label layoutX="10.0" layoutY="10.0" text="End">
+               <font>
+                  <Font name="System Bold" size="14.0"/>
+               </font>
+               <VBox.margin>
+                  <Insets bottom="5.0"/>
+               </VBox.margin>
+            </Label>
+            <TextField fx:id="endField" layoutX="10.0" layoutY="33.0">
+               <VBox.margin>
+                  <Insets bottom="10.0"/>
+               </VBox.margin>
+            </TextField>
+            <Label layoutX="10.0" layoutY="70.0" text="Description">
+               <font>
+                  <Font name="System Bold" size="14.0"/>
+               </font>
+               <VBox.margin>
+                  <Insets bottom="5.0"/>
+               </VBox.margin>
+            </Label>
+            <TextArea fx:id="descriptionArea" prefHeight="200.0" prefWidth="200.0" wrapText="true"/>
+         </VBox>
+      </VBox>
+   </graphic>
+   <padding>
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+   </padding>
+   <ButtonType fx:constant="OK"/>
+   <ButtonType fx:constant="CANCEL"/>
+</DialogPane>

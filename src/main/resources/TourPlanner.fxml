@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox prefHeight="600.0" prefWidth="900.0" stylesheets="@src/css/style.css" xmlns="http://javafx.com/javafx/15.0.1"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="TourPlannerUI.Controller">
+   <MenuBar style="-fx-border-color: #333;" styleClass="bg-color" VBox.vgrow="NEVER">
+      <Menu mnemonicParsing="false" text="File">
+         <MenuItem mnemonicParsing="false" onAction="#newTourAction" text="New Tour"/>
+         <MenuItem fx:id="tourLogMenuAddBtn" mnemonicParsing="false" onAction="#createLogAction" text="New Log"/>
+      </Menu>
+      <Menu mnemonicParsing="false" text="Edit">
+         <MenuItem fx:id="tourMenuEditBtn" mnemonicParsing="false" onAction="#editTourAction" text="Edit Tour"/>
+         <MenuItem fx:id="tourLogMenuEditBtn" mnemonicParsing="false" onAction="#editLogAction" text="Edit Log"/>
+         <SeparatorMenuItem mnemonicParsing="false"/>
+         <MenuItem fx:id="tourMenuDuplicateBtn" mnemonicParsing="false" onAction="#duplicateTourAction"
+                   text="Duplicate Tour"/>
+         <MenuItem fx:id="tourLogMenuDuplicateBtn" mnemonicParsing="false" onAction="#duplicateLogAction"
+                   text="Duplicate Log"/>
+         <SeparatorMenuItem mnemonicParsing="false"/>
+         <MenuItem fx:id="tourMenuDeleteBtn" mnemonicParsing="false" onAction="#deleteItemAction"
+                   text="Delete Tour"/>
+         <MenuItem fx:id="tourLogMenuDeleteBtn" mnemonicParsing="false" onAction="#deleteLogAction"
+                   text="Delete Log"/>
+      </Menu>
+      <Menu mnemonicParsing="false" text="Options">
+         <MenuItem mnemonicParsing="false" onAction="#importTourAction" text="Import Tour"/>
+         <MenuItem fx:id="tourMenuExportBtn" mnemonicParsing="false" onAction="#exportTourAction"
+                   text="Export Tour"/>
+         <SeparatorMenuItem mnemonicParsing="false"/>
+         <MenuItem fx:id="tourMenuReportBtn" mnemonicParsing="false" onAction="#CreateReportForItem"
+                   text="Create Report"/>
+         <MenuItem fx:id="tourMenuReportSumBtn" mnemonicParsing="false" onAction="#CreateSummarizeReportForItem"
+                   text="Create summarize Report"/>
+      </Menu>
+   </MenuBar>
+   <SplitPane dividerPositions="0.2650334075723831" focusTraversable="true"
+              VBox.vgrow="ALWAYS">
+      <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" pannable="true" prefHeight="200.0"
+                  prefWidth="200.0" style="-fx-background-color: #7EBF8E#7E#7EBF8E;" vbarPolicy="NEVER">
+         <VBox prefHeight="149.0" prefWidth="238.0" styleClass="bg-color">
+            <AnchorPane prefHeight="30.0" prefWidth="238.0" VBox.vgrow="NEVER">
+               <VBox.margin>
+                  <Insets top="15.0"/>
+               </VBox.margin>
+               <Label alignment="CENTER" layoutX="13.0" minWidth="60.0" style="&#10;"
+                      text="Tours" textAlignment="CENTER" textFill="#333333">
+                  <font>
+                     <Font size="18.0"/>
+                  </font>
+               </Label>
+            </AnchorPane>
+            <AnchorPane prefHeight="0.0" prefWidth="198.0">
+               <VBox.margin>
+                  <Insets bottom="10.0" left="20.0" right="20.0" top="10.0"/>
+               </VBox.margin>
+               <TextField fx:id="searchField" onAction="#searchAction"
+                          onInputMethodTextChanged="#searchAction" prefHeight="27.0" prefWidth="288.0"
+                          style="-fx-background-color: #fff; -fx-border-color: #ccc;" styleClass="tour-btn"
+                          AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                          AnchorPane.rightAnchor="37.0" AnchorPane.topAnchor="0.0"/>
+               <Button layoutX="135.0" mnemonicParsing="false" onAction="#clearAction"
+                       style="-fx-background-color: #ffffff; -fx-border-color: #ccc; -fx-border-radius: 0; -fx-background-radius: 0; -fx-text-fill: #333;"
+                       styleClass="plus-btn" text="x" textFill="WHITE" AnchorPane.bottomAnchor="0.0"
+                       AnchorPane.rightAnchor="37.0" AnchorPane.topAnchor="0.0"/>
+               <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#searchAction"
+                       prefHeight="29.0" prefWidth="18.0"
+                       style="-fx-background-color: #ffffff00; -fx-border-color: #ccc; -fx-border-radius: 0; -fx-background-radius: 5px; -fx-text-fill: #fff;"
+                       textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                       AnchorPane.topAnchor="0.0">
+                  <graphic>
+                     <ImageView fitHeight="16.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@src/images/search_icon.png"/>
+                     </ImageView>
+                  </graphic>
+                  <styleClass>
+                     <String fx:value="search-btn"/>
+                     <String fx:value="plus-btn"/>
+                  </styleClass>
+               </Button>
+            </AnchorPane>
+            <AnchorPane prefHeight="30.0" prefWidth="238.0">
+               <Button layoutX="190.0" layoutY="2.0" mnemonicParsing="false" onAction="#newTourAction"
+                       style="-fx-background-color: #ffffff; -fx-border-color: #ccc; -fx-border-radius: 0; -fx-background-radius: 0; -fx-text-fill: #333;"
+                       styleClass="plus-btn" text="+" textFill="WHITE" AnchorPane.bottomAnchor="-1.0"
+                       AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="0.0"/>
+               <Button fx:id="tourDeleteBtn" layoutX="163.0" layoutY="1.0" mnemonicParsing="false"
+                       onAction="#deleteItemAction" prefWidth="28.0"
+                       style="-fx-background-color: #ffffff; -fx-border-color: #ccc; -fx-border-radius: 0; -fx-background-radius: 0; -fx-text-fill: #333;"
+                       styleClass="plus-btn" text="-" textFill="WHITE" AnchorPane.bottomAnchor="-1.0"
+                       AnchorPane.rightAnchor="47.0" AnchorPane.topAnchor="0.0"/>
+               <Button fx:id="tourEditBtn" layoutX="20.0" layoutY="-1.0" mnemonicParsing="false"
+                       onAction="#editTourAction" prefHeight="29.0" prefWidth="32.0"
+                       style="-fx-background-color: #ffffff; -fx-border-color: #ccc; -fx-border-radius: 0; -fx-background-radius: 0; -fx-text-fill: #333;"
+                       styleClass="plus-btn" text="✎" textFill="WHITE" AnchorPane.bottomAnchor="-1.0"
+                       AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="0.0"/>
+            </AnchorPane>
+            <ListView fx:id="tourListView" prefHeight="433.0" prefWidth="198.0">
+               <VBox.margin>
+                  <Insets bottom="20.0" left="20.0" right="20.0"/>
+               </VBox.margin>
+            </ListView>
+         </VBox>
+      </ScrollPane>
+      <SplitPane dividerPositions="0.6105726872246696" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
+         <AnchorPane prefHeight="200.0" prefWidth="659.0">
+            <AnchorPane id="Content" prefHeight="48.0" prefWidth="659.0"
+                        styleClass="bg-color" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                        AnchorPane.topAnchor="0.0">
+               <Label fx:id="tourNameField" alignment="CENTER" layoutX="14.0" layoutY="14.0" style="&#10;"
+                      text="Title" textAlignment="CENTER" textFill="#333333">
+                  <font>
+                     <Font size="18.0"/>
+                  </font>
+               </Label>
+            </AnchorPane>
+            <TabPane prefHeight="235.0" prefWidth="659.0" tabClosingPolicy="UNAVAILABLE"
+                     AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                     AnchorPane.topAnchor="45.0">
+               <Tab text="Route">
+                  <ScrollPane fitToWidth="true" pannable="true" prefHeight="180.0" prefWidth="659.0"
+                              style="-fx-background-color: #fff;" vbarPolicy="NEVER">
+                     <ImageView fx:id="tourImageField" fitHeight="263.0" fitWidth="642.0"
+                                pickOnBounds="true" preserveRatio="true">
+                        <viewport>
+
+                        </viewport>
+                     </ImageView>
+                  </ScrollPane>
+               </Tab>
+               <Tab text="Description">
+                  <ScrollPane fitToWidth="true" prefHeight="200.0" prefWidth="200.0"
+                              style="-fx-background-color: #ffffff;">
+                     <Label fx:id="tourDetailsField"
+                            text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
+                            wrapText="true">
+                        <padding>
+                           <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+                        </padding>
+                     </Label>
+                  </ScrollPane>
+               </Tab>
+            </TabPane>
+         </AnchorPane>
+         <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="167.0" prefWidth="659.0">
+            <AnchorPane id="Content" layoutY="45.0" prefHeight="0.0"
+                        prefWidth="659.0" styleClass="bg-color" AnchorPane.leftAnchor="0.0"
+                        AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <Label alignment="CENTER" layoutX="9.0" layoutY="18.0" style="&#10;" text="Logs"
+                      textAlignment="CENTER" textFill="#333333"
+                      AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="9.0"
+                      AnchorPane.topAnchor="18.0"/>
+               <Button fx:id="tourLogAddBtn" layoutX="631.0" layoutY="3.0" mnemonicParsing="false"
+                       onAction="#createLogAction"
+                       style="-fx-background-color: #ffffff; -fx-border-color: #ccc; -fx-border-radius: 0; -fx-background-radius: 0; -fx-text-fill: #333;"
+                       styleClass="plus-btn" text="+" textFill="WHITE" AnchorPane.bottomAnchor="-1.0"
+                       AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="17.0"/>
+               <Button fx:id="tourLogDeleteBtn" layoutX="604.0" layoutY="3.0" mnemonicParsing="false"
+                       onAction="#deleteLogAction" prefWidth="28.0"
+                       style="-fx-background-color: #ffffff; -fx-border-color: #ccc; -fx-border-radius: 0; -fx-background-radius: 0; -fx-text-fill: #333;"
+                       styleClass="plus-btn" text="-" textFill="WHITE" AnchorPane.bottomAnchor="-1.0"
+                       AnchorPane.rightAnchor="27.0" AnchorPane.topAnchor="17.0"/>
+               <Button fx:id="tourLogEditBtn" layoutX="614.0" layoutY="27.0" mnemonicParsing="false"
+                       onAction="#editLogAction" prefHeight="29.0" prefWidth="32.0"
+                       style="-fx-background-color: #ffffff; -fx-border-color: #ccc; -fx-border-radius: 0; -fx-background-radius: 0; -fx-text-fill: #333;"
+                       styleClass="plus-btn" text="✎" textFill="WHITE" AnchorPane.bottomAnchor="-1.0"
+                       AnchorPane.rightAnchor="60.0"/>
+            </AnchorPane>
+            <TableView fx:id="tourLogListView" editable="true" prefHeight="235.0" prefWidth="659.0"
+                       AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                       AnchorPane.topAnchor="45.0">
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+               </columnResizePolicy>
+            </TableView>
+         </AnchorPane>
+      </SplitPane>
+   </SplitPane>
+</VBox>
