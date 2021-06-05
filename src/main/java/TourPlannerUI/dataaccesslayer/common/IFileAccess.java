@@ -14,5 +14,4 @@ public interface IFileAccess {
     boolean saveImage(BufferedImage image, int id);
     BufferedImage loadImage(int id);
     boolean deleteImage(int id);
-
 }
