@@ -123,7 +123,7 @@ public class AppManagerImpl implements AppManager {
     public TourItem ImportTour(String filePath) throws SQLException, IOException {
         IFileAccess fileAccess = DALFactory.GetFileAccess();
         File file =  fileAccess.loadFile(filePath);
-        if (!file.exists()){
+        if (file == null){
             return null;
         }
         List<String> fileLines = Files.readAllLines(Path.of(file.getAbsolutePath()));
