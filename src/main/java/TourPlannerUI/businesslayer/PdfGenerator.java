@@ -70,7 +70,6 @@ public class PdfGenerator {
         }
         if(logs.size() > 0){
             int tmp = totalMinutes+(totalHours*60);
-            System.out.println(tmp);
             tmp /= logs.size();
             totalHours = tmp/60;
             totalMinutes = tmp%60;
