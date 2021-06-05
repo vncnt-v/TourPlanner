@@ -2,9 +2,9 @@ package TourPlannerUI.Tour;
 
 import TourPlannerUI.businesslayer.AppManager;
 import TourPlannerUI.businesslayer.AppManagerFactory;
+import TourPlannerUI.businesslayer.ErrorMessage;
 import TourPlannerUI.model.TourItem;
 import javafx.beans.property.*;
-import javafx.scene.control.Alert;
 import lombok.Getter;
 
 import java.io.IOException;
@@ -20,24 +20,20 @@ public class TourDetailModel {
     @Getter public StringProperty end = new SimpleStringProperty("");
     @Getter public StringProperty description = new SimpleStringProperty("");
 
-    public boolean validateData() {
+    public ErrorMessage validateData() {
         if(name.get().isEmpty()) {
-            new Alert(Alert.AlertType.ERROR,"Missing Data, please enter the name").show();
-            return false;
+            return new ErrorMessage("Missing Data, please enter the name");
         }
         if(start.get().isEmpty()) {
-            new Alert(Alert.AlertType.ERROR,"Missing Data, please enter the start").show();
-            return false;
+            return new ErrorMessage("Missing Data, please enter the start");
         }
         if(end.get().isEmpty()) {
-            new Alert(Alert.AlertType.ERROR,"Missing Data, please enter the end").show();
-            return false;
+            return new ErrorMessage("Missing Data, please enter the end");
         }
         if(!AppManagerFactory.GetManager().hasValidRoute(start.get(),end.get())) {
-            new Alert(Alert.AlertType.ERROR,"No valid route, check start and end!").show();
-            return false;
+            return new ErrorMessage("No valid route, check start and end!");
         }
-        return true;
+        return null;
     }
 
     public void Init(TourItem tourItem) {

@@ -2,12 +2,12 @@ package TourPlannerUI.Log;
 
 import TourPlannerUI.businesslayer.AppManager;
 import TourPlannerUI.businesslayer.AppManagerFactory;
+import TourPlannerUI.businesslayer.ErrorMessage;
 import TourPlannerUI.model.TourItem;
 import TourPlannerUI.model.TourLog;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.Alert;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,13 +24,13 @@ public class LogDetailModel {
 
     @Getter @Setter public ObjectProperty<LocalDate> dateField = new SimpleObjectProperty<>(LocalDate.now());
     @Getter @Setter public StringProperty reportArea = new SimpleStringProperty("");
-    @Getter @Setter public FloatProperty distanceField = new SimpleFloatProperty(0);
+    @Getter @Setter public StringProperty distanceField = new SimpleStringProperty("0");
     @Getter @Setter public StringProperty startTimeField = new SimpleStringProperty("");
     @Getter @Setter public StringProperty totalTimeField = new SimpleStringProperty("");
     @Getter @Setter public StringProperty ratingField = new SimpleStringProperty("0");
     @Getter @Setter public StringProperty exhaustingField = new SimpleStringProperty("0");
-    @Getter @Setter public FloatProperty averageSpeedField = new SimpleFloatProperty(0);
-    @Getter @Setter public FloatProperty caloriesField = new SimpleFloatProperty(0);
+    @Getter @Setter public StringProperty averageSpeedField = new SimpleStringProperty("0");
+    @Getter @Setter public StringProperty caloriesField = new SimpleStringProperty("0");
     @Getter @Setter public StringProperty breaksField = new SimpleStringProperty("0");
     @Getter @Setter public StringProperty weatherField = new SimpleStringProperty("-");
 
@@ -39,52 +39,53 @@ public class LogDetailModel {
     @Getter private final ObservableList<String> breaksChoices = FXCollections.observableArrayList("0", "1", "2", "3", "4", "5", "5+");
     @Getter private final ObservableList<String> weatherChoices = FXCollections.observableArrayList("Sunny", "Cloudy", "Snowy", "Windy", "Rainy", "Foggy");
 
-    public boolean validateData() {
+    public ErrorMessage validateData() {
         if(dateField.getValue() == null) {
-            new Alert(Alert.AlertType.ERROR,"Missing Data, please enter the date").show();
-            return false;
+            return new ErrorMessage("Missing Data, please enter the date");
         }
         if(startTimeField.get().isEmpty()) {
-            new Alert(Alert.AlertType.ERROR,"Missing Data, please enter the start time").show();
-            return false;
+            return new ErrorMessage("Missing Data, please enter the start time");
         }
         if(!startTimeField.get().matches("^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$")) {
-            new Alert(Alert.AlertType.ERROR,"Start time incorrect. ^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$").show();
-            return false;
+            return new ErrorMessage("Start time incorrect. ^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$");
         }
-        if(distanceField.get() == 0) {
-            new Alert(Alert.AlertType.ERROR,"Missing Data, please enter the distance").show();
-            return false;
+        if(distanceField.get().isEmpty() || distanceField.get().equals("0")) {
+            return new ErrorMessage("Missing Data, please enter the distance");
         }
-        if(!String.valueOf(distanceField.get()).replaceAll("\\.",",").replaceAll(" ","").matches("([0-9]*[,])?[0-9]+")) {
-            new Alert(Alert.AlertType.ERROR,"Distance incorrect. ([0-9]*[,])?[0-9]+").show();
-            return false;
+        if(!distanceField.get().replaceAll("\\.",",").replaceAll(" ","").matches("([0-9]*[,])?[0-9]+")) {
+            return new ErrorMessage("Distance incorrect. ([0-9]*[,])?[0-9]+");
         }
         if(totalTimeField.get().isEmpty()) {
-            new Alert(Alert.AlertType.ERROR,"Missing Data, please enter the total time").show();
-            return false;
+            return new ErrorMessage("Missing Data, please enter the total time");
         }
         if(!totalTimeField.get().matches("[0-9]+:[0-5][0-9]")) {
-            new Alert(Alert.AlertType.ERROR,"Total time incorrect. [0-9]+:[0-5][0-9]").show();
-            return false;
+            return new ErrorMessage("Total time incorrect. [0-9]+:[0-5][0-9]");
         }
-        if(averageSpeedField.get() == 0) {
-            new Alert(Alert.AlertType.ERROR,"Missing Data, please enter the average speed").show();
-            return false;
+        if(averageSpeedField.get().isEmpty() || averageSpeedField.get().equals("0")) {
+            return new ErrorMessage("Missing Data, please enter the average speed");
         }
-        if(!String.valueOf(averageSpeedField.get()).replaceAll("\\.",",").replaceAll(" ","").matches("([0-9]*[,])?[0-9]+")) {
-            new Alert(Alert.AlertType.ERROR,"Average speed incorrect. ([0-9]*[,])?[0-9]+").show();
-            return false;
+        if(!averageSpeedField.get().replaceAll("\\.",",").replaceAll(" ","").matches("([0-9]*[,])?[0-9]+")) {
+            return new ErrorMessage("Average speed incorrect. ([0-9]*[,])?[0-9]+");
         }
-        if(caloriesField.get() == 0) {
-            new Alert(Alert.AlertType.ERROR,"Missing Data, please enter the calories").show();
-            return false;
+        if(caloriesField.get().isEmpty() || caloriesField.get().equals("0")) {
+            return new ErrorMessage("Missing Data, please enter the calories");
+        }
+        if(!caloriesField.get().replaceAll("\\.",",").replaceAll(" ","").matches("([0-9]*[,])?[0-9]+")) {
+            return new ErrorMessage("Calories incorrect. ([0-9]*[,])?[0-9]+");
         }
         if(!String.valueOf(caloriesField.get()).replaceAll("\\.",",").replaceAll(" ","").matches("([0-9]*[,])?[0-9]+")) {
-            new Alert(Alert.AlertType.ERROR,"Calories incorrect. ([0-9]*[,])?[0-9]+").show();
-            return false;
+            return new ErrorMessage("Calories incorrect. ([0-9]*[,])?[0-9]+");
         }
-        return true;
+        if(!ratingField.get().matches("[0-5]") || ratingField.get().isEmpty() || Integer.parseInt(ratingField.get()) < 0 || 5 < Integer.parseInt(ratingField.get())) {
+            return new ErrorMessage("Missing Data, please enter the calories");
+        }
+        if(!exhaustingField.get().matches("[0-5]") || exhaustingField.get().isEmpty() || Integer.parseInt(exhaustingField.get()) < 0 || 5 < Integer.parseInt(exhaustingField.get())) {
+            return new ErrorMessage("Missing Data, please enter the calories");
+        }
+        if(Integer.parseInt(exhaustingField.get()) < 0 || 5 < Integer.parseInt(exhaustingField.get())) {
+            return new ErrorMessage("Missing Data, please enter the calories");
+        }
+        return null;
     }
 
     public void Init(TourItem tourItem, TourLog tourLog) {
@@ -94,32 +95,32 @@ public class LogDetailModel {
             this.tourLog = tourLog;
             dateField.setValue(tourLog.getDate());
             reportArea.setValue(tourLog.getReport());
-            distanceField.setValue(tourLog.getDistance());
+            distanceField.setValue(Float.toString(tourLog.getDistance()));
             startTimeField.setValue(tourLog.getStartTime());
             totalTimeField.setValue(tourLog.getTotalTime());
             ratingField.setValue(String.valueOf(tourLog.getRating()));
             exhaustingField.setValue(String.valueOf(tourLog.getExhausting()));
-            averageSpeedField.setValue(tourLog.getAverageSpeed());
-            caloriesField.setValue(tourLog.getCalories());
+            averageSpeedField.setValue(Float.toString(tourLog.getAverageSpeed()));
+            caloriesField.setValue(Float.toString(tourLog.getCalories()));
             breaksField.setValue(tourLog.getBreaks());
             weatherField.setValue(tourLog.getWeather());
         }
     }
 
     public TourLog createTourLog() throws IOException, SQLException, ParseException {
-        return manager.CreateTourLog(new TourLog(dateField.get(), reportArea.get(), distanceField.get(), startTimeField.get(), totalTimeField.get(), Integer.parseInt(ratingField.get()), Integer.parseInt(exhaustingField.get()), averageSpeedField.get(), caloriesField.get(), breaksField.get(), weatherField.get(), tourItem));
+        return manager.CreateTourLog(new TourLog(dateField.get(), reportArea.get(), Float.parseFloat(distanceField.get()), startTimeField.get(), totalTimeField.get(), Integer.parseInt(ratingField.get()), Integer.parseInt(exhaustingField.get()), Float.parseFloat(averageSpeedField.get()), Float.parseFloat(caloriesField.get()), breaksField.get(), weatherField.get(), tourItem));
     }
 
     public boolean updateTourLog() throws SQLException {
         tourLog.setDate(dateField.get());
         tourLog.setReport(reportArea.get());
-        tourLog.setDistance(distanceField.get());
+        tourLog.setDistance(Float.parseFloat(distanceField.get()));
         tourLog.setStartTime(startTimeField.get());
         tourLog.setTotalTime(totalTimeField.get());
         tourLog.setRating(Integer.parseInt(ratingField.get()));
         tourLog.setExhausting(Integer.parseInt(exhaustingField.get()));
-        tourLog.setAverageSpeed(averageSpeedField.get());
-        tourLog.setCalories(caloriesField.get());
+        tourLog.setAverageSpeed(Float.parseFloat(averageSpeedField.get()));
+        tourLog.setCalories(Float.parseFloat(caloriesField.get()));
         tourLog.setBreaks(breaksField.get());
         tourLog.setWeather(weatherField.get());
 

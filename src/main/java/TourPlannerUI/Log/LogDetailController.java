@@ -1,11 +1,11 @@
 package TourPlannerUI.Log;
 
+import TourPlannerUI.businesslayer.ErrorMessage;
 import TourPlannerUI.model.TourItem;
 import TourPlannerUI.model.TourLog;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.util.converter.NumberStringConverter;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -42,11 +42,11 @@ public class LogDetailController {
         dateField.valueProperty().bindBidirectional(viewModel.getDateField());
         startTimeField.textProperty().bindBidirectional(viewModel.getStartTimeField());
         totalTimeField.textProperty().bindBidirectional(viewModel.getTotalTimeField());
-        distanceField.textProperty().bindBidirectional(viewModel.getDistanceField(),new NumberStringConverter());
+        distanceField.textProperty().bindBidirectional(viewModel.getDistanceField());
         ratingField.valueProperty().bindBidirectional(viewModel.getRatingField());
         exhaustingField.valueProperty().bindBidirectional(viewModel.getExhaustingField());
-        averageSpeedField.textProperty().bindBidirectional(viewModel.getAverageSpeedField(),new NumberStringConverter());
-        caloriesField.textProperty().bindBidirectional(viewModel.getCaloriesField(),new NumberStringConverter());
+        averageSpeedField.textProperty().bindBidirectional(viewModel.getAverageSpeedField());
+        caloriesField.textProperty().bindBidirectional(viewModel.getCaloriesField());
         breaksField.valueProperty().bindBidirectional(viewModel.getBreaksField());
         weatherField.valueProperty().bindBidirectional(viewModel.getWeatherField());
         reportArea.textProperty().bindBidirectional(viewModel.getReportArea());
@@ -62,7 +62,9 @@ public class LogDetailController {
         btOk.addEventFilter(
             ActionEvent.ACTION,
             event -> {
-                if (!viewModel.validateData()){
+                ErrorMessage error = viewModel.validateData();
+                if (error != null){
+                    new Alert(Alert.AlertType.ERROR,error.getMsg()).show();
                     event.consume();
                 }
             }

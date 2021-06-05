@@ -1,5 +1,6 @@
 package TourPlannerUI.Tour;
 
+import TourPlannerUI.businesslayer.ErrorMessage;
 import TourPlannerUI.model.TourItem;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -31,7 +32,9 @@ public class TourDetailController {
         btOk.addEventFilter(
             ActionEvent.ACTION,
             event -> {
-                if (!viewModel.validateData()){
+                ErrorMessage error = viewModel.validateData();
+                if (error != null){
+                    new Alert(Alert.AlertType.ERROR,error.getMsg()).show();
                     event.consume();
                 }
             }
