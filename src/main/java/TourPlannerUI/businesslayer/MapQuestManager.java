@@ -90,7 +90,6 @@ public class MapQuestManager {
     }
 
     private static String escapeCharacters(String string) {
-        System.out.println(string);
         string = string.replaceAll(" ","");
         string = string.replaceAll("ä","ae");
         string = string.replaceAll("ü","ue");
@@ -101,7 +100,8 @@ public class MapQuestManager {
         string = string.replaceAll("\\.","");
         string = string.replaceAll(",","");
         string = string.replaceAll("/","");
-        System.out.println(string);
         return string;
     }
+
+
 }
