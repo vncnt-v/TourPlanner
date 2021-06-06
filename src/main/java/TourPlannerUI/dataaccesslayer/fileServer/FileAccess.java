@@ -3,6 +3,8 @@ package TourPlannerUI.dataaccesslayer.fileServer;
 import TourPlannerUI.dataaccesslayer.common.IFileAccess;
 import TourPlannerUI.model.TourItem;
 import TourPlannerUI.model.TourLog;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -59,6 +61,8 @@ public class FileAccess implements IFileAccess {
                 writer.newLine();
             }
         } catch (IOException e) {
+            Logger log = LogManager.getLogger(FileAccess.class);
+            log.error("Cant write File: " + e.getMessage());
             e.printStackTrace();
             return false;
         }
@@ -76,12 +80,15 @@ public class FileAccess implements IFileAccess {
             File directory = new File(defaultStorage);
             if (! directory.exists()){
                 if (!directory.mkdir()){
+                    Logger log = LogManager.getLogger(FileAccess.class);
+                    log.error("Cant create dir: " + directory);
                     return false;
                 }
             }
             ImageIO.write(img, "jpg", new File(defaultStorage + id + ".jpg"));
         } catch (IOException e) {
-            System.out.println("Exception occured :" + e.getMessage());
+            Logger log = LogManager.getLogger(FileAccess.class);
+            log.error("Exception occured :" + e.getMessage());
             return false;
         }
         return true;
@@ -94,7 +101,8 @@ public class FileAccess implements IFileAccess {
             File initialImage = new File(defaultStorage + id + ".jpg");
             bImage = ImageIO.read(initialImage);
         } catch (IOException e) {
-            System.out.println("Exception occured :" + e.getMessage());
+            Logger log = LogManager.getLogger(FileAccess.class);
+            log.error("Exception occured :" + e.getMessage());
             return null;
         }
         return bImage;
@@ -106,7 +114,8 @@ public class FileAccess implements IFileAccess {
             File file = new File(defaultStorage + id + ".jpg");
             return Files.deleteIfExists(file.toPath());
         } catch (IOException e) {
-            System.out.println("Exception occured :" + e.getMessage());
+            Logger log = LogManager.getLogger(FileAccess.class);
+            log.error("Exception occured :" + e.getMessage());
         }
         return false;
     }

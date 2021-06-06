@@ -1,5 +1,7 @@
 package TourPlannerUI.businesslayer;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 
 import javax.imageio.ImageIO;
@@ -45,6 +47,8 @@ public class MapQuestManager {
             rd.close();
             return response.toString();
         } catch (Exception e) {
+            Logger log = LogManager.getLogger(MapQuestManager.class);
+            log.error("Request route failed");
             e.printStackTrace();
             return null;
         } finally {
@@ -55,10 +59,15 @@ public class MapQuestManager {
     }
 
     public static BufferedImage requestRouteImage(String start, String end) {
+        Logger log = LogManager.getLogger(MapQuestManager.class);
         String jsonString = requestRoute(start,end);
-        assert jsonString != null;
+        if (jsonString == null){
+            log.error("JsonObject is null");
+            return null;
+        }
         JSONObject obj = new JSONObject(jsonString);
         if(!obj.getJSONObject("route").has("sessionId") && !obj.getJSONObject("route").has("boundingBox")) {
+            log.error("Wrong JsonObject");
             return null;
         }
         String session = obj.getJSONObject("route").getString("sessionId");
@@ -79,11 +88,13 @@ public class MapQuestManager {
                 is = url.openStream();
             }
             catch (Exception e){
+                log.error("Cant open Stream: " + e.getMessage());
                 return null;
             }
             return ImageIO.read(is);
 
         } catch (IOException e) {
+            log.error("Cant create URL: " + e.getMessage());
             e.printStackTrace();
             return null;
         }

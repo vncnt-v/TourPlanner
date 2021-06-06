@@ -6,6 +6,8 @@ import TourPlannerUI.dataaccesslayer.common.IDatabase;
 import TourPlannerUI.dataaccesslayer.dao.ITourItemDAO;
 import TourPlannerUI.model.TourItem;
 import TourPlannerUI.model.TourLog;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -30,6 +32,8 @@ public class Database implements IDatabase {
         try {
             return DriverManager.getConnection(connectionString, usernameString, pwdString);
         } catch (SQLException e){
+            Logger log = LogManager.getLogger(Database.class);
+            log.error("Establishing connection failed: " + e.getMessage());
             e.printStackTrace();
         }
         throw new SQLException("Establishing connection failed.");
@@ -66,6 +70,8 @@ public class Database implements IDatabase {
                 }
             }
         } catch (SQLException | FileNotFoundException e){
+            Logger log = LogManager.getLogger(Database.class);
+            log.error("SQL Error: " + sqlQuery + " - " + e.getMessage());
             e.printStackTrace();
         }
         throw new SQLException("SQL Error " + sqlQuery);
@@ -84,6 +90,8 @@ public class Database implements IDatabase {
                 return (List<T>) QueryDataLogDataFromResultSet(result);
             }
         } catch (SQLException | ParseException | IOException e){
+            Logger log = LogManager.getLogger(Database.class);
+            log.error("Reading data failed: " + sqlQuery + " - " + e.getMessage());
             e.printStackTrace();
         }
         throw new SQLException("Reading data failed. " + sqlQuery);
@@ -105,9 +113,11 @@ public class Database implements IDatabase {
                 return (List<T>) QueryDataLogDataFromResultSet(result);
             }
         } catch (SQLException | ParseException | FileNotFoundException e){
+            Logger log = LogManager.getLogger(Database.class);
+            log.error("Creating data failed: " + sqlQuery + " - " + e.getMessage());
             e.printStackTrace();
         }
-        throw new SQLException("Creating data failed, no ID obtained. " + sqlQuery);
+        throw new SQLException("Creating data failed: " + sqlQuery);
     }
 
     private List<TourItem> QueryTourItemDataFromResultSet(ResultSet result) throws SQLException {

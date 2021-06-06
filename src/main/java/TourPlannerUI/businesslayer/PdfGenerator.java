@@ -6,6 +6,8 @@ import TourPlannerUI.model.TourLog;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.FileOutputStream;
 import java.util.List;
@@ -40,6 +42,8 @@ public class PdfGenerator {
             document.close();
             return true;
         } catch (Exception e) {
+            Logger log = LogManager.getLogger(PdfGenerator.class);
+            log.error("Cant create PDF: " + e.getMessage());
             e.printStackTrace();
         }
         return false;
@@ -94,6 +98,8 @@ public class PdfGenerator {
             document.close();
             return true;
         } catch (Exception e) {
+            Logger log = LogManager.getLogger(PdfGenerator.class);
+            log.error("Cant create PDF: " + e.getMessage());
             e.printStackTrace();
         }
         return false;

@@ -5,6 +5,8 @@ import TourPlannerUI.dataaccesslayer.common.IDatabase;
 import TourPlannerUI.dataaccesslayer.dao.ITourLogDAO;
 import TourPlannerUI.model.TourItem;
 import TourPlannerUI.model.TourLog;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -35,6 +37,8 @@ public class TourLogPostgresDAO implements ITourLogDAO {
         if (tourItems.stream().findFirst().isPresent()){
             return tourItems.stream().findFirst().get();
         } else {
+            Logger log = LogManager.getLogger(TourLogPostgresDAO.class);
+            log.error("No Item with ID: " + logId);
             return null;
         }
     }

@@ -10,6 +10,8 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -66,8 +68,13 @@ public class ViewModel {
         File file = fileChooser.showOpenDialog(stage);
         if (file != null) {
             TourItem tourItem = manager.ImportTour(file.getPath());
-            tourList.add(tourItem);
-            setTourItem(tourItem);
+            if (tourItem == null) {
+                Logger log = LogManager.getLogger(ViewModel.class);
+                log.error("Cant Import Tour. Path: " + file.getPath());
+            } else {
+                tourList.add(tourItem);
+                setTourItem(tourItem);
+            }
         }
     }
     public void exportTour() throws ParseException, SQLException, IOException {
@@ -77,7 +84,10 @@ public class ViewModel {
         fileChooser.getExtensionFilters().add(extFilter);
         File file = fileChooser.showSaveDialog(stage);
         if (file != null) {
-            manager.ExportTour(currentTourItem, file.getPath());
+            if (!manager.ExportTour(currentTourItem, file.getPath())) {
+                Logger log = LogManager.getLogger(ViewModel.class);
+                log.error("Export Tour failed. ID: " + currentTourLog.getId());
+            }
         }
     }
     public void duplicateTourItem() throws IOException, SQLException, ParseException {
@@ -89,8 +99,12 @@ public class ViewModel {
         addTourItem(newTourItem);
     }
     public void deleteTour() throws IOException, SQLException {
-        manager.DeleteTourItem(currentTourItem.getId());
-        refreshTourList();
+        if (manager.DeleteTourItem(currentTourItem.getId())){
+            refreshTourList();
+        } else {
+            Logger log = LogManager.getLogger(ViewModel.class);
+            log.error("Update Tour failed. ID: " + currentTourLog.getId());
+        }
     }
     public void createReport() throws ParseException, SQLException, IOException {
         FileChooser fileChooser = new FileChooser();
@@ -99,7 +113,10 @@ public class ViewModel {
         fileChooser.getExtensionFilters().add(extFilter);
         File file = fileChooser.showSaveDialog(stage);
         if (file != null) {
-            manager.CreateReportForItem(currentTourItem,file.getPath());
+            if (!manager.CreateReportForItem(currentTourItem,file.getPath())) {
+                Logger log = LogManager.getLogger(ViewModel.class);
+                log.error("Create report failed. Item ID: " + currentTourItem.getId());
+            }
         }
     }
     public void createSummarizeReport() throws ParseException, SQLException, IOException {
@@ -109,7 +126,10 @@ public class ViewModel {
         fileChooser.getExtensionFilters().add(extFilter);
         File file = fileChooser.showSaveDialog(stage);
         if (file != null) {
-            manager.CreateSummarizeReportForItem(currentTourItem,file.getPath());
+            if (!manager.CreateSummarizeReportForItem(currentTourItem,file.getPath())) {
+                Logger log = LogManager.getLogger(ViewModel.class);
+                log.error("Create summarized report failed. Item ID: " + currentTourItem.getId());
+            }
         }
     }
 
@@ -118,8 +138,12 @@ public class ViewModel {
         tourLogList.add(tourLog);
     }
     public void deleteLog() throws IOException, SQLException, ParseException {
-        manager.DeleteTourLog(currentTourLog.getId());
-        refreshTourLogList();
+        if (!manager.DeleteTourLog(currentTourLog.getId())) {
+            Logger log = LogManager.getLogger(ViewModel.class);
+            log.error("Delete Tour Log failed. ID: " + currentTourLog.getId());
+        } else {
+            refreshTourLogList();
+        }
     }
     public void duplicateLog() throws IOException, SQLException, ParseException {
         TourLog newTourLog = manager.CreateTourLog(currentTourLog);
@@ -142,6 +166,8 @@ public class ViewModel {
             tourLogList.clear();
             tourLogList.addAll(manager.GetLogsForItem(tourItem));
         } catch (SQLException | IOException | ParseException e) {
+            Logger log = LogManager.getLogger(ViewModel.class);
+            log.error("Get Logs for Item failed: " + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -170,6 +196,8 @@ public class ViewModel {
                 try {
                     setTourItem(newValue);
                 } catch (IOException e) {
+                    Logger log = LogManager.getLogger(ViewModel.class);
+                    log.error("Set new Current Item failed: " + e.getMessage());
                     e.printStackTrace();
                 }
             }
