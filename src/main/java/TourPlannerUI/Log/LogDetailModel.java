@@ -2,7 +2,7 @@ package TourPlannerUI.Log;
 
 import TourPlannerUI.businesslayer.AppManager;
 import TourPlannerUI.businesslayer.AppManagerFactory;
-import TourPlannerUI.businesslayer.ErrorMessage;
+import TourPlannerUI.model.ErrorMessage;
 import TourPlannerUI.model.TourItem;
 import TourPlannerUI.model.TourLog;
 import javafx.beans.property.*;
@@ -25,13 +25,13 @@ public class LogDetailModel {
     @Getter @Setter public ObjectProperty<LocalDate> dateField = new SimpleObjectProperty<>(LocalDate.now());
     @Getter @Setter public StringProperty reportArea = new SimpleStringProperty("");
     @Getter @Setter public StringProperty distanceField = new SimpleStringProperty("0");
-    @Getter @Setter public StringProperty startTimeField = new SimpleStringProperty("");
-    @Getter @Setter public StringProperty totalTimeField = new SimpleStringProperty("");
-    @Getter @Setter public StringProperty ratingField = new SimpleStringProperty("0");
-    @Getter @Setter public StringProperty exhaustingField = new SimpleStringProperty("0");
+    @Getter @Setter public StringProperty startTimeField = new SimpleStringProperty("00:00");
+    @Getter @Setter public StringProperty totalTimeField = new SimpleStringProperty("00:00");
+    @Getter @Setter public StringProperty ratingField = new SimpleStringProperty("-");
+    @Getter @Setter public StringProperty exhaustingField = new SimpleStringProperty("-");
     @Getter @Setter public StringProperty averageSpeedField = new SimpleStringProperty("0");
     @Getter @Setter public StringProperty caloriesField = new SimpleStringProperty("0");
-    @Getter @Setter public StringProperty breaksField = new SimpleStringProperty("0");
+    @Getter @Setter public StringProperty breaksField = new SimpleStringProperty("-");
     @Getter @Setter public StringProperty weatherField = new SimpleStringProperty("-");
 
     @Getter private final ObservableList<String> ratingChoices = FXCollections.observableArrayList("0", "1", "2", "3", "4", "5");
@@ -55,7 +55,7 @@ public class LogDetailModel {
         if(!distanceField.get().replaceAll("\\.",",").replaceAll(" ","").matches("([0-9]*[,])?[0-9]+")) {
             return new ErrorMessage("Distance incorrect. ([0-9]*[,])?[0-9]+");
         }
-        if(totalTimeField.get().isEmpty()) {
+        if(totalTimeField.get().isEmpty() || totalTimeField.get().equals("00:00")) {
             return new ErrorMessage("Missing Data, please enter the total time");
         }
         if(!totalTimeField.get().matches("[0-9]+:[0-5][0-9]")) {
@@ -77,13 +77,13 @@ public class LogDetailModel {
             return new ErrorMessage("Calories incorrect. ([0-9]*[,])?[0-9]+");
         }
         if(!ratingField.get().matches("[0-5]") || ratingField.get().isEmpty() || Integer.parseInt(ratingField.get()) < 0 || 5 < Integer.parseInt(ratingField.get())) {
-            return new ErrorMessage("Missing Data, please enter the calories");
+            return new ErrorMessage("Missing Data, please enter the rating");
         }
         if(!exhaustingField.get().matches("[0-5]") || exhaustingField.get().isEmpty() || Integer.parseInt(exhaustingField.get()) < 0 || 5 < Integer.parseInt(exhaustingField.get())) {
-            return new ErrorMessage("Missing Data, please enter the calories");
+            return new ErrorMessage("Missing Data, please enter the exhausting");
         }
         if(Integer.parseInt(exhaustingField.get()) < 0 || 5 < Integer.parseInt(exhaustingField.get())) {
-            return new ErrorMessage("Missing Data, please enter the calories");
+            return new ErrorMessage("Missing Data, please enter the exhausting");
         }
         return null;
     }

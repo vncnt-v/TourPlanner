@@ -1,6 +1,6 @@
 package TourPlannerUI.Tour;
 
-import TourPlannerUI.businesslayer.ErrorMessage;
+import TourPlannerUI.model.ErrorMessage;
 import TourPlannerUI.model.TourItem;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

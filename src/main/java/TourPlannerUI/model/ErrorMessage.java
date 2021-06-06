@@ -1,4 +1,4 @@
-package TourPlannerUI.businesslayer;
+package TourPlannerUI.model;
 
 import lombok.Getter;
 

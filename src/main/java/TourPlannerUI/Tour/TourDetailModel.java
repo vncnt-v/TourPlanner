@@ -2,7 +2,7 @@ package TourPlannerUI.Tour;
 
 import TourPlannerUI.businesslayer.AppManager;
 import TourPlannerUI.businesslayer.AppManagerFactory;
-import TourPlannerUI.businesslayer.ErrorMessage;
+import TourPlannerUI.model.ErrorMessage;
 import TourPlannerUI.model.TourItem;
 import javafx.beans.property.*;
 import lombok.Getter;
