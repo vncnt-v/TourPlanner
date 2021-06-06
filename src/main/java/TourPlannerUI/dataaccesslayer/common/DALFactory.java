@@ -7,6 +7,8 @@ import TourPlannerUI.dataaccesslayer.fileServer.FileAccess;
 import TourPlannerUI.dataaccesslayer.postgresSqlServer.Database;
 import TourPlannerUI.dataaccesslayer.postgresSqlServer.TourItemPostgresDAO;
 import TourPlannerUI.dataaccesslayer.postgresSqlServer.TourLogPostgresDAO;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.FileNotFoundException;
 
@@ -42,6 +44,8 @@ public class DALFactory {
             Class<Database> cls = (Class<Database>) Class.forName(Database.class.getName());
             return cls.getConstructor(String.class).newInstance(connectionString);
         } catch (Exception e) {
+            Logger log = LogManager.getLogger(DALFactory.class);
+            log.error("Cant create Database: " + e.getMessage());
             e.printStackTrace();
         }
         return null;
@@ -52,6 +56,8 @@ public class DALFactory {
             Class<TourItemPostgresDAO> cls = (Class<TourItemPostgresDAO>) Class.forName(TourItemPostgresDAO.class.getName());
             return cls.getConstructor().newInstance();
         } catch (Exception e) {
+            Logger log = LogManager.getLogger(DALFactory.class);
+            log.error("Cant create TourItemDAO: " + e.getMessage());
             e.printStackTrace();
             return null;
         }
@@ -62,6 +68,8 @@ public class DALFactory {
             Class<TourLogPostgresDAO> cls = (Class<TourLogPostgresDAO>) Class.forName(TourLogPostgresDAO.class.getName());
             return cls.getConstructor().newInstance();
         } catch (Exception e) {
+            Logger log = LogManager.getLogger(DALFactory.class);
+            log.error("Cant create TourLogDAO: " + e.getMessage());
             e.printStackTrace();
             return null;
         }

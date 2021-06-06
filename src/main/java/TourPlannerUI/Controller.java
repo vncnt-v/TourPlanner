@@ -2,6 +2,7 @@ package TourPlannerUI;
 
 import TourPlannerUI.Log.LogDetailController;
 import TourPlannerUI.Tour.TourDetailController;
+import TourPlannerUI.dataaccesslayer.postgresSqlServer.TourLogPostgresDAO;
 import TourPlannerUI.model.TourItem;
 import TourPlannerUI.model.TourLog;
 import javafx.fxml.FXML;
@@ -13,6 +14,8 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import lombok.Setter;
 import lombok.SneakyThrows;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.net.URL;
@@ -73,6 +76,8 @@ public class Controller implements Initializable {
                 viewModel.addTourItem(tourDetailController.createTourItem());
             }
         } catch(Exception e) {
+            Logger log = LogManager.getLogger(Controller.class);
+            log.error("New Tour Fxml Failed: " + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -95,6 +100,8 @@ public class Controller implements Initializable {
                 viewModel.refreshTourList();
             }
         } catch(Exception e) {
+            Logger log = LogManager.getLogger(Controller.class);
+            log.error("Edit Tour Fxml Failed: " + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -119,6 +126,8 @@ public class Controller implements Initializable {
                 viewModel.addTourLog(logDetailController.createTourLog());
             }
         } catch(Exception e) {
+            Logger log = LogManager.getLogger(Controller.class);
+            log.error("Create Log Fxml Failed: " + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -144,6 +153,8 @@ public class Controller implements Initializable {
                 viewModel.refreshTourLogList();
             }
         } catch(Exception e) {
+            Logger log = LogManager.getLogger(Controller.class);
+            log.error("Edit Log Fxml Failed: " + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -176,6 +187,9 @@ public class Controller implements Initializable {
     @SneakyThrows
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        Logger log = LogManager.getLogger(Controller.class);
+        log.info("Init Main Controller");
+
         FormatCells();
         FormatTable();
         // TourItem
