@@ -36,7 +36,4 @@ public interface AppManager {
     /** MapQuest **/
     boolean hasValidRoute(String start, String end);
     Image requestRouteImage(int id) throws FileNotFoundException;
-
-    /** Logging **/
-    void SetLogging();
 }
