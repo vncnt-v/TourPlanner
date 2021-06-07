@@ -53,9 +53,12 @@ public class AppManagerImpl implements AppManager {
                         .stream()
                         .filter(x -> {
                             try {
-                                for (TourLog item : GetLogsForItem(x)){
-                                    if (item.getReport().contains(itemName) || item.getDate().toString().contains(itemName) || item.getStartTime().contains(itemName) || String.valueOf(item.getRating()).contains(itemName) || item.getWeather().contains(itemName) || item.getBreaks().contains(itemName) || String.valueOf(item.getCalories()).contains(itemName) || String.valueOf(item.getAverageSpeed()).contains(itemName) || String.valueOf(item.getExhausting()).contains(itemName)){
-                                        return true;
+                                List<TourLog> logs = GetLogsForItem(x);
+                                if (logs != null) {
+                                    for (TourLog item : logs) {
+                                        if (item.getReport().contains(itemName) || item.getDate().toString().contains(itemName) || item.getStartTime().contains(itemName) || String.valueOf(item.getRating()).contains(itemName) || item.getWeather().contains(itemName) || item.getBreaks().contains(itemName) || String.valueOf(item.getCalories()).contains(itemName) || String.valueOf(item.getAverageSpeed()).contains(itemName) || String.valueOf(item.getExhausting()).contains(itemName)) {
+                                            return true;
+                                        }
                                     }
                                 }
                                 if (x.getName().contains(itemName) || String.valueOf(x.getDistance()).contains(itemName) || x.getStart().contains(itemName) || x.getEnd().contains(itemName) || x.getDescription().contains(itemName)){
@@ -73,9 +76,12 @@ public class AppManagerImpl implements AppManager {
                 .stream()
                 .filter(x -> {
                     try {
-                        for (TourLog item : GetLogsForItem(x)){
-                            if (item.getReport().toLowerCase().contains(itemName.toLowerCase()) || item.getDate().toString().toLowerCase().contains(itemName.toLowerCase()) || item.getStartTime().toLowerCase().contains(itemName.toLowerCase()) || String.valueOf(item.getRating()).toLowerCase().contains(itemName.toLowerCase()) || item.getWeather().toLowerCase().contains(itemName.toLowerCase()) || item.getBreaks().toLowerCase().contains(itemName.toLowerCase()) || String.valueOf(item.getCalories()).toLowerCase().contains(itemName.toLowerCase()) || String.valueOf(item.getAverageSpeed()).toLowerCase().contains(itemName.toLowerCase()) || String.valueOf(item.getExhausting()).toLowerCase().contains(itemName.toLowerCase())){
-                                return true;
+                        List<TourLog> logs = GetLogsForItem(x);
+                        if (logs != null) {
+                            for (TourLog item : logs) {
+                                if (item.getReport().toLowerCase().contains(itemName.toLowerCase()) || item.getDate().toString().toLowerCase().contains(itemName.toLowerCase()) || item.getStartTime().toLowerCase().contains(itemName.toLowerCase()) || String.valueOf(item.getRating()).toLowerCase().contains(itemName.toLowerCase()) || item.getWeather().toLowerCase().contains(itemName.toLowerCase()) || item.getBreaks().toLowerCase().contains(itemName.toLowerCase()) || String.valueOf(item.getCalories()).toLowerCase().contains(itemName.toLowerCase()) || String.valueOf(item.getAverageSpeed()).toLowerCase().contains(itemName.toLowerCase()) || String.valueOf(item.getExhausting()).toLowerCase().contains(itemName.toLowerCase())) {
+                                    return true;
+                                }
                             }
                         }
                         if (x.getName().toLowerCase().contains(itemName.toLowerCase()) || String.valueOf(x.getDistance()).toLowerCase().contains(itemName.toLowerCase()) || x.getStart().toLowerCase().contains(itemName.toLowerCase()) || x.getEnd().toLowerCase().contains(itemName.toLowerCase()) || x.getDescription().toLowerCase().contains(itemName.toLowerCase())){
