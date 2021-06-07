@@ -143,6 +143,7 @@ public class AppManagerTest {
         try (MockedStatic<DALFactory> mb = Mockito.mockStatic(DALFactory.class)) {
             mb.when(DALFactory::CreateTourItemDAO)
                     .thenReturn(tourItemPostgresDAO);
+            assertEquals(manager.Search("Test03",false).size(),1);
             assertEquals(manager.Search("Test03",false).get(0).getName(),tourItems.get(2).getName());
         } catch (SQLException | IOException e) {
             e.printStackTrace();

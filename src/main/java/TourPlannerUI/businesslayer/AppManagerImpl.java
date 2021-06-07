@@ -187,7 +187,12 @@ public class AppManagerImpl implements AppManager {
             log.error("Cant access TourLogDAO");
             return false;
         }
-        return PdfGenerator.GenerateReport(item,tourLogDAO.GetLogsForItem(item),path);
+        IFileAccess fileAccess = DALFactory.GetFileAccess();
+        if (fileAccess == null){
+            log.error("Cant access FileAccess");
+            return false;
+        }
+        return fileAccess.GenerateReport(item,tourLogDAO.GetLogsForItem(item),path);
     }
     @Override
     public boolean CreateSummarizeReportForItem(TourItem item, String path) throws SQLException, IOException, ParseException {
@@ -198,7 +203,12 @@ public class AppManagerImpl implements AppManager {
             log.error("Cant access TourLogDAO");
             return false;
         }
-        return PdfGenerator.GenerateSummarizeReport(item,tourLogDAO.GetLogsForItem(item),path);
+        IFileAccess fileAccess = DALFactory.GetFileAccess();
+        if (fileAccess == null){
+            log.error("Cant access FileAccess");
+            return false;
+        }
+        return fileAccess.GenerateSummarizeReport(item,tourLogDAO.GetLogsForItem(item), path);
     }
 
     /** Import/Export **/

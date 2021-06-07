@@ -56,6 +56,8 @@ public class LogDetailTest {
         assertNotNull(logDetailModel.validateData());
         logDetailModel.startTimeField.setValue("24:00");
         assertNotNull(logDetailModel.validateData());
+        logDetailModel.startTimeField.setValue("00:00");
+        assertNull(logDetailModel.validateData());
         logDetailModel.startTimeField.setValue("0");
         assertNotNull(logDetailModel.validateData());
         logDetailModel.startTimeField.setValue("10");
@@ -84,6 +86,8 @@ public class LogDetailTest {
         logDetailModel.totalTimeField.setValue("10");
         assertNotNull(logDetailModel.validateData());
         logDetailModel.totalTimeField.setValue("10:60");
+        assertNotNull(logDetailModel.validateData());
+        logDetailModel.totalTimeField.setValue("00:00");
         assertNotNull(logDetailModel.validateData());
         logDetailModel.totalTimeField.setValue("ab:cd");
         assertNotNull(logDetailModel.validateData());

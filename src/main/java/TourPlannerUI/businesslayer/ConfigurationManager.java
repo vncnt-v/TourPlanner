@@ -11,7 +11,6 @@ import java.util.Properties;
 public class ConfigurationManager {
     public static String GetConfigProperty(String propertyName) throws FileNotFoundException {
         Logger log = LogManager.getLogger(ConfigurationManager.class);
-        log.info("Get Config Property");
         Properties prop = new Properties();
         String propFileName = "config.properties";
 
